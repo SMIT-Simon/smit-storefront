@@ -66,7 +66,7 @@ export function Footer({header}: FooterProps) {
           <a
             href="https://systemhaus-verl.de/"
             target="_blank"
-            rel="noopener"
+            rel="noopener noreferrer"
             className="footer-systemhaus"
           >
             IT-Service vom Systemhaus Verl →
@@ -83,6 +83,11 @@ export function Footer({header}: FooterProps) {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link prefetch="intent" to="/collections/all">
+                Alle Produkte
+              </Link>
+            </li>
           </ul>
         </nav>
 
@@ -96,18 +101,21 @@ export function Footer({header}: FooterProps) {
               <Link to="/pages/kontakt">Kontakt &amp; Angebotsanfrage</Link>
             </li>
             <li>
+              <Link to="/loesungen">Branchen &amp; Lösungen</Link>
+            </li>
+            <li>
               <Link to="/flyer">Business-Flyer</Link>
             </li>
             <li>
               <Link to="/search">Produktsuche</Link>
             </li>
             <li>
-              <a href="https://systemhaus-verl.de/ITService" target="_blank" rel="noopener">
+              <a href="https://systemhaus-verl.de/ITService" target="_blank" rel="noopener noreferrer">
                 IT-Service &amp; Einrichtung
               </a>
             </li>
             <li>
-              <a href="https://systemhaus-verl.de/Wartungsvertraege" target="_blank" rel="noopener">
+              <a href="https://systemhaus-verl.de/Wartungsvertraege" target="_blank" rel="noopener noreferrer">
                 Wartungsverträge
               </a>
             </li>

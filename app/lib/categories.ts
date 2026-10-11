@@ -150,3 +150,11 @@ export function subQuery(handle: string, slug: string) {
   const tag = `tag:"${SUB_TAG_PREFIX}${slug}"`;
   return types ? `(${types}) AND ${tag}` : tag;
 }
+
+/** Suchanfrage + Link für eine Kategorie, optional eingeschränkt auf eine Unterkategorie. */
+export function categoryQuery(handle: string, slug?: string) {
+  if (slug) return {query: subQuery(handle, slug), href: `/collections/${handle}?sub=${slug}`};
+  const cat = CATEGORIES.find((c) => c.handle === handle);
+  const types = (cat?.types ?? []).map((t) => `product_type:"${t}"`).join(' OR ');
+  return {query: types || '*', href: `/collections/${handle}`};
+}

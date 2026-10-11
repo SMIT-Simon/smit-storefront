@@ -10,6 +10,7 @@ import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import {CATEGORIES, findSub, subQuery} from '~/lib/categories';
 import {Icon} from '~/components/Icon';
+import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {PriceModeNote} from '~/components/PriceMode';
 import type {ProductItemFragment} from 'storefrontapi.generated';
 
@@ -224,34 +225,6 @@ export default function Collection() {
   );
 }
 
-const PRODUCT_ITEM_FRAGMENT = `#graphql
-  fragment MoneyProductItem on MoneyV2 {
-    amount
-    currencyCode
-  }
-  fragment ProductItem on Product {
-    id
-    handle
-    title
-    vendor
-    productType
-    featuredImage {
-      id
-      altText
-      url
-      width
-      height
-    }
-    priceRange {
-      minVariantPrice {
-        ...MoneyProductItem
-      }
-      maxVariantPrice {
-        ...MoneyProductItem
-      }
-    }
-  }
-` as const;
 
 const SUB_PRODUCTS_QUERY = `#graphql
   ${PRODUCT_ITEM_FRAGMENT}

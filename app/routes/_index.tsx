@@ -16,6 +16,8 @@ import {MockShopNotice} from '~/components/MockShopNotice';
 import {Icon} from '~/components/Icon';
 import {CATEGORIES} from '~/lib/categories';
 import {HeroSlider, type Slide} from '~/components/HeroSlider';
+import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
+import {SolutionTiles} from '~/components/SolutionTiles';
 
 export const meta: Route.MetaFunction = ({matches}) => {
   const root = matches.find((m) => m?.id === 'root')?.data as
@@ -152,6 +154,7 @@ export default function Homepage() {
       <MonthHighlights data={data.highlights} />
       <FlyerTeaser products={data.flyerProducts} />
       <FeatureWorkplace />
+      <SolutionsSection />
       <RecommendedProducts products={data.recommendedProducts} />
       <PixelBanner />
       <DuoTeasers />
@@ -159,6 +162,33 @@ export default function Homepage() {
       <SystemhausSection />
       <BusinessBanner />
     </div>
+  );
+}
+
+function SolutionsSection() {
+  return (
+    <section className="section" aria-labelledby="branchen-home">
+      <div className="container">
+        <div className="section-head">
+          <div>
+            <span className="eyebrow">Branchen &amp; Lösungen</span>
+            <h2 id="branchen-home">Die passende IT für Ihre Branche</h2>
+          </div>
+          <Link to="/loesungen" className="link-arrow" prefetch="intent">
+            Alle Lösungen <Icon name="chevron-right" size={16} />
+          </Link>
+        </div>
+        <SolutionTiles items={BRANCHEN} />
+        <div className="solution-chips">
+          <span>Nach Einsatzbereich:</span>
+          {EINSATZBEREICHE.map((x) => (
+            <Link key={x.slug} to={`/loesungen/${x.slug}`} className="sub-chip" prefetch="intent">
+              {x.name}
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -424,7 +454,7 @@ function SystemhausSection() {
             Wartung – damit Ihre neuen Geräte sauber in Ihr Unternehmen passen.
           </p>
           <div className="feature-actions">
-            <a href="https://systemhaus-verl.de/" target="_blank" rel="noopener" className="btn btn-primary">
+            <a href="https://systemhaus-verl.de/" target="_blank" rel="noopener noreferrer" className="btn btn-primary">
               systemhaus-verl.de <Icon name="arrow-right" size={18} />
             </a>
             <Link to="/pages/kontakt" className="btn btn-secondary">
@@ -434,7 +464,7 @@ function SystemhausSection() {
         </div>
         <div className="systemhaus-grid">
           {services.map((s) => (
-            <a key={s.title} href={s.href} target="_blank" rel="noopener" className="systemhaus-card">
+            <a key={s.title} href={s.href} target="_blank" rel="noopener noreferrer" className="systemhaus-card">
               <strong>{s.title}</strong>
               <span>{s.text}</span>
             </a>

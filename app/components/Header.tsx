@@ -8,6 +8,7 @@ import {
 import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {Icon} from '~/components/Icon';
+import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {CATEGORIES} from '~/lib/categories';
 import {PriceModeToggle} from '~/components/PriceMode';
 
@@ -31,7 +32,7 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
         <div className="container topbar-inner">
           <span>
             <Icon name="check" size={14} /> Original TERRA-Hardware ·{' '}
-            <a href="https://systemhaus-verl.de/" target="_blank" rel="noopener">
+            <a href="https://systemhaus-verl.de/" target="_blank" rel="noopener noreferrer">
               Ihr Systemhaus aus Verl
             </a>
           </span>
@@ -125,6 +126,18 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
             ) : null}
           </div>
         ))}
+        <div className="mobile-nav-group">
+          <NavLink end onClick={close} prefetch="intent" to="/loesungen">
+            Branchen &amp; Lösungen
+          </NavLink>
+          <div className="mobile-nav-subs">
+            {[...BRANCHEN, ...EINSATZBEREICHE].map((x) => (
+              <Link key={x.slug} onClick={close} prefetch="intent" to={`/loesungen/${x.slug}`}>
+                {x.name}
+              </Link>
+            ))}
+          </div>
+        </div>
         <NavLink onClick={close} prefetch="intent" to="/collections/all">
           Alle Produkte
         </NavLink>
@@ -178,15 +191,39 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
             ) : null}
           </div>
         ))}
-        <NavLink
-          prefetch="intent"
-          to="/collections/all"
-          className={({isActive}) =>
-            isActive ? 'category-link active' : 'category-link'
-          }
-        >
-          Alle Produkte
-        </NavLink>
+        <div className="nav-item nav-item-solutions">
+          <NavLink
+            prefetch="intent"
+            to="/loesungen"
+            className={({isActive}) =>
+              isActive ? 'category-link nav-solutions active' : 'category-link nav-solutions'
+            }
+          >
+            Branchen
+            <Icon name="chevron-right" size={14} className="nav-caret" />
+          </NavLink>
+          <div className="nav-dropdown nav-dropdown-wide">
+            <div className="nav-dropdown-col">
+              <span className="nav-dropdown-label">Nach Branche</span>
+              {BRANCHEN.map((x) => (
+                <Link key={x.slug} to={`/loesungen/${x.slug}`} prefetch="intent">
+                  {x.name}
+                </Link>
+              ))}
+            </div>
+            <div className="nav-dropdown-col">
+              <span className="nav-dropdown-label">Nach Einsatzbereich</span>
+              {EINSATZBEREICHE.map((x) => (
+                <Link key={x.slug} to={`/loesungen/${x.slug}`} prefetch="intent">
+                  {x.name}
+                </Link>
+              ))}
+              <Link to="/loesungen" prefetch="intent" className="nav-dropdown-more">
+                Alle Lösungen →
+              </Link>
+            </div>
+          </div>
+        </div>
         <NavLink
           prefetch="intent"
           to="/flyer"
