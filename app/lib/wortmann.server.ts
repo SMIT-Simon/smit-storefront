@@ -7,7 +7,8 @@ import data from '~/data/wortmann-content.json';
 
 type Entry = {o: string; a: string[]; f: string[]};
 const CONTENT = data as Record<string, Entry>;
-const FILE_BASE = 'https://cdn.shopify.com/s/files/1/0864/9241/4299/files/';
+// Feature-Logos liegen im Repo (unabhängig vom Shopify-Shop)
+const FILE_BASE = '/images/features/';
 
 export type WortmannContent = {
   overviewHtml: string;
