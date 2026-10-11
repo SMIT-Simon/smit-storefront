@@ -6,7 +6,7 @@ import {COMPANY} from '~/lib/company';
 
 export const SITE_URL = 'https://terra-computershop.de';
 export const SITE_NAME = 'terra-computershop.de';
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/home/slide-familie.webp`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/og-default.jpg`;
 
 /** Parameter, die eigenständige, indexierbare Seiten erzeugen. */
 const INDEXABLE_PARAMS = ['sub'];
