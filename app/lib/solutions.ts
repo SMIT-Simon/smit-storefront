@@ -98,7 +98,7 @@ export const SOLUTIONS: Solution[] = [
       {title: 'Platzsparend', text: 'Mini- und Micro-PCs lassen sich per VESA-Halterung hinter dem Monitor befestigen.'},
       {title: 'Leise', text: 'Im Sprechzimmer soll man den Patienten hören – nicht den Lüfter.'},
       {title: 'Genug Anschlüsse', text: 'Kartenlesegerät, Etikettendrucker, Scanner und Signaturpad wollen angeschlossen werden.'},
-      {title: 'Zuverlässigkeit', text: 'Fällt ein Arbeitsplatz aus, steht die Anmeldung. Herstellergarantie und schneller Service sind entscheidend.'},
+      {title: 'Zuverlässigkeit', text: 'Fällt ein Arbeitsplatz aus, steht die Anmeldung. Schneller Service ist entscheidend – optional mit Vor-Ort-Service am nächsten Werktag.'},
     ],
     scenarios: [
       {title: 'Anmeldung & Empfang', text: 'Mini- und Micro-PCs für den Tresen – klein, leise und mit vielen USB-Anschlüssen.', category: 'desktop-pcs', sub: 'mini-micro'},
@@ -157,7 +157,7 @@ export const SOLUTIONS: Solution[] = [
     teaser: 'Standardisierte Arbeitsplätze, die sich einfach ausrollen und betreuen lassen.',
     metaTitle: 'Business-PC für Büro kaufen – TERRA PCs für Unternehmen',
     metaDescription:
-      'TERRA Business-PCs, Notebooks und Monitore für Büroarbeitsplätze. Einheitliche Geräte, Herstellergarantie und Einrichtung vom Systemhaus.',
+      'TERRA Business-PCs, Notebooks und Monitore für Büroarbeitsplätze. Einheitliche Geräte und Einrichtung vom Systemhaus.',
     image: '/images/home/section-arbeitsplatz.webp',
     imageAlt: 'TERRA Büroarbeitsplatz mit PC und Monitor',
     intro: [
@@ -168,7 +168,7 @@ export const SOLUTIONS: Solution[] = [
       {title: 'Einheitliche Geräte', text: 'Gleiche Modelle vereinfachen Support, Ersatz und Softwareverteilung.'},
       {title: 'Kompakte Bauform', text: 'Mini-PCs schaffen Platz auf dem Schreibtisch und sparen Strom.'},
       {title: 'Ergonomie', text: 'Höhenverstellbare Monitore und gute Eingabegeräte für den ganzen Arbeitstag.'},
-      {title: 'Planbarer Service', text: 'Herstellergarantie und ein Ansprechpartner vor Ort in Verl.'},
+      {title: 'Planbarer Service', text: 'Optionaler Vor-Ort-Service und ein Ansprechpartner in Verl.'},
     ],
     scenarios: [
       {title: 'Standard-Büroarbeitsplatz', text: 'Business-PCs für Office, Mail, ERP und Browser.', category: 'desktop-pcs', sub: 'business'},
@@ -297,7 +297,7 @@ export const SOLUTIONS: Solution[] = [
     teaser: 'Lehrer-Notebooks, Klassenraum-PCs und Displays für Schule und Schulung.',
     metaTitle: 'PCs & Notebooks für Schulen und Schulungsräume – TERRA',
     metaDescription:
-      'TERRA Notebooks, PCs, All-in-Ones und Tablets für Schulen, Bildungsträger und Schulungsräume. Einheitlich einrichtbar, mit Herstellergarantie.',
+      'TERRA Notebooks, PCs, All-in-Ones und Tablets für Schulen, Bildungsträger und Schulungsräume. Einheitlich einrichtbar.',
     image: '/images/loesungen/multimonitor.webp',
     imageAlt: 'Mehrere TERRA-Arbeitsplätze nebeneinander',
     intro: [
@@ -308,7 +308,7 @@ export const SOLUTIONS: Solution[] = [
       {title: 'Gleiche Geräte', text: 'Identische Modelle lassen sich zentral verwalten und schnell zurücksetzen.'},
       {title: 'Mobil für Lehrkräfte', text: 'Leichte Notebooks oder Convertibles für Unterricht und Vorbereitung.'},
       {title: 'Wenig Kabel', text: 'All-in-One-PCs im Schulungsraum: ein Gerät, ein Stromkabel.'},
-      {title: 'Lange Nutzung', text: 'Robuste Geräte und Garantie für mehrere Schuljahre.'},
+      {title: 'Lange Nutzung', text: 'Robuste Geräte, optional mit Service für mehrere Schuljahre.'},
     ],
     scenarios: [
       {title: 'Lehrer-Notebooks', text: 'Business-Notebooks für Unterricht, Vorbereitung und Verwaltung.', category: 'notebooks', sub: 'business'},

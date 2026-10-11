@@ -5,7 +5,7 @@
 export const CATEGORY_TEXTS: Record<string, {intro: string; subs?: Record<string, string>}> = {
   notebooks: {
     intro:
-      'TERRA MOBILE Notebooks von WORTMANN für Büro, Homeoffice und unterwegs – vom günstigen Business-Notebook bis zum Copilot+ PC mit KI-Prozessor. Alle Geräte mit Herstellergarantie, auf Wunsch fertig eingerichtet.',
+      'TERRA MOBILE Notebooks von WORTMANN für Büro, Homeoffice und unterwegs – vom günstigen Business-Notebook bis zum Copilot+ PC mit KI-Prozessor. Auf Wunsch fertig eingerichtet.',
     subs: {
       business: 'Robuste Business-Notebooks mit Windows 11 Pro – die solide Wahl für Büro, Außendienst und Homeoffice.',
       'copilot-pc': 'Copilot+ PCs mit NPU für KI-Funktionen direkt auf dem Gerät – schnell, effizient und mit langer Akkulaufzeit.',
@@ -37,7 +37,7 @@ export const CATEGORY_TEXTS: Record<string, {intro: string; subs?: Record<string
   },
   monitore: {
     intro:
-      'TERRA LCD/LED-Monitore für Büro und Homeoffice: IPS-Panels, flimmerfrei, viele Modelle höhenverstellbar und mit USB-C. Dazu die TERRA Pixelgarantie und optionaler Vor-Ort-Austausch.',
+      'TERRA LCD/LED-Monitore für Büro und Homeoffice: IPS-Panels, flimmerfrei, viele Modelle höhenverstellbar und mit USB-C. Optional mit Vor-Ort-Austausch und Pixelservice.',
     subs: {
       '24-zoll': '24-Zoll-Monitore – der Klassiker für Büro und Dual-Monitor-Arbeitsplätze.',
       '27-zoll': '27-Zoll-Monitore mit Full HD oder WQHD – mehr Platz für produktives Arbeiten.',

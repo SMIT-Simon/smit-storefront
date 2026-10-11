@@ -33,7 +33,7 @@ export type ConfigModel = {
 
 /** Vor-Ort-Service: Verkaufspreis = Anteil am Systempreis (min. Betrag netto). */
 export const SERVICE_TIERS = [
-  {id: 'bring-in', label: 'Bring-In-Service 24 Monate', detail: 'Standard-Herstellergarantie', pct: 0, minNet: 0},
+  {id: 'bring-in', label: 'Bring-In-Service 24 Monate', detail: 'im Preis enthalten', pct: 0, minNet: 0},
   {id: 'vo-24', label: '24H Vor-Ort-Service 24 Monate', detail: 'inkl. Medieneinbehalt', pct: 0.035, minNet: 12},
   {id: 'vo-36', label: '24H Vor-Ort-Service 36 Monate', detail: 'inkl. Medieneinbehalt', pct: 0.06, minNet: 18},
   {id: 'vo-48', label: '24H Vor-Ort-Service 48 Monate', detail: 'inkl. Medieneinbehalt', pct: 0.095, minNet: 24},

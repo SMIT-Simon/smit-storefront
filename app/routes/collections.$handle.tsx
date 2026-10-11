@@ -33,7 +33,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   const description =
     categoryIntro(c.handle, data?.sub?.slug) ||
     c.description ||
-    `${name} von TERRA / WORTMANN kaufen: ${cat?.teaser ?? 'IT-Hardware für Unternehmen'}. Herstellergarantie, Kauf auf Rechnung für Firmen, Beratung & Einrichtung vom Systemhaus aus Verl.`;
+    `${name} von TERRA / WORTMANN kaufen: ${cat?.teaser ?? 'IT-Hardware für Unternehmen'}. Originalware, Kauf auf Rechnung für Firmen, Beratung & Einrichtung vom Systemhaus aus Verl.`;
   return [
     {title: `${name} kaufen – TERRA von WORTMANN | ${SITE_NAME}`},
     {name: 'description', content: description.slice(0, 300)},

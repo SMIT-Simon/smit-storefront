@@ -106,7 +106,7 @@ const SLIDES: Slide[] = [
     alt: 'TERRA Produktfamilie: Server, Monitor, Desktop-PC, Mini-PC, Tablet und Notebook',
     eyebrow: 'TERRA – IT Made in Germany',
     title: 'Das komplette TERRA-Sortiment für Ihr Unternehmen',
-    text: 'Notebooks, Desktop-PCs, Monitore, Server und Zubehör von WORTMANN – entwickelt und gefertigt in Deutschland, mit Herstellergarantie.',
+    text: 'Notebooks, Desktop-PCs, Monitore, Server und Zubehör von WORTMANN – entwickelt und gefertigt in Deutschland.',
     cta: {label: 'Sortiment entdecken', to: '/collections/all'},
     secondary: {label: 'Angebot anfragen', to: '/pages/kontakt'},
   },
@@ -194,7 +194,7 @@ function SolutionsSection() {
 
 function TrustBar() {
   const items: {icon: Parameters<typeof Icon>[0]['name']; title: string; text: string}[] = [
-    {icon: 'shield', title: 'Herstellergarantie', text: 'Original TERRA von WORTMANN'},
+    {icon: 'shield', title: 'Originalware', text: 'Original TERRA von WORTMANN'},
     {icon: 'invoice', title: 'Netto-Preise', text: 'Rechnung mit ausgewiesener MwSt.'},
     {icon: 'headset', title: 'Persönliche Beratung', text: 'Vor und nach dem Kauf'},
     {icon: 'truck', title: 'Versand aus Deutschland', text: 'Schnell und versichert'},
@@ -484,12 +484,11 @@ function PixelBanner() {
             <Icon name="monitor" size={34} />
           </span>
           <div>
-            <h2>Die TERRA Pixelgarantie</h2>
+            <h2>TERRA Pixelservice für Monitore</h2>
             <p>
-              Kleine Pixel- oder Subpixelfehler sind herstellerübergreifend in der
-              Regel zu tolerieren und kein Garantiefall. Mit der TERRA
-              Pixelgarantie schützen Sie sich vor jedem noch so kleinen
-              Pixelfehler – während der gesamten Garantiedauer.
+              Zu jedem TERRA Monitor optional zubuchbar: Vor-Ort-Austausch mit
+              Pixelservice – der Monitor wird bereits bei Pixelfehlern
+              ausgetauscht. Laufzeit 24 bis 60 Monate, direkt beim Kauf wählbar.
             </p>
           </div>
           <div className="pixel-actions">
@@ -497,7 +496,7 @@ function PixelBanner() {
               Monitore ansehen
             </Link>
             <Link to="/pages/kontakt" className="btn btn-secondary">
-              Pixelgarantie anfragen
+              Beratung anfragen
             </Link>
           </div>
         </div>
@@ -511,7 +510,7 @@ function MadeInGermany() {
     {value: '800+', label: 'Mitarbeitende in Ostwestfalen'},
     {value: 'Hüllhorst', label: 'Entwicklung, Fertigung & Service'},
     {value: '24 h', label: 'individuell konfigurierte PCs'},
-    {value: 'bis 5 Jahre', label: 'Garantie auf Wunsch'},
+    {value: 'bis 5 Jahre', label: 'Vor-Ort-Service zubuchbar'},
   ];
   return (
     <section className="section brand-section">
@@ -640,7 +639,7 @@ function BusinessBanner() {
             <h2>Größere Stückzahlen oder individuelle Konfiguration?</h2>
             <p>
               Wir erstellen Ihnen ein persönliches Angebot – inklusive
-              Staffelpreisen, Garantieerweiterung und Vorinstallation.
+              Staffelpreisen, Serviceerweiterung und Vorinstallation.
             </p>
           </div>
           <Link to="/pages/kontakt" className="btn btn-light">

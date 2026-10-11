@@ -21,8 +21,9 @@ export default function Gewaehrleistung() {
       <h1 className="page-title">Gesetzliche Gewährleistung</h1>
       <p>
         Für alle Waren in unserem Shop gilt die gesetzliche Gewährleistung von mindestens zwei Jahren.
-        Unabhängig davon können Hersteller wie WORTMANN eigene Garantien gewähren – Details finden Sie
-        auf der jeweiligen Produktseite unter „Service &amp; Garantie“. Im Gewährleistungsfall wenden
+        Ein bei einzelnen Geräten inklusiver Herstellerservice besteht zusätzlich und schränkt diese
+        Rechte nicht ein – Details auf der jeweiligen Produktseite unter „Service &amp;
+        Gewährleistung“. Im Gewährleistungsfall wenden
         Sie sich bitte an uns: <a href="mailto:info@wawi-servicepartner.de">info@wawi-servicepartner.de</a>{' '}
         · <a href="tel:+4952469098980">+49 (0)5246-9098980</a>.
       </p>

@@ -31,6 +31,8 @@ import {
   addonHandlesFor,
   osFromTags,
   serviceHandleFor,
+  includedServiceFor,
+  type IncludedService,
 } from '~/lib/addons';
 import {productsByHandle, type CardProductData} from '~/lib/products-by-handle.server';
 import {manufacturerFor, type Manufacturer} from '~/lib/manufacturers';
@@ -41,7 +43,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   const facts = keySpecs(parseSpecs(p.descriptionHtml), 4)
     .map((x) => x.value)
     .join(', ');
-  const fallback = `${p.title} kaufen${facts ? `: ${facts}` : ''}. Original TERRA von WORTMANN mit Herstellergarantie – Beratung & Einrichtung vom Systemhaus.`;
+  const fallback = `${p.title} kaufen${facts ? `: ${facts}` : ''}. Original TERRA von WORTMANN – Beratung & Einrichtung vom Systemhaus.`;
   const description = (p.seo?.description || fallback).slice(0, 300);
   const title = p.seo?.title || `${p.title} kaufen | ${SITE_NAME}`;
   const image = p.selectedOrFirstAvailableVariant?.image?.url ?? p.images.nodes[0]?.url;
@@ -208,6 +210,7 @@ export default function Product() {
   const highlights = keySpecs(specs, 6);
   const overview = product.overview?.value?.trim() ?? '';
   const service = product.service?.value?.trim() ?? '';
+  const included = includedServiceFor(productType);
 
   const price = selectedVariant?.price;
   const productLd = {
@@ -345,8 +348,10 @@ export default function Product() {
               />
               <ul className="buy-usps">
                 <li>
-                  <Icon name="shield" size={18} /> Original TERRA mit
-                  Herstellergarantie
+                  <Icon name="shield" size={18} />{' '}
+                  {included
+                    ? `${included.months} Monate ${included.kind} inklusive`
+                    : 'Originalware vom Hersteller'}
                 </li>
                 <li>
                   <Icon name="invoice" size={18} /> Rechnung mit ausgewiesener
@@ -369,7 +374,8 @@ export default function Product() {
         specsHtml={descriptionHtml}
         hasSpecs={specs.length > 0 || descriptionHtml.trim().length > 0}
         highlights={highlights}
-        service={service}
+        included={included}
+        hasServiceOptions={Boolean(serviceProduct)}
         title={title}
         isMonitor={productType === 'Monitor'}
         manufacturer={manufacturerFor(vendor)}
@@ -451,7 +457,8 @@ function ProductTabs({
   specsHtml,
   hasSpecs,
   highlights,
-  service,
+  included,
+  hasServiceOptions,
   title,
   isMonitor = false,
   manufacturer,
@@ -463,14 +470,15 @@ function ProductTabs({
   specsHtml: string;
   hasSpecs: boolean;
   highlights: {label: string; value: string}[];
-  service: string;
+  included: IncludedService | null;
+  hasServiceOptions: boolean;
   title: string;
   isMonitor?: boolean;
 }) {
   const tabs: {key: TabKey; label: string}[] = [
     {key: 'overview', label: 'Übersicht'},
     ...(hasSpecs ? [{key: 'specs' as TabKey, label: 'Technische Daten'}] : []),
-    {key: 'service', label: 'Service & Garantie'},
+    {key: 'service', label: 'Service & Gewährleistung'},
     {key: 'manufacturer', label: 'Herstellerinformationen'},
   ];
   const [active, setActive] = useState<TabKey>('overview');
@@ -579,20 +587,32 @@ function ProductTabs({
           className="tab-panel"
         >
           <div className="service-grid">
-            <div className="service-card">
-              <Icon name="shield" size={28} />
-              <h3>Inklusive</h3>
-              <p>
-                {service ||
-                  'Herstellergarantie der WORTMANN AG gemäß den TERRA-Servicebedingungen.'}
-              </p>
-            </div>
+            {included ? (
+              <div className="service-card">
+                <Icon name="shield" size={28} />
+                <h3>
+                  Inklusive: {included.months} Monate {included.kind}
+                </h3>
+                <p>{included.scope}</p>
+              </div>
+            ) : (
+              <div className="service-card">
+                <Icon name="shield" size={28} />
+                <h3>Originalware</h3>
+                <p>Originalprodukte von TERRA und weiteren Markenherstellern.</p>
+              </div>
+            )}
             <div className="service-card">
               <Icon name="truck" size={28} />
-              <h3>Vor-Ort-Service</h3>
+              <h3>Service &amp; Support</h3>
               <p>
-                Für TERRA-Geräte sind Garantieerweiterungen und 24h-Vor-Ort-Service
-                mit bis zu 60 Monaten Laufzeit erhältlich – sprechen Sie uns an.
+                {hasServiceOptions
+                  ? isMonitor
+                    ? 'Optional zubuchbar: Vor-Ort-Austausch mit bis zu 60 Monaten Laufzeit, auf Wunsch mit Pixelservice – direkt beim Kauf wählbar.'
+                    : 'Optional zubuchbar: 24h-Vor-Ort-Service mit bis zu 60 Monaten Laufzeit – direkt beim Kauf wählbar.'
+                  : included
+                    ? 'Serviceerweiterungen für dieses Gerät erhalten Sie auf Anfrage.'
+                    : 'Unterstützung bei Fragen, Einrichtung und technischen Problemen.'}
               </p>
             </div>
             <div className="service-card">
@@ -606,22 +626,38 @@ function ProductTabs({
                 Beratung anfragen <Icon name="chevron-right" size={16} />
               </Link>
             </div>
-            {isMonitor ? (
-              <div className="service-card service-card-accent">
-                <Icon name="monitor" size={28} />
-                <h3>TERRA Pixelgarantie</h3>
-                <p>
-                  Kleine Pixelfehler gelten herstellerübergreifend meist nicht als
-                  Garantiefall. Mit der optionalen TERRA Pixelgarantie sind Sie
-                  während der gesamten Garantiedauer gegen jeden Pixelfehler
-                  abgesichert.
-                </p>
-                <Link to="/pages/kontakt" className="link-arrow">
-                  Pixelgarantie anfragen <Icon name="chevron-right" size={16} />
-                </Link>
-              </div>
-            ) : null}
           </div>
+
+          {included ? (
+            <div className="manufacturer-box included-service-terms">
+              <h3>Angaben zum inklusiven Herstellerservice</h3>
+              <dl>
+                <dt>Leistung</dt>
+                <dd>
+                  {included.kind}: {included.scope}
+                </dd>
+                <dt>Laufzeit</dt>
+                <dd>{included.months} Monate ab Kaufdatum</dd>
+                <dt>Garantiegeber</dt>
+                <dd>WORTMANN AG, Bredenhop 20, 32609 Hüllhorst, Deutschland</dd>
+                <dt>Geltungsbereich</dt>
+                <dd>Deutschland</dd>
+                <dt>Abwicklung</dt>
+                <dd>
+                  Melden Sie sich im Servicefall bei uns (
+                  <a href="mailto:info@wawi-servicepartner.de">info@wawi-servicepartner.de</a>,{' '}
+                  <a href="tel:+4952469098980">+49 (0)5246-9098980</a>) – wir übernehmen die
+                  Abwicklung mit dem Hersteller. Die Inanspruchnahme ist für Sie kostenlos.
+                </dd>
+                <dt>Bedingungen</dt>
+                <dd>Es gelten die TERRA-Servicebedingungen der WORTMANN AG; wir senden sie Ihnen auf Wunsch zu.</dd>
+              </dl>
+              <p className="manufacturer-note">
+                Ihre gesetzlichen Gewährleistungsrechte gegenüber uns als Verkäufer bestehen daneben
+                uneingeschränkt; sie werden durch den Herstellerservice nicht eingeschränkt.
+              </p>
+            </div>
+          ) : null}
 
           <div className="manufacturer-box">
             <h3>Gesetzliche Gewährleistung</h3>

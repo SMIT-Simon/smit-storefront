@@ -168,7 +168,7 @@ export async function downloadQuotePdf(customer: QuoteCustomer, lines: QuoteLine
   const notes = [
     customer.note ? `Bemerkung: ${customer.note}` : '',
     `Dieses Angebot ist gültig bis ${date.format(valid)} und freibleibend, solange der Vorrat reicht. Lieferzeit und Versandkosten nach Absprache. Es gelten unsere Allgemeinen Geschäftsbedingungen.`,
-    'Alle Geräte sind Originalprodukte der Marke TERRA (WORTMANN AG, Hüllhorst) mit Herstellergarantie.',
+    'Alle Geräte sind Originalprodukte der Marke TERRA (WORTMANN AG, Hüllhorst).',
     '',
     'Mit freundlichen Grüßen',
     COMPANY.owner ? `${COMPANY.owner} · ${COMPANY.name}` : COMPANY.name,

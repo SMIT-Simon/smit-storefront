@@ -82,3 +82,45 @@ export const LISTING_EXCLUDE_QUERY =
 export function isListable(p: {productType?: string | null; tags?: string[] | null}) {
   return !OPTION_PRODUCT_TYPES.includes(p.productType ?? '') && !(p.tags ?? []).includes(HIDDEN_TAG);
 }
+
+/**
+ * Im Gerätepreis enthaltener Herstellerservice der WORTMANN AG – nur für Gerätetypen,
+ * bei denen er tatsächlich gilt. Alles andere (Zubehör, Taschen, Kabel …) bekommt keine
+ * Service-/Garantieaussage, nur die gesetzliche Gewährleistung.
+ */
+export type IncludedService = {months: number; kind: string; scope: string};
+
+export function includedServiceFor(productType?: string | null): IncludedService | null {
+  switch (productType) {
+    case 'Desktop-PC':
+    case 'All-in-One-PC':
+      return {
+        months: 24,
+        kind: 'Bring-In-Service',
+        scope:
+          'Im Defektfall wird das Gerät an den Service eingeschickt bzw. gebracht und dort repariert oder ausgetauscht.',
+      };
+    case 'Notebook':
+      return {
+        months: 24,
+        kind: 'Bring-In-Service',
+        scope:
+          'Im Defektfall wird das Gerät an den Service eingeschickt bzw. gebracht und dort repariert oder ausgetauscht. Der Akku ist abweichend 6 Monate abgedeckt.',
+      };
+    case 'Server':
+      return {
+        months: 36,
+        kind: 'Bring-In-Service',
+        scope:
+          'Im Defektfall wird das Gerät an den Service eingeschickt bzw. gebracht und dort repariert oder ausgetauscht.',
+      };
+    case 'Monitor':
+      return {
+        months: 24,
+        kind: 'Vor-Ort-Austausch-Service',
+        scope: 'Im Defektfall wird der Monitor bei Ihnen vor Ort gegen ein Austauschgerät getauscht.',
+      };
+    default:
+      return null;
+  }
+}

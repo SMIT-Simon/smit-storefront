@@ -26,8 +26,8 @@ export function Footer({header}: FooterProps) {
     <footer className="site-footer">
       <div className="footer-trust">
         <div className="container footer-trust-inner">
-          <TrustItem icon="shield" title="Herstellergarantie">
-            Original TERRA-Geräte mit WORTMANN-Garantie
+          <TrustItem icon="shield" title="Originalware">
+            Original TERRA-Geräte von WORTMANN
           </TrustItem>
           <TrustItem icon="invoice" title="Kauf auf Rechnung">
             Für Geschäftskunden nach Prüfung möglich

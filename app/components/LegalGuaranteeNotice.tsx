@@ -84,7 +84,7 @@ export function LegalGuaranteeNotice({compact = false}: {compact?: boolean}) {
   );
 }
 
-/** Hinweis in normaler Größe (z. B. im Reiter „Service & Garantie“). */
+/** Hinweis in normaler Größe (z. B. im Reiter „Service & Gewährleistung“). */
 export function LegalGuaranteeFull() {
   return (
     <figure className="eu-notice-figure">
