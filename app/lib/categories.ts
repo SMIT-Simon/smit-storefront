@@ -7,6 +7,8 @@ export type Category = {
   title: string;
   teaser: string;
   icon: IconName;
+  /** Produkttypen der Kategorie (wie die Regeln der Shopify-Kollektion). */
+  types?: string[];
   /** Unterkategorien – entsprechen Produkt-Tags "sub:<slug>". */
   subs?: SubCategory[];
 };
@@ -25,6 +27,7 @@ export type IconName =
 export const CATEGORIES: Category[] = [
   {
     handle: 'notebooks',
+    types: ['Notebook'],
     title: 'Notebooks',
     teaser: 'Business-Notebooks für Büro und unterwegs',
     icon: 'notebook',
@@ -38,6 +41,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     handle: 'desktop-pcs',
+    types: ['Desktop-PC'],
     title: 'Desktop-PCs',
     teaser: 'Vom Mini-PC bis zur Workstation',
     icon: 'desktop',
@@ -53,6 +57,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     handle: 'all-in-one-pcs',
+    types: ['All-in-One-PC'],
     title: 'All-in-One',
     teaser: 'PC und Monitor in einem Gerät',
     icon: 'aio',
@@ -63,6 +68,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     handle: 'monitore',
+    types: ['Monitor'],
     title: 'Monitore',
     teaser: 'Displays für Arbeitsplatz und Konferenz',
     icon: 'monitor',
@@ -75,6 +81,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     handle: 'tablets',
+    types: ['Tablet'],
     title: 'Tablets',
     teaser: 'Mobile Geräte mit Windows und Android',
     icon: 'tablet',
@@ -85,6 +92,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     handle: 'server-netzwerk',
+    types: ['Server', 'Firewall', 'Netzwerkzubehör'],
     title: 'Server & Netzwerk',
     teaser: 'Server, Firewalls und Netzwerktechnik',
     icon: 'server',
@@ -96,6 +104,7 @@ export const CATEGORIES: Category[] = [
   },
   {
     handle: 'zubehoer',
+    types: ['Dockingstation', 'Tastatur', 'Maus', 'Eingabezubehör', 'Webcam', 'Tasche & Hülle', 'Netzteil', 'Netzteil & Akku', 'Kabel', 'Adapter', 'AV-Zubehör', 'Systemzubehör', 'Gehäuse', 'Ersatzteil'],
     title: 'Zubehör',
     teaser: 'Dockingstations, Eingabegeräte, Taschen',
     icon: 'accessory',
@@ -118,4 +127,12 @@ export const SUB_TAG_PREFIX = 'sub:';
 export function findSub(handle: string, slug?: string | null) {
   const cat = CATEGORIES.find((c) => c.handle === handle);
   return cat?.subs?.find((x) => x.slug === slug) ?? null;
+}
+
+/** Suchanfrage für die Storefront-API: Produkttyp der Kategorie UND Unterkategorie-Tag. */
+export function subQuery(handle: string, slug: string) {
+  const cat = CATEGORIES.find((c) => c.handle === handle);
+  const types = (cat?.types ?? []).map((t) => `product_type:"${t}"`).join(' OR ');
+  const tag = `tag:"${SUB_TAG_PREFIX}${slug}"`;
+  return types ? `(${types}) AND ${tag}` : tag;
 }

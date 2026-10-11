@@ -1,11 +1,14 @@
 import {Link, redirect, useLoaderData, useNavigate, useSearchParams} from 'react-router';
 import type {Route} from './+types/collections.$handle';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
-import type {ProductCollectionSortKeys} from '@shopify/hydrogen/storefront-api-types';
+import type {
+  ProductCollectionSortKeys,
+  ProductSortKeys,
+} from '@shopify/hydrogen/storefront-api-types';
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
-import {CATEGORIES, SUB_TAG_PREFIX, findSub} from '~/lib/categories';
+import {CATEGORIES, findSub, subQuery} from '~/lib/categories';
 import {Icon} from '~/components/Icon';
 import {PriceModeNote} from '~/components/PriceMode';
 import type {ProductItemFragment} from 'storefrontapi.generated';
@@ -22,13 +25,14 @@ const SORT_OPTIONS: {
   value: string;
   label: string;
   sortKey: ProductCollectionSortKeys;
+  searchKey: ProductSortKeys;
   reverse: boolean;
 }[] = [
-  {value: 'price-asc', label: 'Preis aufsteigend', sortKey: 'PRICE', reverse: false},
-  {value: 'price-desc', label: 'Preis absteigend', sortKey: 'PRICE', reverse: true},
-  {value: 'newest', label: 'Neueste zuerst', sortKey: 'CREATED', reverse: true},
-  {value: 'title', label: 'Name A–Z', sortKey: 'TITLE', reverse: false},
-  {value: 'best', label: 'Beliebteste', sortKey: 'BEST_SELLING', reverse: false},
+  {value: 'price-asc', label: 'Preis aufsteigend', sortKey: 'PRICE', searchKey: 'PRICE', reverse: false},
+  {value: 'price-desc', label: 'Preis absteigend', sortKey: 'PRICE', searchKey: 'PRICE', reverse: true},
+  {value: 'newest', label: 'Neueste zuerst', sortKey: 'CREATED', searchKey: 'CREATED_AT', reverse: true},
+  {value: 'title', label: 'Name A–Z', sortKey: 'TITLE', searchKey: 'TITLE', reverse: false},
+  {value: 'best', label: 'Beliebteste', sortKey: 'BEST_SELLING', searchKey: 'BEST_SELLING', reverse: false},
 ];
 
 export async function loader(args: Route.LoaderArgs) {
@@ -50,15 +54,27 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   const sort =
     SORT_OPTIONS.find((o) => o.value === sortParam) ?? SORT_OPTIONS[0];
 
-  const {collection} = await storefront.query(COLLECTION_QUERY, {
-    variables: {
-      handle,
-      sortKey: sort.sortKey,
-      reverse: sort.reverse,
-      filters: sub ? [{tag: SUB_TAG_PREFIX + sub.slug}] : [],
-      ...paginationVariables,
-    },
-  });
+  const [{collection}, subResult] = await Promise.all([
+    storefront.query(COLLECTION_QUERY, {
+      variables: {
+        handle,
+        sortKey: sort.sortKey,
+        reverse: sort.reverse,
+        // Bei Unterkategorie nur Kopf-Infos laden, Produkte kommen aus der Suche
+        ...(sub ? {first: 1} : paginationVariables),
+      },
+    }),
+    sub
+      ? storefront.query(SUB_PRODUCTS_QUERY, {
+          variables: {
+            query: subQuery(handle, sub.slug),
+            sortKey: sort.searchKey,
+            reverse: sort.reverse,
+            ...paginationVariables,
+          },
+        })
+      : Promise.resolve(null),
+  ]);
 
   if (!collection) {
     throw new Response(`Kategorie ${handle} nicht gefunden`, {status: 404});
@@ -66,11 +82,12 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   redirectIfHandleIsLocalized(request, {handle, data: collection});
 
-  return {collection, sort: sort.value, sub};
+  const products = subResult?.products ?? collection.products;
+  return {collection, products, sort: sort.value, sub};
 }
 
 export default function Collection() {
-  const {collection, sort, sub} = useLoaderData<typeof loader>();
+  const {collection, products, sort, sub} = useLoaderData<typeof loader>();
   const category = CATEGORIES.find((c) => c.handle === collection.handle);
   const subHref = (slug?: string) => {
     const next = new URLSearchParams();
@@ -186,7 +203,7 @@ export default function Collection() {
           </div>
 
           <PaginatedResourceSection<ProductItemFragment>
-            connection={collection.products}
+            connection={products}
             resourcesClassName="products-grid products-grid-3"
           >
             {({node: product, index}) => (
@@ -231,6 +248,41 @@ const PRODUCT_ITEM_FRAGMENT = `#graphql
       }
       maxVariantPrice {
         ...MoneyProductItem
+      }
+    }
+  }
+` as const;
+
+const SUB_PRODUCTS_QUERY = `#graphql
+  ${PRODUCT_ITEM_FRAGMENT}
+  query SubCategoryProducts(
+    $query: String!
+    $country: CountryCode
+    $language: LanguageCode
+    $first: Int
+    $last: Int
+    $startCursor: String
+    $endCursor: String
+    $sortKey: ProductSortKeys
+    $reverse: Boolean
+  ) @inContext(country: $country, language: $language) {
+    products(
+      query: $query,
+      first: $first,
+      last: $last,
+      before: $startCursor,
+      after: $endCursor,
+      sortKey: $sortKey,
+      reverse: $reverse
+    ) {
+      nodes {
+        ...ProductItem
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        endCursor
+        startCursor
       }
     }
   }
