@@ -8,14 +8,20 @@ import type {
 import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
 import type {ProductFragment} from 'storefrontapi.generated';
+import type {CardProductData} from '~/lib/products-by-handle.server';
+import {ADDONS, ADDON_GROUP_TITLES, type AddonGroup} from '~/lib/addons';
+import {ModePrice, usePriceMode} from '~/components/PriceMode';
 
 export function ProductForm({
   productOptions,
   selectedVariant,
+  addons = [],
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
+  addons?: CardProductData[];
 }) {
+  const [picked, setPicked] = useState<Partial<Record<AddonGroup, string>>>({});
   const navigate = useNavigate();
   const {open} = useAside();
   const [quantity, setQuantity] = useState(1);
@@ -88,6 +94,10 @@ export function ProductForm({
         );
       })}
 
+      {addons.length ? (
+        <AddonPicker addons={addons} picked={picked} setPicked={setPicked} />
+      ) : null}
+
       <div className="buy-row">
         <div className="qty" aria-label="Menge">
           <button
@@ -119,7 +129,16 @@ export function ProductForm({
           onClick={() => open('cart')}
           lines={
             selectedVariant
-              ? [{merchandiseId: selectedVariant.id, quantity, selectedVariant}]
+              ? [
+                  {merchandiseId: selectedVariant.id, quantity, selectedVariant},
+                  ...Object.values(picked)
+                    .map((h) => addons.find((a) => a.handle === h))
+                    .filter((a): a is CardProductData => Boolean(a?.selectedOrFirstAvailableVariant?.id))
+                    .map((a) => ({
+                      merchandiseId: a.selectedOrFirstAvailableVariant!.id,
+                      quantity,
+                    })),
+                ]
               : []
           }
         >
@@ -150,5 +169,58 @@ function ProductOptionSwatch({
     >
       {!!image && <img src={image} alt={name} />}
     </div>
+  );
+}
+
+function AddonPicker({
+  addons,
+  picked,
+  setPicked,
+}: {
+  addons: CardProductData[];
+  picked: Partial<Record<AddonGroup, string>>;
+  setPicked: (p: Partial<Record<AddonGroup, string>>) => void;
+}) {
+  const {mode} = usePriceMode();
+  const byHandle = new Map(addons.map((a) => [a.handle, a]));
+  const groups = (Object.keys(ADDON_GROUP_TITLES) as AddonGroup[])
+    .map((g) => ({
+      g,
+      items: ADDONS.filter((x) => x.group === g && byHandle.has(x.handle)),
+    }))
+    .filter((x) => x.items.length);
+  return (
+    <fieldset className="addons">
+      <legend>Dazu bestellen</legend>
+      {groups.map(({g, items}) => (
+        <div key={g} className="addon-group">
+          <span className="addon-group-title">{ADDON_GROUP_TITLES[g]}</span>
+          {items.map((x) => {
+            const p = byHandle.get(x.handle)!;
+            const checked = picked[g] === x.handle;
+            return (
+              <label key={x.handle} className={checked ? 'addon checked' : 'addon'}>
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={() =>
+                    setPicked({...picked, [g]: checked ? undefined : x.handle})
+                  }
+                />
+                <span className="addon-text">
+                  <strong>{x.label}</strong>
+                  <small>{x.hint}</small>
+                </span>
+                <span className="addon-price">
+                  + <ModePrice data={p.priceRange.minVariantPrice} />
+                  <small>{mode === 'net' ? 'netto' : 'inkl. MwSt.'}</small>
+                </span>
+              </label>
+            );
+          })}
+        </div>
+      ))}
+      <p className="addon-note">Wird in gleicher Menge wie das Gerät in den Warenkorb gelegt.</p>
+    </fieldset>
   );
 }

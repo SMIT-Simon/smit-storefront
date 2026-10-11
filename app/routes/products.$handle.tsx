@@ -19,6 +19,8 @@ import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import {parseSpecs, keySpecs} from '~/lib/specs';
 import {getWortmannContent} from '~/lib/wortmann.server';
+import {ADDON_PRODUCT_TYPES, addonHandlesFor} from '~/lib/addons';
+import {productsByHandle, type CardProductData} from '~/lib/products-by-handle.server';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [
@@ -67,11 +69,28 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   const wm = getWortmannContent(product.selectedOrFirstAvailableVariant?.sku);
 
+  // Zusatzleistungen (Einrichtung, Windows, Office, Virenschutz) für Computer
+  let addons: CardProductData[] = [];
+  if (ADDON_PRODUCT_TYPES.includes(product.productType)) {
+    const os = parseSpecs(product.descriptionHtml).find((s) => s.label === 'Betriebssystem')?.value ?? '';
+    const hasWindows = /windows/i.test(`${product.title} ${os}`);
+    const map = await productsByHandle(storefront, addonHandlesFor(hasWindows)).catch(
+      (e: Error) => {
+        console.error(e);
+        return {} as Record<string, CardProductData>;
+      },
+    );
+    addons = addonHandlesFor(hasWindows)
+      .map((h) => map[h])
+      .filter((x): x is CardProductData => Boolean(x));
+  }
+
   return {
     product,
     wmOverviewHtml: wm.overviewHtml,
     wmFeatures: wm.features,
     wmAccessoryHandles: wm.accessoryHandles,
+    addons,
   };
 }
 
@@ -130,7 +149,7 @@ function buildAccessoryQuery(handles: string[]) {
 }
 
 export default function Product() {
-  const {product, recommendations, wmAccessories, wmOverviewHtml, wmFeatures} =
+  const {product, recommendations, wmAccessories, wmOverviewHtml, wmFeatures, addons} =
     useLoaderData<typeof loader>();
 
   // Optimistically selects a variant with given available variant information
@@ -243,6 +262,7 @@ export default function Product() {
               <ProductForm
                 productOptions={productOptions}
                 selectedVariant={selectedVariant}
+                addons={addons}
               />
               <ul className="buy-usps">
                 <li>
@@ -286,6 +306,24 @@ export default function Product() {
           </Await>
         </Suspense>
       )}
+
+      {addons.length ? (
+        <section className="section product-related software-section">
+          <div className="container">
+            <div className="section-head">
+              <h2>Passende Software &amp; Services</h2>
+              <Link to="/collections/software-services" className="link-arrow">
+                Alle ansehen <Icon name="chevron-right" size={16} />
+              </Link>
+            </div>
+            <div className="products-grid">
+              {addons.slice(0, 4).map((p) => (
+                <ProductItem key={p.id} product={p} />
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       <Suspense fallback={null}>
         <Await resolve={recommendations}>

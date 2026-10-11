@@ -9,12 +9,14 @@ export type CardProductData = {
   productType: string;
   featuredImage?: {id?: string; url: string; altText?: string; width?: number; height?: number};
   priceRange: {minVariantPrice: {amount: string; currencyCode: CurrencyCode}};
+  selectedOrFirstAvailableVariant?: {id: string; availableForSale: boolean} | null;
 };
 
 const FIELDS = `
   id handle title vendor productType
   featuredImage { id url altText width height }
   priceRange { minVariantPrice { amount currencyCode } }
+  selectedOrFirstAvailableVariant { id availableForSale }
 `;
 
 type Storefront = {

@@ -59,6 +59,14 @@ const PATHS: Record<UiIcon, React.ReactNode> = {
       <path d="M12 3v6" />
     </>
   ),
+  software: (
+    <>
+      <rect x="3" y="4" width="18" height="14" rx="2" />
+      <path d="M3 8h18" />
+      <path d="m10 12-2 2 2 2" />
+      <path d="m14 12 2 2-2 2" />
+    </>
+  ),
   search: (
     <>
       <circle cx="11" cy="11" r="7" />

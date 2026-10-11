@@ -2726,3 +2726,43 @@ aside .cart-details > div:first-of-type {
 .systemhaus-card:hover { border-color: var(--brand); transform: translateY(-2px); }
 .systemhaus-card strong { color: var(--brand-ink); }
 .systemhaus-card span { color: var(--ink-mute); font-size: 0.85rem; line-height: 1.4; }
+
+/* ---------- Produktseite: Dazu bestellen ---------- */
+.addons {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.9rem 0.6rem;
+}
+.addons legend { color: var(--brand-ink); font-weight: 700; padding: 0 0.3rem; }
+.addon-group { margin-bottom: 0.5rem; }
+.addon-group-title {
+  color: var(--ink-mute);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin: 0.35rem 0 0.25rem;
+  text-transform: uppercase;
+}
+.addon {
+  align-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  padding: 0.4rem 0.5rem;
+}
+.addon:hover { background: var(--bg-muted); }
+.addon.checked { background: var(--brand-tint); border-color: rgba(11, 79, 156, 0.35); }
+.addon input { accent-color: var(--brand); height: 18px; margin: 0; width: 18px; }
+.addon-text strong { color: var(--ink); display: block; font-size: 0.9rem; }
+.addon-text small { color: var(--ink-mute); display: block; font-size: 0.78rem; line-height: 1.3; }
+.addon-price { color: var(--brand-ink); font-size: 0.9rem; font-weight: 700; text-align: right; white-space: nowrap; }
+.addon-price small { color: var(--ink-mute); display: block; font-size: 0.7rem; font-weight: 500; }
+.addon-note { color: var(--ink-mute); font-size: 0.75rem; margin: 0.25rem 0 0; }
+@media (min-width: 64em) {
+  .category-link { padding-left: 0.6rem; padding-right: 0.6rem; font-size: 0.88rem; }
+}

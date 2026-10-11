@@ -22,7 +22,8 @@ export type IconName =
   | 'monitor'
   | 'tablet'
   | 'server'
-  | 'accessory';
+  | 'accessory'
+  | 'software';
 
 export const CATEGORIES: Category[] = [
   {
@@ -116,6 +117,19 @@ export const CATEGORIES: Category[] = [
       {slug: 'netzteile', title: 'Netzteile & Akkus'},
       {slug: 'halterungen', title: 'Halterungen & Standfüße'},
       {slug: 'ersatzteile', title: 'Kabel, Adapter & Ersatzteile'},
+    ],
+  },
+  {
+    handle: 'software-services',
+    types: ['Software', 'Dienstleistung'],
+    title: 'Software & Service',
+    teaser: 'Windows, Office, Virenschutz und Einrichtung',
+    icon: 'software',
+    subs: [
+      {slug: 'services', title: 'Einrichtungsservice'},
+      {slug: 'betriebssysteme', title: 'Windows'},
+      {slug: 'office', title: 'Microsoft Office & 365'},
+      {slug: 'sicherheit', title: 'Virenschutz'},
     ],
   },
 ];
