@@ -73,7 +73,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   let addons: CardProductData[] = [];
   if (ADDON_PRODUCT_TYPES.includes(product.productType)) {
     const os = parseSpecs(product.descriptionHtml).find((s) => s.label === 'Betriebssystem')?.value ?? '';
-    const hasWindows = /windows/i.test(`${product.title} ${os}`);
+    const hasWindows = /windows|\bW11/i.test(`${product.title} ${os}`);
     const map = await productsByHandle(storefront, addonHandlesFor(hasWindows)).catch(
       (e: Error) => {
         console.error(e);
