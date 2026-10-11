@@ -15,6 +15,7 @@ import favicon from '~/assets/favicon.svg';
 import {FOOTER_QUERY, HEADER_QUERY} from '~/lib/fragments';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
+import {PriceModeProvider, readPriceMode} from '~/components/PriceMode';
 import {PageLayout} from './components/PageLayout';
 
 export type RootLoader = typeof loader;
@@ -77,6 +78,7 @@ export async function loader(args: Route.LoaderArgs) {
   return {
     ...deferredData,
     ...criticalData,
+    priceMode: readPriceMode(args.request.headers.get('Cookie')),
     publicStoreDomain: env.PUBLIC_STORE_DOMAIN,
     shop: getShopAnalytics({
       storefront,
@@ -176,9 +178,11 @@ export default function App() {
       shop={data.shop}
       consent={data.consent}
     >
-      <PageLayout {...data}>
-        <Outlet />
-      </PageLayout>
+      <PriceModeProvider initial={data.priceMode}>
+        <PageLayout {...data}>
+          <Outlet />
+        </PageLayout>
+      </PriceModeProvider>
     </Analytics.Provider>
   );
 }

@@ -5,6 +5,7 @@ import {useVariantUrl} from '~/lib/variants';
 import {Link} from 'react-router';
 import {Price} from './Price';
 import {NetPrice} from './ProductPrice';
+import {ModePrice} from './PriceMode';
 import {useAside} from './Aside';
 import type {
   CartApiQueryFragment,
@@ -76,7 +77,7 @@ export function CartLineItem({
             <div className="cart-line-price">
               {line?.cost?.totalAmount ? (
                 <>
-                  <Price as="strong" data={line.cost.totalAmount} />
+                  <ModePrice as="strong" data={line.cost.totalAmount} />
                   <NetPrice price={line.cost.totalAmount} />
                 </>
               ) : null}

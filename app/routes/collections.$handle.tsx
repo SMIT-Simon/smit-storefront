@@ -5,8 +5,9 @@ import type {ProductCollectionSortKeys} from '@shopify/hydrogen/storefront-api-t
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
-import {CATEGORIES} from '~/lib/categories';
+import {CATEGORIES, SUB_TAG_PREFIX, findSub} from '~/lib/categories';
 import {Icon} from '~/components/Icon';
+import {PriceModeNote} from '~/components/PriceMode';
 import type {ProductItemFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -43,7 +44,9 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
     throw redirect('/collections');
   }
 
-  const sortParam = new URL(request.url).searchParams.get('sort') ?? 'price-asc';
+  const url = new URL(request.url);
+  const sortParam = url.searchParams.get('sort') ?? 'price-asc';
+  const sub = findSub(handle, url.searchParams.get('sub'));
   const sort =
     SORT_OPTIONS.find((o) => o.value === sortParam) ?? SORT_OPTIONS[0];
 
@@ -52,6 +55,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
       handle,
       sortKey: sort.sortKey,
       reverse: sort.reverse,
+      filters: sub ? [{tag: SUB_TAG_PREFIX + sub.slug}] : [],
       ...paginationVariables,
     },
   });
@@ -62,11 +66,19 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   redirectIfHandleIsLocalized(request, {handle, data: collection});
 
-  return {collection, sort: sort.value};
+  return {collection, sort: sort.value, sub};
 }
 
 export default function Collection() {
-  const {collection, sort} = useLoaderData<typeof loader>();
+  const {collection, sort, sub} = useLoaderData<typeof loader>();
+  const category = CATEGORIES.find((c) => c.handle === collection.handle);
+  const subHref = (slug?: string) => {
+    const next = new URLSearchParams();
+    if (slug) next.set('sub', slug);
+    if (sort !== 'price-asc') next.set('sort', sort);
+    const q = next.toString();
+    return `/collections/${collection.handle}${q ? `?${q}` : ''}`;
+  };
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -77,9 +89,17 @@ export default function Collection() {
           <nav className="breadcrumb" aria-label="Brotkrumen">
             <Link to="/">Startseite</Link>
             <span aria-hidden="true">/</span>
-            <span>{collection.title}</span>
+            {sub ? (
+              <>
+                <Link to={subHref()}>{collection.title}</Link>
+                <span aria-hidden="true">/</span>
+                <span>{sub.title}</span>
+              </>
+            ) : (
+              <span>{collection.title}</span>
+            )}
           </nav>
-          <h1 className="page-title">{collection.title}</h1>
+          <h1 className="page-title">{sub ? sub.title : collection.title}</h1>
           {collection.description ? (
             <p className="collection-description">{collection.description}</p>
           ) : null}
@@ -100,14 +120,50 @@ export default function Collection() {
                   <Icon name={c.icon} size={18} />
                   {c.title}
                 </Link>
+                {c.handle === collection.handle && c.subs?.length ? (
+                  <ul className="sidebar-subs">
+                    {c.subs.map((x) => (
+                      <li key={x.slug}>
+                        <Link
+                          to={subHref(x.slug)}
+                          prefetch="intent"
+                          className={sub?.slug === x.slug ? 'active' : undefined}
+                        >
+                          {x.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </li>
             ))}
           </ul>
         </nav>
 
         <div className="collection-main">
+          {category?.subs?.length ? (
+            <div className="sub-chips" role="navigation" aria-label="Unterkategorien">
+              <Link
+                to={subHref()}
+                prefetch="intent"
+                className={!sub ? 'sub-chip active' : 'sub-chip'}
+              >
+                Alle {category.title}
+              </Link>
+              {category.subs.map((x) => (
+                <Link
+                  key={x.slug}
+                  to={subHref(x.slug)}
+                  prefetch="intent"
+                  className={sub?.slug === x.slug ? 'sub-chip active' : 'sub-chip'}
+                >
+                  {x.title}
+                </Link>
+              ))}
+            </div>
+          ) : null}
           <div className="collection-toolbar">
-            <span className="collection-count">Preise inkl. MwSt. · Netto-Preis jeweils darunter</span>
+            <PriceModeNote />
             <label className="sort-select">
               <span>Sortieren:</span>
               <select
@@ -192,6 +248,7 @@ const COLLECTION_QUERY = `#graphql
     $endCursor: String
     $sortKey: ProductCollectionSortKeys
     $reverse: Boolean
+    $filters: [ProductFilter!]
   ) @inContext(country: $country, language: $language) {
     collection(handle: $handle) {
       id
@@ -204,7 +261,8 @@ const COLLECTION_QUERY = `#graphql
         before: $startCursor,
         after: $endCursor,
         sortKey: $sortKey,
-        reverse: $reverse
+        reverse: $reverse,
+        filters: $filters
       ) {
         nodes {
           ...ProductItem

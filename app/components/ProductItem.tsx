@@ -8,6 +8,7 @@ import type {
 } from 'storefrontapi.generated';
 import {useVariantUrl} from '~/lib/variants';
 import {NetPrice} from '~/components/ProductPrice';
+import {ModePrice} from '~/components/PriceMode';
 
 type CardProduct = (
   | CollectionItemFragment
@@ -59,7 +60,7 @@ export function ProductItem({
         <div className="product-card-price">
           <strong>
             {hasRange ? 'ab ' : null}
-            <Price data={min} />
+            <ModePrice data={min} />
           </strong>
           <NetPrice price={min} />
         </div>

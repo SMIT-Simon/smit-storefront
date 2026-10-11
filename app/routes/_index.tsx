@@ -7,7 +7,10 @@ import type {
   HighlightProductFragment,
 } from 'storefrontapi.generated';
 import {Price} from '~/components/Price';
+import {FLYER, flyerHandles} from '~/lib/flyer';
+import {productsByHandle, type CardProductData} from '~/lib/products-by-handle.server';
 import {NetPrice} from '~/components/ProductPrice';
+import {ModePrice} from '~/components/PriceMode';
 import {ProductItem} from '~/components/ProductItem';
 import {MockShopNotice} from '~/components/MockShopNotice';
 import {Icon} from '~/components/Icon';
@@ -54,7 +57,14 @@ function loadDeferredData({context}: Route.LoaderArgs) {
       return null;
     });
 
-  return {recommendedProducts, highlights};
+  const flyerProducts = productsByHandle(context.storefront, flyerHandles().slice(0, 8)).catch(
+    (error: Error) => {
+      console.error(error);
+      return {} as Record<string, CardProductData>;
+    },
+  );
+
+  return {recommendedProducts, highlights, flyerProducts};
 }
 
 /**
@@ -140,6 +150,7 @@ export default function Homepage() {
       <TrustBar />
       <CategoryGrid />
       <MonthHighlights data={data.highlights} />
+      <FlyerTeaser products={data.flyerProducts} />
       <FeatureWorkplace />
       <RecommendedProducts products={data.recommendedProducts} />
       <PixelBanner />
@@ -334,7 +345,7 @@ function HighlightCard({
         <div className="highlight-buy">
           <div>
             <strong className="highlight-price">
-              <Price data={product.priceRange.minVariantPrice} />
+              <ModePrice data={product.priceRange.minVariantPrice} />
             </strong>
             <NetPrice price={product.priceRange.minVariantPrice} />
           </div>
@@ -344,6 +355,49 @@ function HighlightCard({
         </div>
       </div>
     </article>
+  );
+}
+
+function FlyerTeaser({products}: {products: Promise<Record<string, CardProductData>>}) {
+  return (
+    <section className="section flyer-teaser" aria-labelledby="flyer-teaser">
+      <div className="container flyer-teaser-inner">
+        <Link to="/flyer" className="flyer-teaser-cover" prefetch="intent">
+          <img
+            src={FLYER.image(1)}
+            alt={`${FLYER.title} – Titelseite`}
+            loading="lazy"
+            width={FLYER.pages[0].w}
+            height={FLYER.pages[0].h}
+          />
+          <span className="flyer-teaser-badge">{FLYER.pages.length} Seiten</span>
+        </Link>
+        <div className="flyer-teaser-body">
+          <span className="eyebrow">Aktueller Business-Flyer</span>
+          <h2 id="flyer-teaser">{FLYER.title}</h2>
+          <p>
+            Die aktuellen Business-Angebote der WORTMANN AG für {FLYER.subtitle.replace(/ · /g, ', ')} –
+            jedes Produkt im Flyer ist anklickbar und direkt bestellbar.
+          </p>
+          <Suspense fallback={<div className="products-grid skeleton-grid" />}>
+            <Await resolve={products}>
+              {(map) => (
+                <div className="products-grid flyer-teaser-grid">
+                  {Object.values(map)
+                    .slice(0, 4)
+                    .map((p) => (
+                      <ProductItem key={p.id} product={p} />
+                    ))}
+                </div>
+              )}
+            </Await>
+          </Suspense>
+          <Link to="/flyer" className="btn btn-primary" prefetch="intent">
+            Flyer durchklicken <Icon name="arrow-right" size={18} />
+          </Link>
+        </div>
+      </div>
+    </section>
   );
 }
 

@@ -1,6 +1,7 @@
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {Price} from '~/components/Price';
-import {NetPrice} from '~/components/ProductPrice';
+import {netOf, usePriceMode} from '~/components/PriceMode';
+import {QuoteButton} from '~/components/QuoteDialog';
 import type {CartLayout} from '~/components/CartMain';
 import {CartForm, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
@@ -25,26 +26,7 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
       <h4 id={summaryId} className="sr-only">
         Summe
       </h4>
-      <dl role="group" className="cart-subtotal">
-        <dt>Zwischensumme</dt>
-        <dd>
-          {cart?.cost?.subtotalAmount?.amount ? (
-            <Price as="strong" data={cart?.cost?.subtotalAmount} />
-          ) : (
-            '-'
-          )}
-        </dd>
-      </dl>
-      <p className="cart-tax-note">
-        inkl. MwSt.
-        {cart?.cost?.subtotalAmount?.amount ? (
-          <>
-            {' · '}
-            <NetPrice price={cart.cost.subtotalAmount} />
-          </>
-        ) : null}
-        {' · zzgl. Versand'}
-      </p>
+      <CartTotals amount={cart?.cost?.subtotalAmount} />
       <details className="cart-codes">
         <summary>Rabattcode oder Gutschein einlösen</summary>
         <CartDiscounts
@@ -59,6 +41,7 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
         />
       </details>
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
+      <QuoteButton cart={cart} />
     </div>
   );
 }
@@ -312,5 +295,39 @@ function RemoveGiftCardForm({
         Entfernen
       </button>
     </CartForm>
+  );
+}
+
+function CartTotals({amount}: {amount?: {amount?: string | null; currencyCode?: string | null} | null}) {
+  const {mode} = usePriceMode();
+  if (!amount?.amount) {
+    return (
+      <dl role="group" className="cart-subtotal">
+        <dt>Zwischensumme</dt>
+        <dd>-</dd>
+      </dl>
+    );
+  }
+  const net = netOf(amount);
+  const vat = {
+    amount: (Number(amount.amount) - Number(net.amount)).toFixed(2),
+    currencyCode: amount.currencyCode,
+  };
+  return (
+    <div className="cart-totals">
+      <dl className={mode === 'net' ? 'is-primary' : undefined}>
+        <dt>Summe netto</dt>
+        <dd><Price data={net} /></dd>
+      </dl>
+      <dl>
+        <dt>zzgl. 19 % MwSt.</dt>
+        <dd><Price data={vat} /></dd>
+      </dl>
+      <dl className={mode === 'gross' ? 'is-primary total' : 'total'}>
+        <dt>Gesamt brutto</dt>
+        <dd><Price data={amount} /></dd>
+      </dl>
+      <p className="cart-tax-note">zzgl. Versandkosten</p>
+    </div>
   );
 }

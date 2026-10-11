@@ -9,6 +9,9 @@ import type {HeaderQuery, CartApiQueryFragment} from 'storefrontapi.generated';
 import {useAside} from '~/components/Aside';
 import {Icon} from '~/components/Icon';
 import {CATEGORIES} from '~/lib/categories';
+import {PriceModeToggle} from '~/components/PriceMode';
+
+const FLYER_LABEL = 'III-26';
 
 interface HeaderProps {
   header: HeaderQuery;
@@ -29,9 +32,14 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
             <Icon name="check" size={14} /> Original TERRA-Hardware von
             WORTMANN
           </span>
-          <span className="topbar-hide-mobile">
-            <Icon name="invoice" size={14} /> Geschäftskunden: Netto-Preise
-            &amp; Angebote auf Anfrage
+          <span className="topbar-right">
+            <span className="topbar-hide-mobile">
+              <Icon name="invoice" size={14} /> Angebote als PDF direkt aus dem Warenkorb
+            </span>
+            <span className="topbar-price">
+              Preise:
+              <PriceModeToggle />
+            </span>
           </span>
         </div>
       </div>
@@ -90,18 +98,37 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
           Startseite
         </NavLink>
         {CATEGORIES.map((c) => (
-          <NavLink
-            key={c.handle}
-            onClick={close}
-            prefetch="intent"
-            to={`/collections/${c.handle}`}
-          >
-            <Icon name={c.icon} />
-            {c.title}
-          </NavLink>
+          <div key={c.handle} className="mobile-nav-group">
+            <NavLink
+              end
+              onClick={close}
+              prefetch="intent"
+              to={`/collections/${c.handle}`}
+            >
+              <Icon name={c.icon} />
+              {c.title}
+            </NavLink>
+            {c.subs?.length ? (
+              <div className="mobile-nav-subs">
+                {c.subs.map((x) => (
+                  <Link
+                    key={x.slug}
+                    onClick={close}
+                    prefetch="intent"
+                    to={`/collections/${c.handle}?sub=${x.slug}`}
+                  >
+                    {x.title}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
         ))}
         <NavLink onClick={close} prefetch="intent" to="/collections/all">
           Alle Produkte
+        </NavLink>
+        <NavLink onClick={close} prefetch="intent" to="/flyer">
+          Business-Flyer {FLYER_LABEL}
         </NavLink>
         <NavLink onClick={close} prefetch="intent" to="/account">
           Kundenkonto
@@ -114,16 +141,41 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
     <nav className="category-nav" aria-label="Kategorien">
       <div className="container category-nav-inner">
         {CATEGORIES.map((c) => (
-          <NavLink
-            key={c.handle}
-            prefetch="intent"
-            to={`/collections/${c.handle}`}
-            className={({isActive}) =>
-              isActive ? 'category-link active' : 'category-link'
-            }
-          >
-            {c.title}
-          </NavLink>
+          <div key={c.handle} className="nav-item">
+            <NavLink
+              prefetch="intent"
+              to={`/collections/${c.handle}`}
+              className={({isActive}) =>
+                isActive ? 'category-link active' : 'category-link'
+              }
+            >
+              {c.title}
+              {c.subs?.length ? (
+                <Icon name="chevron-right" size={14} className="nav-caret" />
+              ) : null}
+            </NavLink>
+            {c.subs?.length ? (
+              <div className="nav-dropdown">
+                <Link
+                  to={`/collections/${c.handle}`}
+                  prefetch="intent"
+                  className="nav-dropdown-all"
+                >
+                  <Icon name={c.icon} size={20} />
+                  Alle {c.title}
+                </Link>
+                {c.subs.map((x) => (
+                  <Link
+                    key={x.slug}
+                    to={`/collections/${c.handle}?sub=${x.slug}`}
+                    prefetch="intent"
+                  >
+                    {x.title}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
+          </div>
         ))}
         <NavLink
           prefetch="intent"
@@ -133,6 +185,15 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
           }
         >
           Alle Produkte
+        </NavLink>
+        <NavLink
+          prefetch="intent"
+          to="/flyer"
+          className={({isActive}) =>
+            isActive ? 'category-link nav-flyer active' : 'category-link nav-flyer'
+          }
+        >
+          Business-Flyer
         </NavLink>
       </div>
     </nav>
