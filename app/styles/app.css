@@ -2340,3 +2340,4 @@ aside .cart-details > div:first-of-type {
 .section-head .link-arrow { white-space: nowrap; }
 .duo-teaser-media { aspect-ratio: auto; height: 240px; }
 .duo-teaser-media img { max-height: 100%; width: auto; }
+.slide-copy h1, .slide-copy h2 { hyphens: manual; text-wrap: balance; }
