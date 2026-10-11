@@ -3113,3 +3113,13 @@ aside .cart-details > div:first-of-type {
 .policy .rich-text table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
 .policy .rich-text th, .policy .rich-text td { border: 1px solid var(--line); padding: 0.55rem 0.75rem; text-align: left; }
 .policy .rich-text th { background: var(--bg-muted); }
+/* Rechtstexte: Tabellen */
+.policy .rich-text table { border: 1px solid var(--line); border-collapse: collapse; border-radius: var(--radius); margin: 1rem 0 1.5rem; overflow: hidden; width: 100%; }
+.policy .rich-text th, .policy .rich-text td { border-bottom: 1px solid var(--line); padding: 0.7rem 0.9rem; text-align: left; vertical-align: top; }
+.policy .rich-text th { background: var(--bg-muted); font-size: 0.9rem; }
+.policy .rich-text td:last-child, .policy .rich-text th:last-child { text-align: right; white-space: nowrap; }
+.policy .rich-text td:nth-child(2) { white-space: nowrap; }
+.policy .rich-text tr:last-child td { border-bottom: 0; }
+@media (max-width: 40em) {
+  .policy .rich-text th, .policy .rich-text td { font-size: 0.9rem; padding: 0.55rem 0.6rem; }
+}
