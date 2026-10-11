@@ -10,7 +10,13 @@ import {AddToCartButton} from './AddToCartButton';
 import {useAside} from './Aside';
 import type {ProductFragment} from 'storefrontapi.generated';
 import type {CardProductData} from '~/lib/products-by-handle.server';
-import {ADDONS, ADDON_GROUP_TITLES, type AddonGroup} from '~/lib/addons';
+import {
+  ADDONS,
+  ADDON_GROUP_TITLES,
+  serviceTextsFor,
+  type AddonGroup,
+  type ServiceTexts,
+} from '~/lib/addons';
 import {ModePrice, usePriceMode} from '~/components/PriceMode';
 
 export function ProductForm({
@@ -19,12 +25,14 @@ export function ProductForm({
   addons = [],
   accessories = [],
   service = null,
+  serviceTexts,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
   addons?: CardProductData[];
   accessories?: CardProductData[];
   service?: ServiceProduct | null;
+  serviceTexts?: ServiceTexts;
 }) {
   const [serviceVariant, setServiceVariant] = useState<string | null>(null);
   const [picked, setPicked] = useState<Partial<Record<AddonGroup, string>>>({});
@@ -125,7 +133,12 @@ export function ProductForm({
       ) : null}
 
       {service?.variants.nodes.length ? (
-        <ServicePicker service={service} value={serviceVariant} onChange={setServiceVariant} />
+        <ServicePicker
+          service={service}
+          texts={serviceTexts ?? serviceTextsFor(null)}
+          value={serviceVariant}
+          onChange={setServiceVariant}
+        />
       ) : null}
 
       {addons.length ? (
@@ -329,10 +342,12 @@ export type ServiceProduct = {
 
 function ServicePicker({
   service,
+  texts,
   value,
   onChange,
 }: {
   service: ServiceProduct;
+  texts: ServiceTexts;
   value: string | null;
   onChange: (v: string | null) => void;
 }) {
@@ -343,7 +358,7 @@ function ServicePicker({
       <label className={value === null ? 'addon checked' : 'addon'}>
         <input type="radio" name="service" checked={value === null} onChange={() => onChange(null)} />
         <span className="addon-text">
-          <strong>Bring-In-Service 24 Monate</strong>
+          <strong>{texts.base}</strong>
         </span>
         <span className="addon-price">
           inklusive
@@ -353,7 +368,7 @@ function ServicePicker({
         <label key={v.id} className={value === v.id ? 'addon checked' : 'addon'}>
           <input type="radio" name="service" checked={value === v.id} onChange={() => onChange(v.id)} />
           <span className="addon-text">
-            <strong>24H Vor-Ort-Service {v.title}</strong>
+            <strong>{texts.prefix}{v.title}</strong>
           </span>
           <span className="addon-price">
             + <ModePrice data={v.price} />
@@ -362,7 +377,7 @@ function ServicePicker({
         </label>
       ))}
       <p className="addon-note">
-        Vor-Ort-Service: Techniker am nächsten Werktag, defekte Datenträger bleiben bei Ihnen.
+        {texts.note}
       </p>
     </fieldset>
   );

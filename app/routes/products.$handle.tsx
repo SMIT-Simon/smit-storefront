@@ -26,6 +26,7 @@ import {
   ADDON_PRODUCT_TYPES,
   SERVICE_PRODUCT_TYPES,
   isListable,
+  serviceTextsFor,
   addonHandlesFor,
   osFromTags,
   serviceHandleFor,
@@ -108,7 +109,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   // TERRA Vor-Ort-Service (eigenes Produkt je Gerät, Varianten = Laufzeit)
   const serviceHandle = SERVICE_PRODUCT_TYPES.includes(product.productType)
-    ? serviceHandleFor(product.selectedOrFirstAvailableVariant?.sku)
+    ? serviceHandleFor(product.productType, product.selectedOrFirstAvailableVariant?.sku)
     : null;
   const serviceProduct = serviceHandle
     ? (
@@ -338,6 +339,7 @@ export default function Product() {
                 addons={addons}
                 accessories={accessoryProducts}
                 service={serviceProduct}
+                serviceTexts={serviceTextsFor(productType)}
               />
               <ul className="buy-usps">
                 <li>

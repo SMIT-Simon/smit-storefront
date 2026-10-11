@@ -24,13 +24,37 @@ export const ADDON_GROUP_TITLES: Record<AddonGroup, string> = {
 /** Produkttypen, bei denen die Zusatzleistungen angeboten werden. */
 export const ADDON_PRODUCT_TYPES = ['Desktop-PC', 'Notebook', 'All-in-One-PC'];
 
-/** Produkttypen mit wählbarem TERRA Vor-Ort-Service (Produkt "vor-ort-service-<artikelnr>"). */
-export const SERVICE_PRODUCT_TYPES = ['Desktop-PC', 'All-in-One-PC'];
+/**
+ * Produkttypen mit wählbarem TERRA-Service.
+ * PCs/AIO: eigenes Produkt je Gerät "vor-ort-service-<artikelnr>" (Preis abhängig vom Gerät).
+ * Monitore: ein gemeinsames Produkt "terra-lcd-vor-ort-service" für alle TERRA LCDs.
+ */
+export const SERVICE_PRODUCT_TYPES = ['Desktop-PC', 'All-in-One-PC', 'Monitor'];
+
+export const LCD_SERVICE_HANDLE = 'terra-lcd-vor-ort-service';
+
+export type ServiceTexts = {base: string; prefix: string; note: string};
+
+export function serviceTextsFor(productType?: string | null): ServiceTexts {
+  if (productType === 'Monitor') {
+    return {
+      base: 'Vor-Ort-Austausch-Service 24 Monate',
+      prefix: '',
+      note: 'Vor-Ort-Austausch: Bei einem Defekt wird der Monitor bei Ihnen ausgetauscht. Pixelservice: Austausch bereits bei Pixelfehlern.',
+    };
+  }
+  return {
+    base: 'Bring-In-Service 24 Monate',
+    prefix: '24H Vor-Ort-Service ',
+    note: 'Vor-Ort-Service: Techniker am nächsten Werktag, defekte Datenträger bleiben bei Ihnen.',
+  };
+}
 
 /** Optionen, die nur über die Produktseite gebucht werden (nicht in Kategorien/Suche). */
 export const OPTION_PRODUCT_TYPES = ['Service-Option', 'Software-Option'];
 
-export function serviceHandleFor(sku?: string | null) {
+export function serviceHandleFor(productType?: string | null, sku?: string | null) {
+  if (productType === 'Monitor') return LCD_SERVICE_HANDLE;
   return sku ? `vor-ort-service-${sku.toLowerCase()}` : null;
 }
 
