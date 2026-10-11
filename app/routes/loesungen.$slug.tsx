@@ -6,6 +6,7 @@ import {PriceModeNote} from '~/components/PriceMode';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {findSolution, scenarioQuery, SOLUTIONS} from '~/lib/solutions';
 import {absUrl} from '~/lib/seo';
+import {isListable} from '~/lib/addons';
 import {SolutionTiles} from '~/components/SolutionTiles';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -36,7 +37,7 @@ export async function loader({params, context}: Route.LoaderArgs) {
         .catch(() => null);
       // Barebones (ohne RAM/SSD/Betriebssystem) sind keine Arbeitsplatz-Empfehlung.
       const products = (res?.products.nodes ?? [])
-        .filter((p) => !/barebone/i.test(p.title))
+        .filter((p) => isListable(p) && !/barebone/i.test(p.title))
         .slice(0, 4);
       return {...sc, href, products};
     }),

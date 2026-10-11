@@ -1,3 +1,4 @@
+import {isListable} from '~/lib/addons';
 import {Await, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/_index';
 import {Suspense} from 'react';
@@ -40,6 +41,10 @@ export async function loader(args: Route.LoaderArgs) {
 function loadDeferredData({context}: Route.LoaderArgs) {
   const recommendedProducts = context.storefront
     .query(RECOMMENDED_PRODUCTS_QUERY)
+    .then((r) => {
+      r.products.nodes = r.products.nodes.filter(isListable);
+      return r;
+    })
     .catch((error: Error) => {
       console.error(error);
       return null;
@@ -688,7 +693,12 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   }
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    products(first: 8, sortKey: UPDATED_AT, reverse: true) {
+    products(
+      first: 8
+      sortKey: CREATED_AT
+      reverse: true
+      query: "-product_type:'Service-Option' -product_type:'Software-Option' -tag:'ausblenden'"
+    ) {
       nodes {
         ...RecommendedProduct
       }

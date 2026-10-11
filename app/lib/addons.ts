@@ -46,3 +46,15 @@ export function osFromTags(tags?: string[] | null): 'pro' | 'home' | 'none' | nu
   if (tags.includes('f:os-ohne')) return 'none';
   return null;
 }
+
+/** Tag, mit dem man beliebige Produkte aus Listen, Suche und Empfehlungen ausblendet. */
+export const HIDDEN_TAG = 'ausblenden';
+
+/** Storefront-Suchfilter: keine Options-/Service-Produkte und nichts mit Tag "ausblenden". */
+export const LISTING_EXCLUDE_QUERY =
+  "-product_type:'Service-Option' -product_type:'Software-Option' -tag:'ausblenden'";
+
+/** Soll ein Produkt in Listen/Empfehlungen erscheinen? */
+export function isListable(p: {productType?: string | null; tags?: string[] | null}) {
+  return !OPTION_PRODUCT_TYPES.includes(p.productType ?? '') && !(p.tags ?? []).includes(HIDDEN_TAG);
+}

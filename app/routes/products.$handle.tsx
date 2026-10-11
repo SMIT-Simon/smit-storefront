@@ -25,6 +25,7 @@ import {getWortmannContent} from '~/lib/wortmann.server';
 import {
   ADDON_PRODUCT_TYPES,
   SERVICE_PRODUCT_TYPES,
+  isListable,
   addonHandlesFor,
   osFromTags,
   serviceHandleFor,
@@ -43,6 +44,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   const image = p.selectedOrFirstAvailableVariant?.image?.url ?? p.images.nodes[0]?.url;
   return [
     {title},
+    ...(isListable(p) ? [] : [{name: 'robots', content: 'noindex, nofollow'}]),
     {name: 'description', content: description},
     {property: 'og:title', content: p.title},
     {property: 'og:description', content: description},
@@ -154,7 +156,7 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
   const {storefront} = context;
   const recommendations = storefront
     .query(PRODUCT_RECOMMENDATIONS_QUERY, {variables: {handle: params.handle!}})
-    .then((r) => r.productRecommendations ?? [])
+    .then((r) => (r.productRecommendations ?? []).filter(isListable))
     .catch((error: Error) => {
       console.error(error);
       return [];

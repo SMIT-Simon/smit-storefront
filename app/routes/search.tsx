@@ -1,4 +1,4 @@
-import {OPTION_PRODUCT_TYPES} from '~/lib/addons';
+import {isListable} from '~/lib/addons';
 import {useLoaderData} from 'react-router';
 import type {Route} from './+types/search';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
@@ -86,6 +86,7 @@ const SEARCH_PRODUCT_FRAGMENT = `#graphql
   fragment SearchProduct on Product {
     __typename
     productType
+    tags
     handle
     id
     publishedAt
@@ -306,6 +307,7 @@ const PREDICTIVE_SEARCH_PRODUCT_FRAGMENT = `#graphql
   fragment PredictiveProduct on Product {
     __typename
     productType
+    tags
     id
     title
     handle
@@ -432,10 +434,7 @@ async function predictiveSearch({
 
 /** Service- und Software-Optionen (nur über die Produktseite buchbar) nicht in der Suche zeigen. */
 function hideOptionProducts(items: object) {
-  const products = (items as {products?: {nodes?: Array<{productType?: string}>}}).products;
-  if (products?.nodes) {
-    products.nodes = products.nodes.filter(
-      (p) => !OPTION_PRODUCT_TYPES.includes(p.productType ?? ''),
-    );
-  }
+  const products = (items as {products?: {nodes?: Array<{productType?: string; tags?: string[]}>}})
+    .products;
+  if (products?.nodes) products.nodes = products.nodes.filter(isListable);
 }

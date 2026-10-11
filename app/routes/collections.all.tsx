@@ -108,7 +108,7 @@ const CATALOG_QUERY = `#graphql
     $startCursor: String
     $endCursor: String
   ) @inContext(country: $country, language: $language) {
-    products(first: $first, last: $last, before: $startCursor, after: $endCursor, query: "-product_type:'Service-Option' -product_type:'Software-Option'") {
+    products(first: $first, last: $last, before: $startCursor, after: $endCursor, query: "-product_type:'Service-Option' -product_type:'Software-Option' -tag:'ausblenden'") {
       nodes {
         ...CollectionItem
       }

@@ -17,6 +17,7 @@ import {
   parseFilters,
 } from '~/lib/filters';
 import {SITE_NAME} from '~/lib/seo';
+import {isListable} from '~/lib/addons';
 import {CollectionFilters} from '~/components/CollectionFilters';
 import {Icon} from '~/components/Icon';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
@@ -114,7 +115,9 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   redirectIfHandleIsLocalized(request, {handle, data: collection});
 
-  const products = subResult?.products ?? collection.products;
+  const rawProducts = subResult?.products ?? collection.products;
+  // Ausgeblendete Produkte (Tag "ausblenden", Service-Optionen) nie in Listen zeigen
+  const products = {...rawProducts, nodes: rawProducts.nodes.filter(isListable)};
   const allTags = (facetResult?.products.nodes ?? []).map((n) => n.tags);
   const counts = facetCounts(allTags, selected, groups);
   // Nur Werte anbieten, die in der Kategorie überhaupt vorkommen
