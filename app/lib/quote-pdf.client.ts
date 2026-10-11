@@ -50,10 +50,15 @@ export async function downloadQuotePdf(customer: QuoteCustomer, lines: QuoteLine
   // Kopf
   doc.setFillColor(...brand);
   doc.rect(0, 0, 210, 6, 'F');
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(18);
-  doc.setTextColor(...brand);
-  doc.text(COMPANY.name, L, 22);
+  const logo = await loadLogo();
+  if (logo) {
+    doc.addImage(logo, 'PNG', L, 11, 50, 16);
+  } else {
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(18);
+    doc.setTextColor(...brand);
+    doc.text(COMPANY.name, L, 22);
+  }
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
   doc.setTextColor(...mute);
@@ -198,4 +203,20 @@ export async function downloadQuotePdf(customer: QuoteCustomer, lines: QuoteLine
 
   const safe = (customer.company || 'Kunde').replace(/[^\w\-äöüÄÖÜß ]+/g, '').trim().replace(/\s+/g, '_');
   doc.save(`${number}_${safe}.pdf`);
+}
+
+async function loadLogo(): Promise<string | null> {
+  try {
+    const res = await fetch('/images/logo-smit-pdf.png');
+    if (!res.ok) return null;
+    const blob = await res.blob();
+    return await new Promise((resolve) => {
+      const r = new FileReader();
+      r.onload = () => resolve(typeof r.result === 'string' ? r.result : null);
+      r.onerror = () => resolve(null);
+      r.readAsDataURL(blob);
+    });
+  } catch {
+    return null;
+  }
 }

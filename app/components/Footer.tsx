@@ -10,7 +10,7 @@ interface FooterProps {
 }
 
 const POLICY_LINKS = [
-  {title: 'Impressum', to: '/policies/legal-notice'},
+  {title: 'Impressum', to: '/pages/impressum'},
   {title: 'Datenschutz', to: '/policies/privacy-policy'},
   {title: 'AGB', to: '/policies/terms-of-service'},
   {title: 'Widerrufsrecht', to: '/policies/refund-policy'},
@@ -42,11 +42,35 @@ export function Footer({header}: FooterProps) {
 
       <div className="container footer-columns">
         <div className="footer-col footer-about">
-          <div className="footer-logo">{shopName}</div>
+          <img
+            src="/images/logo-smit-white.webp"
+            alt={shopName}
+            width={200}
+            height={64}
+            className="footer-logo-img"
+            loading="lazy"
+          />
           <p>
             Ihr Fachhändler für TERRA Notebooks, PCs, Server und Zubehör von
             WORTMANN – für Unternehmen, Behörden, Schulen und Privatkunden.
           </p>
+          <address className="footer-contact">
+            SMIT Digital Services · Inhaber Simon Manigel
+            <br />
+            Schlangenweg 73 · 33415 Verl
+            <br />
+            <a href="tel:+4952469098980">+49 (0)5246-9098980</a>
+            <br />
+            <a href="mailto:info@wawi-servicepartner.de">info@wawi-servicepartner.de</a>
+          </address>
+          <a
+            href="https://systemhaus-verl.de/"
+            target="_blank"
+            rel="noopener"
+            className="footer-systemhaus"
+          >
+            IT-Service vom Systemhaus Verl →
+          </a>
         </div>
 
         <nav className="footer-col" aria-label="Sortiment">
@@ -72,7 +96,20 @@ export function Footer({header}: FooterProps) {
               <Link to="/pages/kontakt">Kontakt &amp; Angebotsanfrage</Link>
             </li>
             <li>
+              <Link to="/flyer">Business-Flyer</Link>
+            </li>
+            <li>
               <Link to="/search">Produktsuche</Link>
+            </li>
+            <li>
+              <a href="https://systemhaus-verl.de/ITService" target="_blank" rel="noopener">
+                IT-Service &amp; Einrichtung
+              </a>
+            </li>
+            <li>
+              <a href="https://systemhaus-verl.de/Wartungsvertraege" target="_blank" rel="noopener">
+                Wartungsverträge
+              </a>
             </li>
           </ul>
         </nav>

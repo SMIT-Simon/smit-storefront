@@ -29,8 +29,10 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
       <div className="topbar">
         <div className="container topbar-inner">
           <span>
-            <Icon name="check" size={14} /> Original TERRA-Hardware von
-            WORTMANN
+            <Icon name="check" size={14} /> Original TERRA-Hardware ·{' '}
+            <a href="https://systemhaus-verl.de/" target="_blank" rel="noopener">
+              Ihr Systemhaus aus Verl
+            </a>
           </span>
           <span className="topbar-right">
             <span className="topbar-hide-mobile">
@@ -47,7 +49,13 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
       <div className="container header-main">
         <HeaderMenuMobileToggle />
         <Link prefetch="intent" to="/" className="logo" aria-label="Startseite">
-          <Logo name={shop.name} />
+          <img
+            src="/images/logo-smit.webp"
+            alt={shop.name}
+            width={160}
+            height={51}
+            className="logo-img"
+          />
         </Link>
 
         <Form method="get" action="/search" className="header-search" role="search">
@@ -74,15 +82,6 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
   );
 }
 
-function Logo({name}: {name: string}) {
-  const [first, ...rest] = name.split(' ');
-  return (
-    <span className="logo-mark">
-      <span className="logo-badge">{first}</span>
-      {rest.length ? <span className="logo-rest">{rest.join(' ')}</span> : null}
-    </span>
-  );
-}
 
 /**
  * Kategorie-Navigation. Die Kategorien sind fest hinterlegt (siehe

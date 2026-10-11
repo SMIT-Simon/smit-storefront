@@ -1,17 +1,17 @@
 /**
  * Angaben des Anbieters für das PDF-Angebot.
- * Bitte vervollständigen – leere Felder werden im PDF ausgelassen.
+ * Leere Felder werden im PDF ausgelassen.
  */
 export const COMPANY = {
   name: 'SMIT Digital Services',
-  owner: '',
-  street: '',
-  zipCity: '',
+  owner: 'Simon Manigel',
+  street: 'Schlangenweg 73',
+  zipCity: '33415 Verl',
   country: 'Deutschland',
-  phone: '',
-  email: '',
-  web: '',
-  vatId: '',
+  phone: '+49 (0)5246-9098980',
+  email: 'info@wawi-servicepartner.de',
+  web: 'systemhaus-verl.de',
+  vatId: 'DE363244160',
   bank: '',
   iban: '',
   bic: '',

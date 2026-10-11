@@ -156,6 +156,7 @@ export default function Homepage() {
       <PixelBanner />
       <DuoTeasers />
       <MadeInGermany />
+      <SystemhausSection />
       <BusinessBanner />
     </div>
   );
@@ -395,6 +396,49 @@ function FlyerTeaser({products}: {products: Promise<Record<string, CardProductDa
           <Link to="/flyer" className="btn btn-primary" prefetch="intent">
             Flyer durchklicken <Icon name="arrow-right" size={18} />
           </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SystemhausSection() {
+  const services = [
+    {title: 'IT-Service', text: 'Einrichtung, Betreuung und Support Ihrer IT', href: 'https://systemhaus-verl.de/ITService'},
+    {title: 'IT-Beratung', text: 'Planung von Arbeitsplätzen, Netzwerk und Infrastruktur', href: 'https://systemhaus-verl.de/ITBeratung'},
+    {title: 'Wartungsverträge', text: 'Planbare Pflege und Updates für Ihre Systeme', href: 'https://systemhaus-verl.de/Wartungsvertraege'},
+    {title: 'IT-Notfallservice', text: 'Schnelle Hilfe, wenn es darauf ankommt', href: 'https://systemhaus-verl.de/ITNotfallservice'},
+    {title: 'Hosting', text: 'Server und Hosting für Ihr Unternehmen', href: 'https://systemhaus-verl.de/Hosting'},
+    {title: 'JTL-Dienstleistungen', text: 'JTL-Wawi und JTL-Shop für Onlinehändler', href: 'https://systemhaus-verl.de/JTL'},
+  ];
+  return (
+    <section className="section systemhaus" aria-labelledby="systemhaus">
+      <div className="container systemhaus-inner">
+        <div className="systemhaus-copy">
+          <img src="/images/logo-smit.webp" alt="SMIT Digital Services" width={220} height={70} loading="lazy" className="systemhaus-logo" />
+          <span className="eyebrow">Ihr IT-Partner aus Verl</span>
+          <h2 id="systemhaus">Hardware kaufen – und die IT gleich mit betreuen lassen</h2>
+          <p>
+            Hinter diesem Shop steht SMIT Digital Services, das Systemhaus aus Verl.
+            Neben TERRA-Hardware kümmern wir uns um IT-Service, Beratung, Hosting und
+            Wartung – damit Ihre neuen Geräte sauber in Ihr Unternehmen passen.
+          </p>
+          <div className="feature-actions">
+            <a href="https://systemhaus-verl.de/" target="_blank" rel="noopener" className="btn btn-primary">
+              systemhaus-verl.de <Icon name="arrow-right" size={18} />
+            </a>
+            <Link to="/pages/kontakt" className="btn btn-secondary">
+              Kontakt aufnehmen
+            </Link>
+          </div>
+        </div>
+        <div className="systemhaus-grid">
+          {services.map((s) => (
+            <a key={s.title} href={s.href} target="_blank" rel="noopener" className="systemhaus-card">
+              <strong>{s.title}</strong>
+              <span>{s.text}</span>
+            </a>
+          ))}
         </div>
       </div>
     </section>

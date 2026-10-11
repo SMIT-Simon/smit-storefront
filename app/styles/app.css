@@ -591,7 +591,7 @@ aside li {
   top: 0;
   transition: opacity 300ms;
   visibility: hidden;
-  z-index: 10;
+  z-index: 100;
 }
 
 .overlay .close-outside {
@@ -2695,3 +2695,34 @@ aside .cart-details > div:first-of-type {
   .topbar-inner > span:first-child { display: none !important; }
   .topbar-inner { justify-content: flex-end; }
 }
+
+/* ---------- Logo & Systemhaus ---------- */
+.logo-img { display: block; height: 44px; width: auto; }
+@media (max-width: 30em) { .logo-img { height: 34px; } }
+.topbar a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
+.footer-logo-img { display: block; height: 52px; margin-bottom: 0.9rem; width: auto; }
+.footer-contact { color: inherit; font-size: 0.85rem; font-style: normal; line-height: 1.6; margin: 0.75rem 0; opacity: 0.85; }
+.footer-contact a, .footer-systemhaus { color: #fff; }
+.footer-systemhaus { display: inline-block; font-size: 0.88rem; font-weight: 600; }
+.systemhaus { border-top: 1px solid var(--line); }
+.systemhaus-inner { align-items: center; display: grid; gap: 2rem; }
+@media (min-width: 64em) { .systemhaus-inner { gap: 3.5rem; grid-template-columns: 1fr 1.1fr; } }
+.systemhaus-logo { display: block; height: 60px; margin-bottom: 1rem; width: auto; }
+.systemhaus-copy h2 { font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1.2; margin: 0.25rem 0 1rem; }
+.systemhaus-copy p { color: var(--ink-soft); line-height: 1.7; margin: 0 0 1.25rem; }
+.systemhaus-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.systemhaus-card {
+  background: var(--bg-muted);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 1rem 1.1rem;
+  text-decoration: none;
+  transition: border-color 150ms, transform 150ms;
+}
+.systemhaus-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+.systemhaus-card strong { color: var(--brand-ink); }
+.systemhaus-card span { color: var(--ink-mute); font-size: 0.85rem; line-height: 1.4; }
