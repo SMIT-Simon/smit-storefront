@@ -30,11 +30,15 @@ export async function loader({params, context}: Route.LoaderArgs) {
       const {query, href} = scenarioQuery(sc);
       const res = await storefront
         .query(SOLUTION_PRODUCTS_QUERY, {
-          variables: {query, first: 4},
+          variables: {query, first: 10},
           cache: storefront.CacheShort(),
         })
         .catch(() => null);
-      return {...sc, href, products: res?.products.nodes ?? []};
+      // Barebones (ohne RAM/SSD/Betriebssystem) sind keine Arbeitsplatz-Empfehlung.
+      const products = (res?.products.nodes ?? [])
+        .filter((p) => !/barebone/i.test(p.title))
+        .slice(0, 4);
+      return {...sc, href, products};
     }),
   );
 
