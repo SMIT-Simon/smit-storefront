@@ -3123,3 +3123,20 @@ aside .cart-details > div:first-of-type {
 @media (max-width: 40em) {
   .policy .rich-text th, .policy .rich-text td { font-size: 0.9rem; padding: 0.55rem 0.6rem; }
 }
+
+/* ---------- EU-Gewährleistungslabel ---------- */
+.eu-notice { align-items: center; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); display: flex; gap: 0.9rem; margin-top: 0.9rem; padding: 0.75rem; }
+.eu-notice-img { flex: none; }
+.eu-notice-img img { border: 1px solid var(--line); display: block; height: auto; width: 88px; }
+.eu-notice-compact .eu-notice-img img { width: 72px; }
+.eu-notice-text { display: flex; flex-direction: column; font-size: 0.85rem; gap: 0.25rem; line-height: 1.4; }
+.eu-notice-text strong { color: var(--brand-ink); }
+.eu-notice-text span { color: var(--ink-soft); }
+.eu-notice-full { border: 1px solid var(--line); display: block; height: auto; margin: 1.5rem 0; max-width: 100%; width: 880px; }
+.footer-guarantee { display: flex; justify-content: center; padding-top: 1.25rem; }
+.footer-guarantee-link { align-items: center; color: #fff; display: flex; gap: 0.85rem; text-decoration: none; }
+.footer-guarantee-link img { background: #fff; border-radius: 3px; display: block; height: auto; width: 66px; }
+.footer-guarantee-link span { display: flex; flex-direction: column; gap: 0.15rem; }
+.footer-guarantee-link small { color: rgba(255,255,255,.75); }
+.footer-guarantee-link:hover small { color: #fff; text-decoration: underline; }
+.footer-guarantee { padding-bottom: 1.25rem; }

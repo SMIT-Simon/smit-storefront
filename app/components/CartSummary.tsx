@@ -2,6 +2,7 @@ import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {Price} from '~/components/Price';
 import {netOf, usePriceMode} from '~/components/PriceMode';
 import {QuoteButton} from '~/components/QuoteDialog';
+import {LegalGuaranteeNotice} from '~/components/LegalGuaranteeNotice';
 import type {CartLayout} from '~/components/CartMain';
 import {CartForm, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
@@ -42,6 +43,7 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
       </details>
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
       <QuoteButton cart={cart} />
+      <LegalGuaranteeNotice compact />
     </div>
   );
 }

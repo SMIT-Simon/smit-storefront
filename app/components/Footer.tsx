@@ -134,6 +134,16 @@ export function Footer({header}: FooterProps) {
         </nav>
       </div>
 
+      <div className="container footer-guarantee">
+        <Link to="/gewaehrleistung" className="footer-guarantee-link">
+          <img src="/images/eu-gewaehrleistung-de.jpg" alt="" width={66} height={90} loading="lazy" />
+          <span>
+            <strong>Gesetzliche Gewährleistung: mindestens 2 Jahre</strong>
+            <small>EU-Hinweis zur Gewährleistung ansehen →</small>
+          </span>
+        </Link>
+      </div>
+
       <div className="container footer-widerruf">
         <span>Sie möchten einen Kauf widerrufen? Online und ohne Kundenkonto:</span>
         <Link to="/widerruf" className="btn-widerruf-footer" prefetch="intent">
