@@ -3110,3 +3110,6 @@ aside .cart-details > div:first-of-type {
 @media print {
   .site-footer, .site-header, .category-nav, .topbar, .widerruf > button { display: none !important; }
 }
+.policy .rich-text table { border-collapse: collapse; margin: 1rem 0; width: 100%; }
+.policy .rich-text th, .policy .rich-text td { border: 1px solid var(--line); padding: 0.55rem 0.75rem; text-align: left; }
+.policy .rich-text th { background: var(--bg-muted); }

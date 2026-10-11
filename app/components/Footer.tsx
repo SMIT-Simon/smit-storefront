@@ -10,11 +10,11 @@ interface FooterProps {
 }
 
 const POLICY_LINKS = [
-  {title: 'Impressum', to: '/pages/impressum'},
+  {title: 'Impressum', to: '/policies/legal-notice'},
   {title: 'Datenschutz', to: '/policies/privacy-policy'},
   {title: 'AGB', to: '/policies/terms-of-service'},
   {title: 'Widerrufsrecht', to: '/policies/refund-policy'},
-  {title: 'Versand & Zahlung', to: '/policies/shipping-policy'},
+  {title: 'Versand', to: '/policies/shipping-policy'},
 ];
 
 export function Footer({header}: FooterProps) {

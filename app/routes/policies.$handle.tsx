@@ -7,6 +7,15 @@ type SelectedPolicies = keyof Pick<
   'privacyPolicy' | 'shippingPolicy' | 'termsOfService' | 'refundPolicy' | 'legalNotice'
 >;
 
+/** Deutsche Seitentitel (Shopify liefert teils englische Standardtitel). */
+const GERMAN_TITLES: Record<string, string> = {
+  shippingPolicy: 'Versand',
+  refundPolicy: 'Widerrufsrecht',
+  privacyPolicy: 'Datenschutzerklärung',
+  termsOfService: 'AGB',
+  legalNotice: 'Impressum',
+};
+
 export const meta: Route.MetaFunction = ({data}) => {
   return [{title: data?.policy.title ?? 'Rechtliches'}];
 };
@@ -39,7 +48,7 @@ export async function loader({params, context}: Route.LoaderArgs) {
     throw new Response('Diese Seite wurde nicht gefunden', {status: 404});
   }
 
-  return {policy};
+  return {policy: {...policy, title: GERMAN_TITLES[policyName] ?? policy.title}};
 }
 
 export default function Policy() {
