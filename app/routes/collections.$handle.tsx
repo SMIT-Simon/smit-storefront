@@ -223,6 +223,16 @@ export default function Collection() {
               ))}
             </div>
           ) : null}
+          {collection.handle === 'desktop-pcs' ? (
+            <Link to="/konfigurator/terra-pc-business-6000" className="cfg-cta cfg-cta-wide">
+              <Icon name="desktop" size={22} />
+              <span>
+                <strong>PC nach Wunsch? Zum Konfigurator</strong>
+                <small>TERRA PC-BUSINESS 6000 individuell zusammenstellen – verbindliches Angebot innerhalb von 1 Werktag</small>
+              </span>
+              <Icon name="chevron-right" size={18} />
+            </Link>
+          ) : null}
           {filterGroups.length ? (
             <CollectionFilters groups={filterGroups} selected={selected} counts={counts} />
           ) : null}

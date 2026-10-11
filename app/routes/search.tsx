@@ -1,3 +1,4 @@
+import {OPTION_PRODUCT_TYPES} from '~/lib/addons';
 import {useLoaderData} from 'react-router';
 import type {Route} from './+types/search';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
@@ -84,6 +85,7 @@ export default function SearchPage() {
 const SEARCH_PRODUCT_FRAGMENT = `#graphql
   fragment SearchProduct on Product {
     __typename
+    productType
     handle
     id
     publishedAt
@@ -237,6 +239,7 @@ async function regularSearch({
   if (!items) {
     throw new Error('No search data returned from Shopify API');
   }
+  hideOptionProducts(items);
 
   const total = Object.values(items).reduce(
     (acc: number, {nodes}: {nodes: Array<unknown>}) => acc + nodes.length,
@@ -302,6 +305,7 @@ const PREDICTIVE_SEARCH_PAGE_FRAGMENT = `#graphql
 const PREDICTIVE_SEARCH_PRODUCT_FRAGMENT = `#graphql
   fragment PredictiveProduct on Product {
     __typename
+    productType
     id
     title
     handle
@@ -416,6 +420,7 @@ async function predictiveSearch({
   if (!items) {
     throw new Error('No predictive search data returned from Shopify API');
   }
+  hideOptionProducts(items);
 
   const total = Object.values(items).reduce(
     (acc: number, item: Array<unknown>) => acc + item.length,
@@ -423,4 +428,14 @@ async function predictiveSearch({
   );
 
   return {type, term, result: {items, total}};
+}
+
+/** Service- und Software-Optionen (nur über die Produktseite buchbar) nicht in der Suche zeigen. */
+function hideOptionProducts(items: object) {
+  const products = (items as {products?: {nodes?: Array<{productType?: string}>}}).products;
+  if (products?.nodes) {
+    products.nodes = products.nodes.filter(
+      (p) => !OPTION_PRODUCT_TYPES.includes(p.productType ?? ''),
+    );
+  }
 }

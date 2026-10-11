@@ -188,6 +188,11 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
                     {x.title}
                   </Link>
                 ))}
+                {c.handle === 'desktop-pcs' ? (
+                  <Link to="/konfigurator/terra-pc-business-6000" prefetch="intent" className="nav-dropdown-more">
+                    PC-Konfigurator →
+                  </Link>
+                ) : null}
               </div>
             ) : null}
           </div>

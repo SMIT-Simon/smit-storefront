@@ -7,13 +7,14 @@ export type CardProductData = {
   title: string;
   vendor: string;
   productType: string;
+  tags: string[];
   featuredImage?: {id?: string; url: string; altText?: string; width?: number; height?: number};
   priceRange: {minVariantPrice: {amount: string; currencyCode: CurrencyCode}};
   selectedOrFirstAvailableVariant?: {id: string; availableForSale: boolean} | null;
 };
 
 const FIELDS = `
-  id handle title vendor productType
+  id handle title vendor productType tags
   featuredImage { id url altText width height }
   priceRange { minVariantPrice { amount currencyCode } }
   selectedOrFirstAvailableVariant { id availableForSale }

@@ -15,12 +15,20 @@ import {ProductGallery} from '~/components/ProductGallery';
 import {Icon} from '~/components/Icon';
 import {CATEGORIES} from '~/lib/categories';
 import {ProductForm} from '~/components/ProductForm';
+import {ProductBadges} from '~/components/ProductBadges';
+import {CONFIG_MODELS} from '~/lib/configurator';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import {parseSpecs, keySpecs} from '~/lib/specs';
 import {SITE_NAME, SITE_URL} from '~/lib/seo';
 import {getWortmannContent} from '~/lib/wortmann.server';
-import {ADDON_PRODUCT_TYPES, addonHandlesFor} from '~/lib/addons';
+import {
+  ADDON_PRODUCT_TYPES,
+  SERVICE_PRODUCT_TYPES,
+  addonHandlesFor,
+  osFromTags,
+  serviceHandleFor,
+} from '~/lib/addons';
 import {productsByHandle, type CardProductData} from '~/lib/products-by-handle.server';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -81,8 +89,10 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   // Zusatzleistungen (Einrichtung, Windows, Office, Virenschutz) für Computer
   let addons: CardProductData[] = [];
   if (ADDON_PRODUCT_TYPES.includes(product.productType)) {
-    const os = parseSpecs(product.descriptionHtml).find((s) => s.label === 'Betriebssystem')?.value ?? '';
-    const hasWindows = /windows|\bW11/i.test(`${product.title} ${os}`);
+    const osTag = osFromTags(product.tags);
+    const os = (parseSpecs(product.descriptionHtml).find((s) => s.label === 'Betriebssystem')?.value ?? '')
+      .replace(/WORTMANN AG empfiehlt Windows 11 Pro f\u00fcr Unternehmen/gi, '');
+    const hasWindows = osTag ? osTag !== 'none' : /windows|\bW11/i.test(`${product.title} ${os}`);
     const map = await productsByHandle(storefront, addonHandlesFor(hasWindows)).catch(
       (e: Error) => {
         console.error(e);
@@ -93,6 +103,21 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
       .map((h) => map[h])
       .filter((x): x is CardProductData => Boolean(x));
   }
+
+  // TERRA Vor-Ort-Service (eigenes Produkt je Gerät, Varianten = Laufzeit)
+  const serviceHandle = SERVICE_PRODUCT_TYPES.includes(product.productType)
+    ? serviceHandleFor(product.selectedOrFirstAvailableVariant?.sku)
+    : null;
+  const serviceProduct = serviceHandle
+    ? (
+        await storefront
+          .query(SERVICE_OPTION_QUERY, {
+            variables: {handle: serviceHandle},
+            cache: storefront.CacheShort(),
+          })
+          .catch(() => null)
+      )?.product ?? null
+    : null;
 
   // Passendes Zubehör: Metafeld hat Vorrang, sonst Wortmann-Zuordnung
   const metaHandles = (product.accessories?.references?.nodes ?? [])
@@ -112,6 +137,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   return {
     product,
     accessoryProducts,
+    serviceProduct,
     wmOverviewHtml: wm.overviewHtml,
     wmFeatures: wm.features,
     wmAccessoryHandles: wm.accessoryHandles,
@@ -138,8 +164,15 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
 
 
 export default function Product() {
-  const {product, recommendations, accessoryProducts, wmOverviewHtml, wmFeatures, addons} =
-    useLoaderData<typeof loader>();
+  const {
+    product,
+    recommendations,
+    accessoryProducts,
+    wmOverviewHtml,
+    wmFeatures,
+    addons,
+    serviceProduct,
+  } = useLoaderData<typeof loader>();
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -158,6 +191,9 @@ export default function Product() {
   });
 
   const {title, descriptionHtml, vendor, productType} = product;
+  const configModel = CONFIG_MODELS.find(
+    (m) => m.baseArt === product.selectedOrFirstAvailableVariant?.sku,
+  );
   const images = product.images.nodes;
   const category =
     CATEGORIES.find((c) =>
@@ -254,6 +290,18 @@ export default function Product() {
               </dl>
             </div>
 
+            <ProductBadges tags={product.tags} productType={productType} />
+            {configModel ? (
+              <Link to={`/konfigurator/${configModel.slug}`} className="cfg-cta">
+                <Icon name="desktop" size={20} />
+                <span>
+                  <strong>Individuell konfigurieren</strong>
+                  <small>Prozessor, RAM, SSD, Grafik nach Wunsch – Angebot in 1 Werktag</small>
+                </span>
+                <Icon name="chevron-right" size={18} />
+              </Link>
+            ) : null}
+
             {highlights.length ? (
               <ul className="key-specs" aria-label="Wichtigste Merkmale">
                 {highlights.map((h) => (
@@ -287,6 +335,7 @@ export default function Product() {
                 selectedVariant={selectedVariant}
                 addons={addons}
                 accessories={accessoryProducts}
+                service={serviceProduct}
               />
               <ul className="buy-usps">
                 <li>
@@ -586,6 +635,7 @@ function ProductTabs({
 
 const RELATED_PRODUCT_FRAGMENT = `#graphql
   fragment RelatedProduct on Product {
+    tags
     id
     title
     handle
@@ -647,6 +697,7 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
 
 const PRODUCT_FRAGMENT = `#graphql
   fragment Product on Product {
+    tags
     id
     title
     vendor
@@ -744,4 +795,25 @@ const PRODUCT_RECOMMENDATIONS_QUERY = `#graphql
     }
   }
   ${RELATED_PRODUCT_FRAGMENT}
+` as const;
+
+const SERVICE_OPTION_QUERY = `#graphql
+  query ServiceOption($handle: String!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
+    product(handle: $handle) {
+      id
+      title
+      variants(first: 10) {
+        nodes {
+          id
+          title
+          availableForSale
+          price {
+            amount
+            currencyCode
+          }
+        }
+      }
+    }
+  }
 ` as const;

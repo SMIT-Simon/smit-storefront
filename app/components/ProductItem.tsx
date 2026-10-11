@@ -9,12 +9,13 @@ import type {
 import {useVariantUrl} from '~/lib/variants';
 import {NetPrice} from '~/components/ProductPrice';
 import {ModePrice} from '~/components/PriceMode';
+import {ProductBadges} from '~/components/ProductBadges';
 
 type CardProduct = (
   | CollectionItemFragment
   | ProductItemFragment
   | RecommendedProductFragment
-) & {vendor?: string; productType?: string};
+) & {vendor?: string; productType?: string; tags?: string[]};
 
 export function ProductItem({
   product,
@@ -57,6 +58,7 @@ export function ProductItem({
           </span>
         ) : null}
         <h3 className="product-card-title">{product.title}</h3>
+        <ProductBadges tags={product.tags} productType={product.productType} compact />
         <div className="product-card-price">
           <strong>
             {hasRange ? 'ab ' : null}

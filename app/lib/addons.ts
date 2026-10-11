@@ -6,8 +6,7 @@ export type AddonGroup = 'service' | 'windows' | 'office' | 'security';
 
 export const ADDONS: {handle: string; group: AddonGroup; label: string; hint: string}[] = [
   {handle: 'einrichtungsservice', group: 'service', label: 'Einrichtungsservice', hint: 'Startklar eingerichtet: Windows, Updates, Treiber, Software'},
-  {handle: 'windows-11-pro-system-builder-6530217', group: 'windows', label: 'Windows 11 Pro', hint: 'System-Builder-Lizenz, auf Wunsch vorinstalliert'},
-  {handle: 'windows-11-home-system-builder-6530210', group: 'windows', label: 'Windows 11 Home', hint: 'System-Builder-Lizenz'},
+  {handle: 'windows-11-pro-oem-vorinstalliert-6500072', group: 'windows', label: 'Windows 11 Pro – vorinstalliert', hint: 'OEM-Lizenz ab Werk installiert, inkl. Recovery-DVD'},
   {handle: 'office-2024-home-business-6530250', group: 'office', label: 'Office 2024 Home & Business', hint: 'Einmalkauf, gewerbliche Nutzung'},
   {handle: 'microsoft-365-business-standard-6530188', group: 'office', label: 'Microsoft 365 Business Standard', hint: '1 Jahr, inkl. Teams & Exchange'},
   {handle: 'office-2024-home-6530254', group: 'office', label: 'Office 2024 Home', hint: 'Einmalkauf, private Nutzung'},
@@ -16,7 +15,7 @@ export const ADDONS: {handle: string; group: AddonGroup; label: string; hint: st
 ];
 
 export const ADDON_GROUP_TITLES: Record<AddonGroup, string> = {
-  service: 'Service',
+  service: 'Einrichtung',
   windows: 'Betriebssystem',
   office: 'Office',
   security: 'Virenschutz',
@@ -25,6 +24,25 @@ export const ADDON_GROUP_TITLES: Record<AddonGroup, string> = {
 /** Produkttypen, bei denen die Zusatzleistungen angeboten werden. */
 export const ADDON_PRODUCT_TYPES = ['Desktop-PC', 'Notebook', 'All-in-One-PC'];
 
+/** Produkttypen mit wählbarem TERRA Vor-Ort-Service (Produkt "vor-ort-service-<artikelnr>"). */
+export const SERVICE_PRODUCT_TYPES = ['Desktop-PC', 'All-in-One-PC'];
+
+/** Optionen, die nur über die Produktseite gebucht werden (nicht in Kategorien/Suche). */
+export const OPTION_PRODUCT_TYPES = ['Service-Option', 'Software-Option'];
+
+export function serviceHandleFor(sku?: string | null) {
+  return sku ? `vor-ort-service-${sku.toLowerCase()}` : null;
+}
+
 export function addonHandlesFor(hasWindows: boolean) {
-  return ADDONS.filter((a) => hasWindows ? a.group !== 'windows' : true).map((a) => a.handle);
+  return ADDONS.filter((a) => (hasWindows ? a.group !== 'windows' : true)).map((a) => a.handle);
+}
+
+/** Betriebssystem laut Filter-Tag (f:os-…). */
+export function osFromTags(tags?: string[] | null): 'pro' | 'home' | 'none' | null {
+  if (!tags) return null;
+  if (tags.includes('f:os-w11-pro')) return 'pro';
+  if (tags.includes('f:os-w11-home')) return 'home';
+  if (tags.includes('f:os-ohne')) return 'none';
+  return null;
 }

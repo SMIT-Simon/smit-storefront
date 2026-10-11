@@ -10,6 +10,7 @@ export const PRODUCT_ITEM_FRAGMENT = `#graphql
     title
     vendor
     productType
+    tags
     featuredImage {
       id
       altText

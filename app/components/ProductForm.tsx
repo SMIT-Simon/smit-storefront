@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {Link, useNavigate} from 'react-router';
 import {type MappedProductOptions} from '@shopify/hydrogen';
 import type {
+  CurrencyCode,
   Maybe,
   ProductOptionValueSwatch,
 } from '@shopify/hydrogen/storefront-api-types';
@@ -17,12 +18,15 @@ export function ProductForm({
   selectedVariant,
   addons = [],
   accessories = [],
+  service = null,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
   addons?: CardProductData[];
   accessories?: CardProductData[];
+  service?: ServiceProduct | null;
 }) {
+  const [serviceVariant, setServiceVariant] = useState<string | null>(null);
   const [picked, setPicked] = useState<Partial<Record<AddonGroup, string>>>({});
   const [accQty, setAccQty] = useState<Record<string, number>>({});
   const navigate = useNavigate();
@@ -31,6 +35,7 @@ export function ProductForm({
   const available = Boolean(selectedVariant?.availableForSale);
 
   const extraLines = [
+    ...(serviceVariant ? [{merchandiseId: serviceVariant, quantity}] : []),
     ...Object.values(picked)
       .map((h) => addons.find((a) => a.handle === h))
       .filter((a): a is CardProductData => Boolean(a?.selectedOrFirstAvailableVariant?.id))
@@ -117,6 +122,10 @@ export function ProductForm({
 
       {accessories.length ? (
         <AccessoryPicker items={accessories} qty={accQty} setQty={setAccQty} />
+      ) : null}
+
+      {service?.variants.nodes.length ? (
+        <ServicePicker service={service} value={serviceVariant} onChange={setServiceVariant} />
       ) : null}
 
       {addons.length ? (
@@ -284,5 +293,58 @@ function AccessoryPicker({
         );
       })}
     </div>
+  );
+}
+
+export type ServiceProduct = {
+  id: string;
+  title: string;
+  variants: {
+    nodes: {
+      id: string;
+      title: string;
+      availableForSale: boolean;
+      price: {amount: string; currencyCode: CurrencyCode};
+    }[];
+  };
+};
+
+function ServicePicker({
+  service,
+  value,
+  onChange,
+}: {
+  service: ServiceProduct;
+  value: string | null;
+  onChange: (v: string | null) => void;
+}) {
+  const {mode} = usePriceMode();
+  return (
+    <fieldset className="addons service-picker">
+      <legend>Serviceauswahl</legend>
+      <label className={value === null ? 'addon checked' : 'addon'}>
+        <input type="radio" name="service" checked={value === null} onChange={() => onChange(null)} />
+        <span className="addon-text">
+          <strong>Bring-In-Service 24 Monate</strong>
+          <small>Standard-Herstellergarantie, Einsendung ins TERRA-Servicecenter</small>
+        </span>
+        <span className="addon-price">
+          inklusive
+        </span>
+      </label>
+      {service.variants.nodes.map((v) => (
+        <label key={v.id} className={value === v.id ? 'addon checked' : 'addon'}>
+          <input type="radio" name="service" checked={value === v.id} onChange={() => onChange(v.id)} />
+          <span className="addon-text">
+            <strong>24H Vor-Ort-Service {v.title}</strong>
+            <small>Techniker vor Ort am nächsten Werktag, inkl. Medieneinbehalt</small>
+          </span>
+          <span className="addon-price">
+            + <ModePrice data={v.price} />
+            <small>{mode === 'net' ? 'netto' : 'inkl. MwSt.'}</small>
+          </span>
+        </label>
+      ))}
+    </fieldset>
   );
 }

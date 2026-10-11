@@ -649,6 +649,7 @@ function BusinessBanner() {
 
 const HIGHLIGHTS_QUERY = `#graphql
   fragment HighlightProduct on Product {
+    tags
     id
     handle
     title
@@ -665,6 +666,7 @@ const HIGHLIGHTS_QUERY = `#graphql
 
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   fragment RecommendedProduct on Product {
+    tags
     id
     title
     handle
