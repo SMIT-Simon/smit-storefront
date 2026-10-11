@@ -16,6 +16,7 @@ import {
   groupsFor,
   parseFilters,
 } from '~/lib/filters';
+import {SITE_NAME} from '~/lib/seo';
 import {CollectionFilters} from '~/components/CollectionFilters';
 import {Icon} from '~/components/Icon';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
@@ -24,9 +25,17 @@ import type {ProductItemFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const c = data?.collection;
+  if (!c) return [{title: 'Kategorie'}];
+  const cat = CATEGORIES.find((x) => x.handle === c.handle);
+  const name = data?.sub ? `${data.sub.title} (${c.title})` : c.title;
+  const description =
+    c.description ||
+    `${name} von TERRA / WORTMANN kaufen: ${cat?.teaser ?? 'IT-Hardware für Unternehmen'}. Herstellergarantie, Kauf auf Rechnung für Firmen, Beratung & Einrichtung vom Systemhaus aus Verl.`;
   return [
-    {title: c ? `${c.title} kaufen – TERRA von WORTMANN` : 'Kategorie'},
-    {name: 'description', content: c?.description ?? ''},
+    {title: `${name} kaufen – TERRA von WORTMANN | ${SITE_NAME}`},
+    {name: 'description', content: description.slice(0, 300)},
+    {property: 'og:title', content: `${name} – TERRA von WORTMANN`},
+    {property: 'og:description', content: description.slice(0, 300)},
   ];
 };
 

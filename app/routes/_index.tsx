@@ -19,20 +19,15 @@ import {HeroSlider, type Slide} from '~/components/HeroSlider';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {SolutionTiles} from '~/components/SolutionTiles';
 
-export const meta: Route.MetaFunction = ({matches}) => {
-  const root = matches.find((m) => m?.id === 'root')?.data as
-    | {header?: {shop?: {name?: string}}}
-    | undefined;
-  const name = root?.header?.shop?.name ?? 'TERRA Shop';
-  return [
-    {title: `${name} – TERRA Notebooks, PCs & Server für Unternehmen`},
-    {
-      name: 'description',
-      content:
-        'TERRA Notebooks, Desktop-PCs, All-in-One-PCs, Monitore, Server und Zubehör von WORTMANN – für Unternehmen, Behörden und Privatkunden.',
-    },
-  ];
-};
+export const meta: Route.MetaFunction = () => [
+  {title: 'TERRA Computer Shop – Notebooks, PCs, Monitore & Server von WORTMANN | terra-computershop.de'},
+  {
+    name: 'description',
+    content:
+      'TERRA Notebooks, Business-PCs, Monitore, Server und Zubehör von WORTMANN – made in Germany. Netto-Preise für Firmen, PDF-Angebot, Kauf auf Rechnung, Einrichtung vom Systemhaus aus Verl.',
+  },
+  {property: 'og:title', content: 'TERRA Computer Shop – IT made in Germany'},
+];
 
 export async function loader(args: Route.LoaderArgs) {
   const deferredData = loadDeferredData(args);

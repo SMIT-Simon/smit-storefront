@@ -18,18 +18,27 @@ import {ProductForm} from '~/components/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import {parseSpecs, keySpecs} from '~/lib/specs';
+import {SITE_NAME, SITE_URL} from '~/lib/seo';
 import {getWortmannContent} from '~/lib/wortmann.server';
 import {ADDON_PRODUCT_TYPES, addonHandlesFor} from '~/lib/addons';
 import {productsByHandle, type CardProductData} from '~/lib/products-by-handle.server';
 
 export const meta: Route.MetaFunction = ({data}) => {
+  const p = data?.product;
+  if (!p) return [{title: 'Produkt nicht gefunden'}];
+  const facts = keySpecs(parseSpecs(p.descriptionHtml), 4)
+    .map((x) => x.value)
+    .join(', ');
+  const fallback = `${p.title} kaufen${facts ? `: ${facts}` : ''}. Original TERRA von WORTMANN mit Herstellergarantie – Beratung & Einrichtung vom Systemhaus.`;
+  const description = (p.seo?.description || fallback).slice(0, 300);
+  const title = p.seo?.title || `${p.title} kaufen | ${SITE_NAME}`;
+  const image = p.selectedOrFirstAvailableVariant?.image?.url ?? p.images.nodes[0]?.url;
   return [
-    {title: data?.product.seo?.title || `${data?.product.title ?? ''} kaufen`},
-    {name: 'description', content: data?.product.seo?.description || data?.product.description?.slice(0, 155) || ''},
-    {
-      rel: 'canonical',
-      href: `/products/${data?.product.handle}`,
-    },
+    {title},
+    {name: 'description', content: description},
+    {property: 'og:title', content: p.title},
+    {property: 'og:description', content: description},
+    ...(image ? [{property: 'og:image', content: image}] : []),
   ];
 };
 
@@ -159,8 +168,46 @@ export default function Product() {
   const overview = product.overview?.value?.trim() ?? '';
   const service = product.service?.value?.trim() ?? '';
 
+  const price = selectedVariant?.price;
+  const productLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: title,
+    sku: selectedVariant?.sku || undefined,
+    mpn: selectedVariant?.sku || undefined,
+    gtin13: selectedVariant?.barcode && /^\d{13}$/.test(selectedVariant.barcode) ? selectedVariant.barcode : undefined,
+    brand: {'@type': 'Brand', name: vendor || 'TERRA'},
+    manufacturer: {'@type': 'Organization', name: 'WORTMANN AG'},
+    category: productType || undefined,
+    image: images.slice(0, 6).map((i) => i.url),
+    description: highlights.map((h) => `${h.label}: ${h.value}`).join(' · ') || title,
+    url: `${SITE_URL}/products/${product.handle}`,
+    additionalProperty: specs.slice(0, 20).map((x) => ({
+      '@type': 'PropertyValue',
+      name: x.label,
+      value: x.value,
+    })),
+    offers: price
+      ? {
+          '@type': 'Offer',
+          url: `${SITE_URL}/products/${product.handle}`,
+          price: Number(price.amount).toFixed(2),
+          priceCurrency: price.currencyCode,
+          availability: selectedVariant?.availableForSale
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock',
+          itemCondition: 'https://schema.org/NewCondition',
+          seller: {'@id': `${SITE_URL}/#store`},
+        }
+      : undefined,
+  };
+
   return (
     <div className="product-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{__html: JSON.stringify(productLd)}}
+      />
       <div className="container">
         <nav className="breadcrumb" aria-label="Brotkrumen">
           <Link to="/">Startseite</Link>

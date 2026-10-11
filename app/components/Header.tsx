@@ -31,7 +31,8 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
       <div className="topbar">
         <div className="container topbar-inner">
           <span>
-            <Icon name="check" size={14} /> Original TERRA-Hardware ·{' '}
+            <Icon name="check" size={14} /> <strong className="topbar-domain">terra-computershop.de</strong>{' '}
+            · Original TERRA-Hardware ·{' '}
             <a href="https://systemhaus-verl.de/" target="_blank" rel="noopener noreferrer">
               Ihr Systemhaus aus Verl
             </a>

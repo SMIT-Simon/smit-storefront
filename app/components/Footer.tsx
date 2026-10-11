@@ -51,7 +51,7 @@ export function Footer({header}: FooterProps) {
             loading="lazy"
           />
           <p>
-            Ihr Fachhändler für TERRA Notebooks, PCs, Server und Zubehör von
+            <strong>terra-computershop.de</strong> – Ihr Fachhändler für TERRA Notebooks, PCs, Server und Zubehör von
             WORTMANN – für Unternehmen, Behörden, Schulen und Privatkunden.
           </p>
           <address className="footer-contact">
@@ -137,7 +137,7 @@ export function Footer({header}: FooterProps) {
       <div className="footer-bottom">
         <div className="container footer-bottom-inner">
           <span>
-            © {year} {shopName}
+            © {year} terra-computershop.de · ein Angebot von SMIT Digital Services
           </span>
           <span>
             Alle Preise inkl. gesetzl. MwSt., zzgl. Versandkosten. TERRA ist

@@ -5,9 +5,10 @@ import {Icon} from '~/components/Icon';
 import {PriceModeNote} from '~/components/PriceMode';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {findSolution, scenarioQuery, SOLUTIONS} from '~/lib/solutions';
+import {absUrl} from '~/lib/seo';
 import {SolutionTiles} from '~/components/SolutionTiles';
 
-export const meta: Route.MetaFunction = ({data, location}) => {
+export const meta: Route.MetaFunction = ({data}) => {
   const s = data?.solution;
   if (!s) return [{title: 'Lösung nicht gefunden'}];
   return [
@@ -15,8 +16,7 @@ export const meta: Route.MetaFunction = ({data, location}) => {
     {name: 'description', content: s.metaDescription},
     {property: 'og:title', content: s.metaTitle},
     {property: 'og:description', content: s.metaDescription},
-    {property: 'og:image', content: s.image},
-    {tagName: 'link', rel: 'canonical', href: location.pathname},
+    {property: 'og:image', content: absUrl(s.image)},
   ];
 };
 

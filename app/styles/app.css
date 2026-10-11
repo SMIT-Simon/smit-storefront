@@ -3008,3 +3008,4 @@ aside .cart-details > div:first-of-type {
   .filters { position: relative; }
   .filter-menu { left: 0; right: 0; min-width: 0; }
 }
+.topbar-domain { font-weight: 700; letter-spacing: .01em; }

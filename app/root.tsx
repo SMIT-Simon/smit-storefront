@@ -1,3 +1,4 @@
+import {SeoHead} from '~/components/SeoHead';
 import {Analytics, getShopAnalytics, useNonce} from '@shopify/hydrogen';
 import {
   Outlet,
@@ -154,6 +155,7 @@ export function Layout({children}: {children?: React.ReactNode}) {
         <link rel="stylesheet" href={resetStyles}></link>
         <link rel="stylesheet" href={appStyles}></link>
         <Meta />
+        <SeoHead />
         <Links />
       </head>
       <body>
