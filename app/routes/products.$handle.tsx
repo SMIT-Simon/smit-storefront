@@ -33,6 +33,7 @@ import {
   serviceHandleFor,
 } from '~/lib/addons';
 import {productsByHandle, type CardProductData} from '~/lib/products-by-handle.server';
+import {manufacturerFor, type Manufacturer} from '~/lib/manufacturers';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const p = data?.product;
@@ -371,6 +372,7 @@ export default function Product() {
         service={service}
         title={title}
         isMonitor={productType === 'Monitor'}
+        manufacturer={manufacturerFor(vendor)}
       />
 
       {addons.length ? (
@@ -440,7 +442,7 @@ export default function Product() {
 }
 
 
-type TabKey = 'overview' | 'specs' | 'service';
+type TabKey = 'overview' | 'specs' | 'service' | 'manufacturer';
 
 function ProductTabs({
   overview,
@@ -452,7 +454,9 @@ function ProductTabs({
   service,
   title,
   isMonitor = false,
+  manufacturer,
 }: {
+  manufacturer: Manufacturer;
   overview: string;
   overviewHtml: string;
   features: string[];
@@ -467,6 +471,7 @@ function ProductTabs({
     {key: 'overview', label: 'Übersicht'},
     ...(hasSpecs ? [{key: 'specs' as TabKey, label: 'Technische Daten'}] : []),
     {key: 'service', label: 'Service & Garantie'},
+    {key: 'manufacturer', label: 'Herstellerinformationen'},
   ];
   const [active, setActive] = useState<TabKey>('overview');
   const paragraphs = overview ? overview.split(/\n\s*\n/) : [];
@@ -623,18 +628,42 @@ function ProductTabs({
             <LegalGuaranteeFull />
           </div>
 
-          <div className="manufacturer-box">
-            <h3>Herstellerangaben</h3>
+        </div>
+
+        <div
+          role="tabpanel"
+          id="panel-manufacturer"
+          aria-labelledby="tab-manufacturer"
+          hidden={active !== 'manufacturer'}
+          className="tab-panel"
+        >
+          <div className="manufacturer-box manufacturer-info">
+            <h3>Hersteller</h3>
+            <address>
+              <strong>{manufacturer.name}</strong>
+              {manufacturer.lines.map((l) => (
+                <span key={l}>{l}</span>
+              ))}
+            </address>
             <p>
-              WORTMANN AG<br />
-              Bredenhop 20<br />
-              32609 Hüllhorst<br />
-              Deutschland
+              {manufacturer.email ? (
+                <>
+                  E-Mail: <a href={`mailto:${manufacturer.email}`}>{manufacturer.email}</a>
+                  <br />
+                </>
+              ) : null}
+              {manufacturer.web ? (
+                <>
+                  Web:{' '}
+                  <a href={manufacturer.web} target="_blank" rel="noopener noreferrer">
+                    {manufacturer.web.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                  </a>
+                </>
+              ) : null}
             </p>
-            <p>
-              <a href="https://www.wortmann.de" target="_blank" rel="noreferrer">
-                www.wortmann.de
-              </a>
+            <p className="manufacturer-note">
+              Verantwortlicher Wirtschaftsakteur in der EU ist der oben genannte Hersteller. Verkäufer:
+              SMIT Digital Services, Schlangenweg 73, 33415 Verl.
             </p>
           </div>
         </div>

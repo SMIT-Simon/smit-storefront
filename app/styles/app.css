@@ -3167,3 +3167,8 @@ aside .cart-details > div:first-of-type {
 .acc-qty-row { align-items: center; display: flex; gap: 0.5rem; margin-top: 0.35rem; }
 .acc-qty-row .acc-qty { margin-top: 0; }
 .acc-qty-row .acc-unit { margin-left: 0; }
+
+/* Reiter Herstellerinformationen */
+.manufacturer-info { max-width: 560px; margin-top: 0; }
+.manufacturer-info address { font-style: normal; display: flex; flex-direction: column; gap: 0.15rem; margin-bottom: 0.75rem; line-height: 1.5; }
+.manufacturer-info .manufacturer-note { color: var(--muted, #667085); font-size: 0.85rem; margin-top: 0.75rem; }
