@@ -14,6 +14,8 @@ export type Slide = {
 };
 
 const INTERVAL = 6500;
+/** Mobil max. 240px hoch → selten breiter als ~360px. */
+export const HERO_SIZES = '(min-width: 64em) 620px, 360px';
 
 /**
  * Startseiten-Slider. Alle Slides liegen im selben Grid-Feld übereinander,
@@ -89,7 +91,7 @@ export function HeroSlider({slides}: {slides: Slide[]}) {
               </div>
               <div className="slide-media">
                 <img
-                  {...siteImg(s.image, '(min-width: 64em) 620px, calc(100vw - 2rem)')}
+                  {...siteImg(s.image, HERO_SIZES)}
                   alt={s.alt}
                   loading={i === 0 ? 'eager' : 'lazy'}
                   fetchPriority={i === 0 ? 'high' : 'low'}

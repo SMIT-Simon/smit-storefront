@@ -14,10 +14,11 @@ export const EU_NOTICE_ALT =
 export function GuaranteeModalLink({
   children,
   className,
-  label = 'EU-Hinweis zur gesetzlichen Gewährleistung öffnen',
+  label,
 }: {
   children: ReactNode;
   className?: string;
+  /** Nur für Links ohne sichtbaren Text (z. B. reines Bild). */
   label?: string;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -70,7 +71,7 @@ export function GuaranteeModalLink({
 export function LegalGuaranteeNotice({compact = false}: {compact?: boolean}) {
   return (
     <div className={compact ? 'eu-notice eu-notice-compact' : 'eu-notice'}>
-      <GuaranteeModalLink className="eu-notice-img">
+      <GuaranteeModalLink className="eu-notice-img" label="EU-Hinweis zur gesetzlichen Gewährleistung öffnen">
         <img src={EU_NOTICE_SRC} alt={EU_NOTICE_ALT} width={880} height={1199} loading="lazy" />
       </GuaranteeModalLink>
       <div className="eu-notice-text">

@@ -16,10 +16,25 @@ import {ProductItem} from '~/components/ProductItem';
 import {MockShopNotice} from '~/components/MockShopNotice';
 import {Icon} from '~/components/Icon';
 import {CATEGORIES} from '~/lib/categories';
-import {HeroSlider, type Slide} from '~/components/HeroSlider';
+import {HERO_SIZES, HeroSlider, type Slide} from '~/components/HeroSlider';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {SolutionTiles} from '~/components/SolutionTiles';
 import {siteImg} from '~/lib/site-images';
+
+/** Erstes Slider-Bild (LCP) vorladen. */
+export const links: Route.LinksFunction = () => {
+  const img = siteImg(SLIDES[0].image, HERO_SIZES);
+  return [
+    {
+      rel: 'preload',
+      as: 'image',
+      href: img.src,
+      imageSrcSet: img.srcSet,
+      imageSizes: img.sizes,
+      fetchPriority: 'high',
+    },
+  ];
+};
 
 export const meta: Route.MetaFunction = () => [
   {title: 'TERRA Computer Shop – Notebooks, PCs, Monitore & Server von WORTMANN | terra-computershop.de'},
