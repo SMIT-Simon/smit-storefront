@@ -3140,3 +3140,5 @@ aside .cart-details > div:first-of-type {
 .footer-guarantee-link small { color: rgba(255,255,255,.75); }
 .footer-guarantee-link:hover small { color: #fff; text-decoration: underline; }
 .footer-guarantee { padding-bottom: 1.25rem; }
+.manufacturer-box .eu-notice { margin-top: 0; max-width: 560px; }
+.product-form .eu-notice { margin-top: 0.75rem; }

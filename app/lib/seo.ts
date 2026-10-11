@@ -4,7 +4,7 @@
  */
 import {COMPANY} from '~/lib/company';
 
-export const SITE_URL = 'https://terra-computershop.de';
+export const SITE_URL = 'https://www.terra-computershop.de';
 export const SITE_NAME = 'terra-computershop.de';
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/og-default.jpg`;
 

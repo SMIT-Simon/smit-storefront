@@ -18,6 +18,7 @@ import {
   type ServiceTexts,
 } from '~/lib/addons';
 import {ModePrice, usePriceMode} from '~/components/PriceMode';
+import {LegalGuaranteeNotice} from '~/components/LegalGuaranteeNotice';
 
 export function ProductForm({
   productOptions,
@@ -185,6 +186,7 @@ export function ProductForm({
           <span className="buynow-methods">PayPal · Kreditkarte · Rechnung</span>
         </a>
       ) : null}
+      {available ? <LegalGuaranteeNotice compact /> : null}
     </div>
   );
 }

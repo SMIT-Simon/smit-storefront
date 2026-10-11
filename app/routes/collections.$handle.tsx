@@ -17,6 +17,7 @@ import {
   parseFilters,
 } from '~/lib/filters';
 import {SITE_NAME} from '~/lib/seo';
+import {categoryIntro} from '~/lib/category-texts';
 import {isListable} from '~/lib/addons';
 import {CollectionFilters} from '~/components/CollectionFilters';
 import {Icon} from '~/components/Icon';
@@ -30,6 +31,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   const cat = CATEGORIES.find((x) => x.handle === c.handle);
   const name = data?.sub ? `${data.sub.title} (${c.title})` : c.title;
   const description =
+    categoryIntro(c.handle, data?.sub?.slug) ||
     c.description ||
     `${name} von TERRA / WORTMANN kaufen: ${cat?.teaser ?? 'IT-Hardware für Unternehmen'}. Herstellergarantie, Kauf auf Rechnung für Firmen, Beratung & Einrichtung vom Systemhaus aus Verl.`;
   return [
@@ -164,8 +166,10 @@ export default function Collection() {
             )}
           </nav>
           <h1 className="page-title">{sub ? sub.title : collection.title}</h1>
-          {collection.description ? (
-            <p className="collection-description">{collection.description}</p>
+          {categoryIntro(collection.handle, sub?.slug) || collection.description ? (
+            <p className="collection-description">
+              {categoryIntro(collection.handle, sub?.slug) || collection.description}
+            </p>
           ) : null}
         </div>
       </div>
