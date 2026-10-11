@@ -3070,3 +3070,7 @@ aside .cart-details > div:first-of-type {
 @media (min-width: 64em) {
   .cfg-summary-inner { max-height: calc(100vh - 90px); overflow-y: auto; }
 }
+/* Lösungs-Kacheln: einheitliche Bildhöhe */
+.solution-tile-img { aspect-ratio: auto; box-sizing: border-box; flex: none; height: 170px; overflow: hidden; }
+.solution-tile-img img { display: block; height: 100%; max-width: 100%; object-fit: contain; width: 100%; }
+.solution-tile-body { flex: 1; }
