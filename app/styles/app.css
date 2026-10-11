@@ -2691,3 +2691,7 @@ aside .cart-details > div:first-of-type {
 .flyer-teaser-body > p { color: var(--ink-soft); margin: 0 0 1.25rem; max-width: 62ch; }
 .flyer-teaser-grid { margin-bottom: 1.25rem; }
 @media (min-width: 64em) { .flyer-teaser-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; } }
+@media (max-width: 36em) {
+  .topbar-inner > span:first-child { display: none !important; }
+  .topbar-inner { justify-content: flex-end; }
+}
