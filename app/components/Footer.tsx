@@ -134,6 +134,13 @@ export function Footer({header}: FooterProps) {
         </nav>
       </div>
 
+      <div className="container footer-widerruf">
+        <span>Sie möchten einen Kauf widerrufen? Online und ohne Kundenkonto:</span>
+        <Link to="/widerruf" className="btn-widerruf-footer" prefetch="intent">
+          Vertrag widerrufen
+        </Link>
+      </div>
+
       <div className="footer-bottom">
         <div className="container footer-bottom-inner">
           <span>

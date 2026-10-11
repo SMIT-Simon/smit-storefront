@@ -3088,3 +3088,25 @@ aside .cart-details > div:first-of-type {
 .addon-collapse-state { color: var(--brand); font-size: 0.85rem; font-weight: 600; }
 .addon-collapse-state::after { content: ' ▾'; }
 .addon-collapse[open] .addon-collapse-state::after { content: ' ▴'; }
+
+/* ---------- Widerrufsbutton (§ 356a BGB) ---------- */
+.footer-widerruf { align-items: center; border-top: 1px solid rgba(255,255,255,.15); display: flex; flex-wrap: wrap; gap: 0.75rem 1rem; justify-content: center; padding-bottom: 1.25rem; padding-top: 1.25rem; }
+.footer-widerruf span { color: rgba(255,255,255,.85); font-size: 0.95rem; }
+.btn-widerruf-footer { background: #f2a900; border-radius: var(--radius-sm); color: #0b1f3a !important; font-weight: 800; padding: 0.65rem 1.4rem; text-decoration: none; }
+.btn-widerruf-footer:hover { background: #ffc233; }
+.widerruf { max-width: 720px; padding-bottom: 3rem; padding-top: 1.5rem; }
+.widerruf h1 { margin: 0 0 0.75rem; }
+.widerruf-intro { color: var(--ink-soft); line-height: 1.6; }
+.widerruf-form { display: flex; flex-direction: column; gap: 0.9rem; margin-top: 1.25rem; }
+.widerruf-form .btn { align-self: flex-start; }
+.widerruf-receipt { background: var(--bg-muted); border: 1px solid var(--line); border-radius: var(--radius); margin: 1rem 0; padding: 1rem 1.25rem; }
+.widerruf-receipt dl { display: grid; gap: 0.35rem 1rem; grid-template-columns: max-content 1fr; margin: 0.75rem 0 0; }
+.widerruf-receipt dt { color: var(--ink-mute); }
+.widerruf-receipt dd { margin: 0; white-space: pre-wrap; }
+.widerruf-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.widerruf-error { background: #fdecea; border-radius: var(--radius-sm); color: var(--danger); padding: 0.75rem 1rem; }
+.widerruf-note { color: var(--ink-soft); margin: 1rem 0 0; }
+.hp { height: 0; left: -9999px; opacity: 0; position: absolute; width: 0; }
+@media print {
+  .site-footer, .site-header, .category-nav, .topbar, .widerruf > button { display: none !important; }
+}
