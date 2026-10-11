@@ -1,6 +1,7 @@
 import {Suspense, useState} from 'react';
 import {Await, Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/products.$handle';
+import type {RelatedProductFragment} from 'storefrontapi.generated';
 import {
   getSelectedProductOptions,
   Analytics,
@@ -17,6 +18,7 @@ import {ProductForm} from '~/components/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import {parseSpecs, keySpecs} from '~/lib/specs';
+import {getWortmannContent} from '~/lib/wortmann.server';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [
@@ -31,10 +33,8 @@ export const meta: Route.MetaFunction = ({data}) => {
 
 export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte
-  const deferredData = loadDeferredData(args);
-
-  // Await the critical data required to render initial state of the page
   const criticalData = await loadCriticalData(args);
+  const deferredData = loadDeferredData(args, criticalData);
 
   return {...deferredData, ...criticalData};
 }
@@ -65,8 +65,13 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   // The API handle might be localized, so redirect to the localized handle
   redirectIfHandleIsLocalized(request, {handle, data: product});
 
+  const wm = getWortmannContent(product.selectedOrFirstAvailableVariant?.sku);
+
   return {
     product,
+    wmOverviewHtml: wm.overviewHtml,
+    wmFeatures: wm.features,
+    wmAccessoryHandles: wm.accessoryHandles,
   };
 }
 
@@ -75,8 +80,31 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
  * fetched after the initial page load. If it's unavailable, the page should still 200.
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
-function loadDeferredData({context, params}: Route.LoaderArgs) {
+function loadDeferredData(
+  {context, params}: Route.LoaderArgs,
+  critical: {wmAccessoryHandles: string[]; product: {accessories?: unknown}},
+) {
   const {storefront} = context;
+  const hasMetafieldAccessories = Boolean(
+    (critical.product as {accessories?: {references?: {nodes?: unknown[]}} | null})
+      .accessories?.references?.nodes?.length,
+  );
+  const handles = hasMetafieldAccessories ? [] : critical.wmAccessoryHandles.slice(0, 8);
+  const wmAccessories: Promise<RelatedProductFragment[]> = handles.length
+    ? (
+        storefront.query as unknown as (
+          query: string,
+          options: {cache: unknown},
+        ) => Promise<Record<string, RelatedProductFragment | null>>
+      ).call(storefront, buildAccessoryQuery(handles), {cache: storefront.CacheLong()})
+        .then((r) =>
+          Object.values(r).filter((x): x is RelatedProductFragment => Boolean(x?.id)),
+        )
+        .catch((error: Error) => {
+          console.error(error);
+          return [];
+        })
+    : Promise.resolve([]);
   const recommendations = storefront
     .query(PRODUCT_RECOMMENDATIONS_QUERY, {variables: {handle: params.handle!}})
     .then((r) => r.productRecommendations ?? [])
@@ -84,11 +112,26 @@ function loadDeferredData({context, params}: Route.LoaderArgs) {
       console.error(error);
       return [];
     });
-  return {recommendations};
+  return {recommendations, wmAccessories};
+}
+
+/** Baut eine Abfrage mit einem Alias pro Zubehör-Handle. */
+function buildAccessoryQuery(handles: string[]) {
+  const fields = handles
+    .map((h, i) => `a${i}: product(handle: "${h}") { ...RelatedProduct }`)
+    .join('\n');
+  return `
+    query WortmannAccessories($country: CountryCode, $language: LanguageCode)
+    @inContext(country: $country, language: $language) {
+      ${fields}
+    }
+    ${RELATED_PRODUCT_FRAGMENT}
+  `;
 }
 
 export default function Product() {
-  const {product, recommendations} = useLoaderData<typeof loader>();
+  const {product, recommendations, wmAccessories, wmOverviewHtml, wmFeatures} =
+    useLoaderData<typeof loader>();
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -222,27 +265,27 @@ export default function Product() {
 
       <ProductTabs
         overview={overview}
+        overviewHtml={wmOverviewHtml}
+        features={wmFeatures}
         specsHtml={descriptionHtml}
         hasSpecs={specs.length > 0 || descriptionHtml.trim().length > 0}
         highlights={highlights}
         service={service}
         title={title}
+        isMonitor={productType === 'Monitor'}
       />
 
       {accessories.length ? (
-        <section className="section section-muted product-related">
-          <div className="container">
-            <div className="section-head">
-              <h2>Passendes Zubehör</h2>
-            </div>
-            <div className="products-grid">
-              {accessories.map((p) => (
-                <ProductItem key={p.id} product={p} />
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : null}
+        <AccessorySection products={accessories} />
+      ) : (
+        <Suspense fallback={null}>
+          <Await resolve={wmAccessories}>
+            {(items) =>
+              items.length ? <AccessorySection products={items} /> : null
+            }
+          </Await>
+        </Suspense>
+      )}
 
       <Suspense fallback={null}>
         <Await resolve={recommendations}>
@@ -292,22 +335,45 @@ export default function Product() {
   );
 }
 
+function AccessorySection({products}: {products: RelatedProductFragment[]}) {
+  return (
+    <section className="section section-muted product-related">
+      <div className="container">
+        <div className="section-head">
+          <h2>Passendes Zubehör</h2>
+        </div>
+        <div className="products-grid">
+          {products.map((p) => (
+            <ProductItem key={p.id} product={p} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 type TabKey = 'overview' | 'specs' | 'service';
 
 function ProductTabs({
   overview,
+  overviewHtml,
+  features,
   specsHtml,
   hasSpecs,
   highlights,
   service,
   title,
+  isMonitor = false,
 }: {
   overview: string;
+  overviewHtml: string;
+  features: string[];
   specsHtml: string;
   hasSpecs: boolean;
   highlights: {label: string; value: string}[];
   service: string;
   title: string;
+  isMonitor?: boolean;
 }) {
   const tabs: {key: TabKey; label: string}[] = [
     {key: 'overview', label: 'Übersicht'},
@@ -349,6 +415,11 @@ function ProductTabs({
               <h2>{title}</h2>
               {paragraphs.length ? (
                 paragraphs.map((p, i) => <p key={i}>{p}</p>)
+              ) : overviewHtml ? (
+                <div
+                  className="overview-rich"
+                  dangerouslySetInnerHTML={{__html: overviewHtml}}
+                />
               ) : (
                 <p>
                   Original TERRA-Hardware von WORTMANN – entwickelt und
@@ -356,6 +427,15 @@ function ProductTabs({
                   „Technische Daten“.
                 </p>
               )}
+              {features.length ? (
+                <ul className="feature-logos" aria-label="Merkmale und Zertifikate">
+                  {features.map((src) => (
+                    <li key={src}>
+                      <img src={src} alt="" loading="lazy" height={48} />
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
               {hasSpecs ? (
                 <button
                   type="button"
@@ -433,6 +513,36 @@ function ProductTabs({
                 Beratung anfragen <Icon name="chevron-right" size={16} />
               </Link>
             </div>
+            {isMonitor ? (
+              <div className="service-card service-card-accent">
+                <Icon name="monitor" size={28} />
+                <h3>TERRA Pixelgarantie</h3>
+                <p>
+                  Kleine Pixelfehler gelten herstellerübergreifend meist nicht als
+                  Garantiefall. Mit der optionalen TERRA Pixelgarantie sind Sie
+                  während der gesamten Garantiedauer gegen jeden Pixelfehler
+                  abgesichert.
+                </p>
+                <Link to="/pages/kontakt" className="link-arrow">
+                  Pixelgarantie anfragen <Icon name="chevron-right" size={16} />
+                </Link>
+              </div>
+            ) : null}
+          </div>
+
+          <div className="manufacturer-box">
+            <h3>Herstellerangaben</h3>
+            <p>
+              WORTMANN AG<br />
+              Bredenhop 20<br />
+              32609 Hüllhorst<br />
+              Deutschland
+            </p>
+            <p>
+              <a href="https://www.wortmann.de" target="_blank" rel="noreferrer">
+                www.wortmann.de
+              </a>
+            </p>
           </div>
         </div>
       </div>

@@ -1576,7 +1576,7 @@ aside li {
 }
 
 .trust-item {
-  align-items: flex-start;
+  align-items: center;
   display: flex;
   gap: 0.85rem;
 }
@@ -2277,10 +2277,10 @@ aside .cart-details > div:first-of-type {
   padding-top: 1.25rem;
 }
 @media (min-width: 64em) { .trust-bar-inner { grid-template-columns: repeat(4, 1fr); } }
-.trust-item { align-items: center; display: flex; gap: 0.75rem; }
-.trust-item svg { color: var(--brand); flex: none; }
-.trust-item strong { color: var(--brand-ink); display: block; font-size: 0.95rem; }
-.trust-item span { color: var(--ink-mute); display: block; font-size: 0.82rem; }
+.trust-bar .trust-item { align-items: center; display: flex; gap: 0.75rem; }
+.trust-bar .trust-item svg { color: var(--brand); flex: none; }
+.trust-bar .trust-item strong { color: var(--brand-ink); display: block; font-size: 0.95rem; }
+.trust-bar .trust-item span { color: var(--ink-mute); display: block; font-size: 0.82rem; }
 
 .section-tight { padding-top: 2.5rem; }
 
@@ -2341,3 +2341,132 @@ aside .cart-details > div:first-of-type {
 .duo-teaser-media { aspect-ratio: auto; height: 240px; }
 .duo-teaser-media img { max-height: 100%; width: auto; }
 .slide-copy h1, .slide-copy h2 { hyphens: manual; text-wrap: balance; }
+
+/* ---------- Produktseite: Wortmann-Inhalte ---------- */
+.overview-rich { color: var(--ink-soft); line-height: 1.7; max-width: 76ch; }
+.overview-rich p { margin: 0 0 1rem; }
+.overview-rich p > strong:first-child { color: var(--brand-ink); display: inline-block; font-size: 1.08rem; line-height: 1.45; }
+.overview-rich p:first-child > strong:first-child { color: var(--brand); font-size: 1.2rem; }
+.overview-rich h3 { color: var(--brand-ink); font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+.overview-rich ul { margin: 0 0 1rem; padding-left: 1.2rem; }
+.overview-rich a { color: var(--brand); font-weight: 600; }
+.feature-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  list-style: none;
+  margin: 0.5rem 0 1.5rem;
+  padding: 0;
+}
+.feature-logos li {
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  display: flex;
+  height: 64px;
+  justify-content: center;
+  padding: 6px 8px;
+}
+.feature-logos img { height: 48px; max-width: 190px; object-fit: contain; width: auto; }
+.service-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+.service-card-accent { background: var(--brand-tint); border-color: transparent; }
+.manufacturer-box {
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+}
+.manufacturer-box h3 { color: var(--brand-ink); font-size: 0.95rem; margin: 0 0 0.5rem; }
+.manufacturer-box p { margin: 0 0 0.5rem; }
+.manufacturer-box a { color: var(--brand); }
+
+/* ---------- Startseite: Highlights des Monats ---------- */
+.highlight-grid { display: grid; gap: 1.25rem; }
+@media (min-width: 64em) { .highlight-grid { grid-template-columns: 1fr 1fr; } }
+.highlight-grid.skeleton-grid { min-height: 380px; }
+.highlight-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+}
+@media (min-width: 40em) { .highlight-card { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); } }
+.highlight-media {
+  align-items: center;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  min-height: 240px;
+  padding: 1.25rem;
+}
+.highlight-media img { height: auto; max-height: 300px; max-width: 100%; object-fit: contain; }
+.highlight-body { display: flex; flex-direction: column; padding: 1.5rem; }
+.highlight-badge {
+  align-self: flex-start;
+  background: #6b2c91;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.3rem 0.75rem;
+  text-transform: uppercase;
+}
+.highlight-body h3 { font-size: 1.35rem; margin: 0.75rem 0 0.75rem; }
+.highlight-body h3 a { color: var(--brand-ink); text-decoration: none; }
+.highlight-body h3 a:hover { color: var(--brand); }
+.highlight-body .check-list { font-size: 0.92rem; margin-bottom: 0.75rem; }
+.highlight-sku { color: var(--ink-mute); font-size: 0.82rem; margin: 0 0 1rem; }
+.highlight-buy {
+  align-items: center;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+.highlight-price { color: var(--brand-ink); display: block; font-size: 1.5rem; }
+
+/* ---------- Startseite: Pixelgarantie ---------- */
+.pixel-banner {
+  align-items: center;
+  background: linear-gradient(120deg, #f4eefa 0%, #eef3fb 100%);
+  border: 1px solid #e3d8ef;
+  border-radius: 16px;
+  display: grid;
+  gap: 1.25rem;
+  padding: 1.75rem;
+}
+@media (min-width: 64em) { .pixel-banner { grid-template-columns: auto 1fr auto; padding: 2rem 2.5rem; } }
+.pixel-icon {
+  align-items: center;
+  background: #6b2c91;
+  border-radius: 14px;
+  color: #fff;
+  display: inline-flex;
+  height: 64px;
+  justify-content: center;
+  width: 64px;
+}
+.pixel-banner h2 { color: var(--brand-ink); font-size: 1.4rem; margin: 0 0 0.4rem; }
+.pixel-banner p { color: var(--ink-soft); margin: 0; max-width: 70ch; }
+.pixel-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
+/* ---------- Startseite: IT made in Germany ---------- */
+.imig-banner {
+  background: #fff;
+  border-radius: 14px;
+  margin-bottom: 2.5rem;
+  overflow: hidden;
+}
+.imig-banner img { display: block; height: auto; width: 100%; }
+.fact-grid { display: grid; gap: 0.75rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.fact { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 0.9rem 1rem; }
+.fact strong { color: var(--brand); display: block; font-size: 1.35rem; line-height: 1.2; }
+.fact span { color: var(--ink-mute); font-size: 0.85rem; }
