@@ -8,7 +8,15 @@ import type {
 import {PaginatedResourceSection} from '~/components/PaginatedResourceSection';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
-import {CATEGORIES, findSub, subQuery} from '~/lib/categories';
+import {CATEGORIES, categoryQuery, findSub} from '~/lib/categories';
+import {
+  facetCounts,
+  filterQuery,
+  FILTER_TAG_PREFIX,
+  groupsFor,
+  parseFilters,
+} from '~/lib/filters';
+import {CollectionFilters} from '~/components/CollectionFilters';
 import {Icon} from '~/components/Icon';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {PriceModeNote} from '~/components/PriceMode';
@@ -55,25 +63,39 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   const sort =
     SORT_OPTIONS.find((o) => o.value === sortParam) ?? SORT_OPTIONS[0];
 
-  const [{collection}, subResult] = await Promise.all([
+  const groups = groupsFor(handle);
+  const selected = parseFilters(handle, url.searchParams.get('f'));
+  const baseQuery = categoryQuery(handle, sub?.slug).query;
+  const fq = filterQuery(selected, groups);
+  const useSearch = Boolean(sub || fq);
+
+  const [{collection}, subResult, facetResult] = await Promise.all([
     storefront.query(COLLECTION_QUERY, {
       variables: {
         handle,
         sortKey: sort.sortKey,
         reverse: sort.reverse,
-        // Bei Unterkategorie nur Kopf-Infos laden, Produkte kommen aus der Suche
-        ...(sub ? {first: 1} : paginationVariables),
+        // Bei Unterkategorie/Filter nur Kopf-Infos laden, Produkte kommen aus der Suche
+        ...(useSearch ? {first: 1} : paginationVariables),
       },
     }),
-    sub
+    useSearch
       ? storefront.query(SUB_PRODUCTS_QUERY, {
           variables: {
-            query: subQuery(handle, sub.slug),
+            query: fq ? `(${baseQuery}) AND ${fq}` : baseQuery,
             sortKey: sort.searchKey,
             reverse: sort.reverse,
             ...paginationVariables,
           },
         })
+      : Promise.resolve(null),
+    groups.length
+      ? storefront
+          .query(FACET_TAGS_QUERY, {
+            variables: {query: baseQuery},
+            cache: storefront.CacheShort(),
+          })
+          .catch(() => null)
       : Promise.resolve(null),
   ]);
 
@@ -84,16 +106,28 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   redirectIfHandleIsLocalized(request, {handle, data: collection});
 
   const products = subResult?.products ?? collection.products;
-  return {collection, products, sort: sort.value, sub};
+  const allTags = (facetResult?.products.nodes ?? []).map((n) => n.tags);
+  const counts = facetCounts(allTags, selected, groups);
+  // Nur Werte anbieten, die in der Kategorie überhaupt vorkommen
+  const present = new Set(allTags.flat());
+  const filterGroups = groups
+    .map((g) => ({
+      ...g,
+      values: g.values.filter((v) => present.has(FILTER_TAG_PREFIX + v.slug)),
+    }))
+    .filter((g) => g.values.length > 1 || g.values.some((v) => selected.includes(v.slug)));
+  return {collection, products, sort: sort.value, sub, selected, filterGroups, counts};
 }
 
 export default function Collection() {
-  const {collection, products, sort, sub} = useLoaderData<typeof loader>();
+  const {collection, products, sort, sub, selected, filterGroups, counts} =
+    useLoaderData<typeof loader>();
   const category = CATEGORIES.find((c) => c.handle === collection.handle);
   const subHref = (slug?: string) => {
     const next = new URLSearchParams();
     if (slug) next.set('sub', slug);
     if (sort !== 'price-asc') next.set('sort', sort);
+    if (selected.length) next.set('f', selected.join(','));
     const q = next.toString();
     return `/collections/${collection.handle}${q ? `?${q}` : ''}`;
   };
@@ -179,6 +213,9 @@ export default function Collection() {
                 </Link>
               ))}
             </div>
+          ) : null}
+          {filterGroups.length ? (
+            <CollectionFilters groups={filterGroups} selected={selected} counts={counts} />
           ) : null}
           <div className="collection-toolbar">
             <PriceModeNote />
@@ -298,6 +335,17 @@ const COLLECTION_QUERY = `#graphql
           endCursor
           startCursor
         }
+      }
+    }
+  }
+` as const;
+
+const FACET_TAGS_QUERY = `#graphql
+  query FacetTags($query: String!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
+    products(query: $query, first: 250) {
+      nodes {
+        tags
       }
     }
   }
