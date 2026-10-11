@@ -1,5 +1,6 @@
 import {Link} from 'react-router';
-import {Image, Money} from '@shopify/hydrogen';
+import {Price} from '~/components/Price';
+import {Image} from '@shopify/hydrogen';
 import type {
   ProductItemFragment,
   CollectionItemFragment,
@@ -58,7 +59,7 @@ export function ProductItem({
         <div className="product-card-price">
           <strong>
             {hasRange ? 'ab ' : null}
-            <Money data={min} />
+            <Price data={min} />
           </strong>
           <NetPrice price={min} />
         </div>

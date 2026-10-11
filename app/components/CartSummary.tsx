@@ -1,6 +1,8 @@
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
+import {Price} from '~/components/Price';
+import {NetPrice} from '~/components/ProductPrice';
 import type {CartLayout} from '~/components/CartMain';
-import {CartForm, Money, type OptimisticCart} from '@shopify/hydrogen';
+import {CartForm, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
 import {useFetcher} from 'react-router';
 
@@ -20,27 +22,42 @@ export function CartSummary({cart, layout}: CartSummaryProps) {
 
   return (
     <div aria-labelledby={summaryId} className={className}>
-      <h4 id={summaryId}>Summe</h4>
+      <h4 id={summaryId} className="sr-only">
+        Summe
+      </h4>
       <dl role="group" className="cart-subtotal">
-        <dt>Zwischensumme (inkl. MwSt.)</dt>
+        <dt>Zwischensumme</dt>
         <dd>
           {cart?.cost?.subtotalAmount?.amount ? (
-            <Money data={cart?.cost?.subtotalAmount} />
+            <Price as="strong" data={cart?.cost?.subtotalAmount} />
           ) : (
             '-'
           )}
         </dd>
       </dl>
-      <CartDiscounts
-        discountCodes={cart?.discountCodes}
-        discountsHeadingId={discountsHeadingId}
-        discountCodeInputId={discountCodeInputId}
-      />
-      <CartGiftCard
-        giftCardCodes={cart?.appliedGiftCards}
-        giftCardHeadingId={giftCardHeadingId}
-        giftCardInputId={giftCardInputId}
-      />
+      <p className="cart-tax-note">
+        inkl. MwSt.
+        {cart?.cost?.subtotalAmount?.amount ? (
+          <>
+            {' · '}
+            <NetPrice price={cart.cost.subtotalAmount} />
+          </>
+        ) : null}
+        {' · zzgl. Versand'}
+      </p>
+      <details className="cart-codes">
+        <summary>Rabattcode oder Gutschein einlösen</summary>
+        <CartDiscounts
+          discountCodes={cart?.discountCodes}
+          discountsHeadingId={discountsHeadingId}
+          discountCodeInputId={discountCodeInputId}
+        />
+        <CartGiftCard
+          giftCardCodes={cart?.appliedGiftCards}
+          giftCardHeadingId={giftCardHeadingId}
+          giftCardInputId={giftCardInputId}
+        />
+      </details>
       <CartCheckoutActions checkoutUrl={cart?.checkoutUrl} />
     </div>
   );
@@ -50,11 +67,11 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl?: string}) {
   if (!checkoutUrl) return null;
 
   return (
-    <div>
-      <a href={checkoutUrl} target="_self" className="cart-checkout-button">
-        Zur Kasse &rarr;
+    <div className="cart-checkout">
+      <a href={checkoutUrl} target="_self" className="btn btn-primary btn-block">
+        Zur Kasse
       </a>
-      <br />
+      <p className="cart-secure">Sichere Bezahlung über Shopify Checkout</p>
     </div>
   );
 }
@@ -74,7 +91,7 @@ function CartDiscounts({
       ?.map(({code}) => code) || [];
 
   return (
-    <section aria-label="Discounts">
+    <section aria-label="Rabatte">
       {/* Have existing discount, display it with a remove option */}
       <dl hidden={!codes.length}>
         <div>
@@ -97,9 +114,9 @@ function CartDiscounts({
 
       {/* Show an input to apply a discount */}
       <UpdateDiscountForm discountCodes={codes}>
-        <div>
+        <div className="code-row">
           <label htmlFor={discountCodeInputId} className="sr-only">
-            Discount code
+            Rabattcode
           </label>
           <input
             id={discountCodeInputId}
@@ -107,8 +124,7 @@ function CartDiscounts({
             name="discountCode"
             placeholder="Rabattcode"
           />
-          &nbsp;
-          <button type="submit" aria-label="Rabattcode anwenden">
+          <button type="submit" className="btn btn-secondary" aria-label="Rabattcode anwenden">
             Anwenden
           </button>
         </div>
@@ -196,7 +212,7 @@ function CartGiftCard({
     <section aria-label="Geschenkkarten">
       {giftCardCodes && giftCardCodes.length > 0 && (
         <dl>
-          <dt id={giftCardHeadingId}>Applied Gift Card(s)</dt>
+          <dt id={giftCardHeadingId}>Eingelöste Gutscheine</dt>
           {giftCardCodes.map((giftCard) => (
             <dd key={giftCard.id} className="cart-discount">
               <RemoveGiftCardForm
@@ -213,7 +229,7 @@ function CartGiftCard({
               >
                 <code>***{giftCard.lastCharacters}</code>
                 &nbsp;
-                <Money data={giftCard.amountUsed} />
+                <Price data={giftCard.amountUsed} />
               </RemoveGiftCardForm>
             </dd>
           ))}
@@ -221,7 +237,7 @@ function CartGiftCard({
       )}
 
       <AddGiftCardForm fetcherKey="gift-card-add">
-        <div>
+        <div className="code-row">
           <label htmlFor={giftCardInputId} className="sr-only">
             Geschenkkarten-Code
           </label>
@@ -229,12 +245,12 @@ function CartGiftCard({
             id={giftCardInputId}
             type="text"
             name="giftCardCode"
-            placeholder="Geschenkkarten-Code"
+            placeholder="Gutscheincode"
             ref={giftCardCodeInput}
           />
-          &nbsp;
           <button
             type="submit"
+            className="btn btn-secondary"
             disabled={giftCardAddFetcher.state !== 'idle'}
             aria-label="Geschenkkarte anwenden"
           >
