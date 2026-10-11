@@ -3074,3 +3074,17 @@ aside .cart-details > div:first-of-type {
 .solution-tile-img { aspect-ratio: auto; box-sizing: border-box; flex: none; height: 170px; overflow: hidden; }
 .solution-tile-img img { display: block; height: 100%; max-width: 100%; object-fit: contain; width: 100%; }
 .solution-tile-body { flex: 1; }
+
+/* ---------- Kaufbox kompakter + Galerie mitlaufend ---------- */
+@media (min-width: 64em) {
+  .product > .gallery { align-self: start; position: sticky; top: 70px; }
+}
+.service-picker .addon, .addons .addon { padding-bottom: 0.45rem; padding-top: 0.45rem; }
+.service-picker .addon-price small, .addons .addon-price small { display: none; }
+.addon-collapse { border-top: 1px solid var(--line); padding-top: 0.25rem; }
+.addon-collapse summary { align-items: center; cursor: pointer; display: flex; gap: 0.5rem; justify-content: space-between; list-style: none; padding: 0.35rem 0; }
+.addon-collapse summary::-webkit-details-marker { display: none; }
+.addon-collapse summary .addon-group-title { margin: 0; }
+.addon-collapse-state { color: var(--brand); font-size: 0.85rem; font-weight: 600; }
+.addon-collapse-state::after { content: ' ▾'; }
+.addon-collapse[open] .addon-collapse-state::after { content: ' ▴'; }

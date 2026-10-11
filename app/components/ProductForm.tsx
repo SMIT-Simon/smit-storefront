@@ -199,6 +199,9 @@ function ProductOptionSwatch({
   );
 }
 
+/** Gruppen, die standardmäßig eingeklappt sind (spart Platz in der Kaufbox). */
+const COLLAPSED_GROUPS: AddonGroup[] = ['office', 'security'];
+
 function AddonPicker({
   addons,
   picked,
@@ -219,10 +222,10 @@ function AddonPicker({
   return (
     <fieldset className="addons">
       <legend>Dazu bestellen</legend>
-      {groups.map(({g, items}) => (
-        <div key={g} className="addon-group">
-          <span className="addon-group-title">{ADDON_GROUP_TITLES[g]}</span>
-          {items.map((x) => {
+      {groups.map(({g, items}) => {
+        const collapsible = COLLAPSED_GROUPS.includes(g);
+        const chosen = items.find((x) => picked[g] === x.handle);
+        const list = items.map((x) => {
             const p = byHandle.get(x.handle)!;
             const checked = picked[g] === x.handle;
             return (
@@ -244,9 +247,24 @@ function AddonPicker({
                 </span>
               </label>
             );
-          })}
-        </div>
-      ))}
+          });
+        return collapsible ? (
+          <details key={g} className="addon-group addon-collapse">
+            <summary>
+              <span className="addon-group-title">{ADDON_GROUP_TITLES[g]}</span>
+              <span className="addon-collapse-state">
+                {chosen ? chosen.label : `${items.length} Optionen`}
+              </span>
+            </summary>
+            {list}
+          </details>
+        ) : (
+          <div key={g} className="addon-group">
+            <span className="addon-group-title">{ADDON_GROUP_TITLES[g]}</span>
+            {list}
+          </div>
+        );
+      })}
       <p className="addon-note">Wird in gleicher Menge wie das Gerät in den Warenkorb gelegt.</p>
     </fieldset>
   );
@@ -326,7 +344,6 @@ function ServicePicker({
         <input type="radio" name="service" checked={value === null} onChange={() => onChange(null)} />
         <span className="addon-text">
           <strong>Bring-In-Service 24 Monate</strong>
-          <small>Standard-Herstellergarantie, Einsendung ins TERRA-Servicecenter</small>
         </span>
         <span className="addon-price">
           inklusive
@@ -337,7 +354,6 @@ function ServicePicker({
           <input type="radio" name="service" checked={value === v.id} onChange={() => onChange(v.id)} />
           <span className="addon-text">
             <strong>24H Vor-Ort-Service {v.title}</strong>
-            <small>Techniker vor Ort am nächsten Werktag, inkl. Medieneinbehalt</small>
           </span>
           <span className="addon-price">
             + <ModePrice data={v.price} />
@@ -345,6 +361,9 @@ function ServicePicker({
           </span>
         </label>
       ))}
+      <p className="addon-note">
+        Vor-Ort-Service: Techniker am nächsten Werktag, defekte Datenträger bleiben bei Ihnen.
+      </p>
     </fieldset>
   );
 }
