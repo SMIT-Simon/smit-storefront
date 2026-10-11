@@ -16,7 +16,7 @@ import {Icon} from '~/components/Icon';
 import {CATEGORIES} from '~/lib/categories';
 import {ProductForm} from '~/components/ProductForm';
 import {ProductBadges} from '~/components/ProductBadges';
-import {LegalGuaranteeNotice} from '~/components/LegalGuaranteeNotice';
+import {LegalGuaranteeFull} from '~/components/LegalGuaranteeNotice';
 import {CONFIG_MODELS} from '~/lib/configurator';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
@@ -620,7 +620,7 @@ function ProductTabs({
 
           <div className="manufacturer-box">
             <h3>Gesetzliche Gewährleistung</h3>
-            <LegalGuaranteeNotice />
+            <LegalGuaranteeFull />
           </div>
 
           <div className="manufacturer-box">

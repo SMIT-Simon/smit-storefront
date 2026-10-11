@@ -3142,3 +3142,25 @@ aside .cart-details > div:first-of-type {
 .footer-guarantee { padding-bottom: 1.25rem; }
 .manufacturer-box .eu-notice { margin-top: 0; max-width: 560px; }
 .product-form .eu-notice { margin-top: 0.75rem; }
+/* EU-Hinweis im Modal */
+.eu-notice-dialog { border: 0; border-radius: var(--radius); box-shadow: 0 24px 60px rgba(0,0,0,.3); max-height: 92vh; max-width: min(640px, 94vw); padding: 0; width: 100%; }
+.eu-notice-dialog::backdrop { background: rgba(11, 31, 58, .55); }
+.eu-notice-dialog-inner { padding: 0 1rem 1rem; }
+.eu-notice-dialog-head { align-items: center; background: #fff; display: flex; justify-content: space-between; padding: 0.75rem 0; position: sticky; top: 0; }
+.eu-notice-dialog-head button { background: none; border: 0; color: var(--ink); cursor: pointer; font-size: 1.8rem; line-height: 1; }
+.eu-notice-dialog img { display: block; height: auto; width: 100%; }
+.eu-notice-dialog p { color: var(--ink-soft); font-size: 0.85rem; margin: 0.75rem 0 0; }
+.footer-guarantee-link { cursor: pointer; }
+/* Sitemap-Seite */
+.sitemap-page { padding-bottom: 3rem; }
+.sitemap-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-top: 1rem; }
+.sitemap-grid h2 { color: var(--brand-ink); font-size: 1.05rem; margin: 0 0 0.6rem; }
+.sitemap-grid ul { list-style: none; margin: 0 0 1.5rem; padding: 0; }
+.sitemap-grid ul ul { margin: 0.25rem 0 0.5rem 1rem; }
+.sitemap-grid li { margin: 0.3rem 0; }
+.sitemap-grid a { color: var(--ink-soft); text-decoration: none; }
+.sitemap-grid a:hover { color: var(--brand); text-decoration: underline; }
+.sitemap-grid > section > ul > li > a { color: var(--ink); font-weight: 600; }
+.eu-notice-figure { margin: 0.5rem 0 0; max-width: 480px; }
+.eu-notice-figure img { border: 1px solid var(--line); display: block; height: auto; width: 100%; }
+.eu-notice-figure figcaption { color: var(--ink-soft); font-size: 0.85rem; margin-top: 0.6rem; }

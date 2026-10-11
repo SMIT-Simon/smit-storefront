@@ -2,6 +2,7 @@ import {Link} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 import {CATEGORIES} from '~/lib/categories';
 import {Icon} from '~/components/Icon';
+import {GuaranteeModalLink} from '~/components/LegalGuaranteeNotice';
 
 interface FooterProps {
   footer: Promise<FooterQuery | null>;
@@ -110,6 +111,9 @@ export function Footer({header}: FooterProps) {
               <Link to="/search">Produktsuche</Link>
             </li>
             <li>
+              <Link to="/sitemap">Sitemap</Link>
+            </li>
+            <li>
               <a href="https://systemhaus-verl.de/ITService" target="_blank" rel="noopener noreferrer">
                 IT-Service &amp; Einrichtung
               </a>
@@ -135,13 +139,13 @@ export function Footer({header}: FooterProps) {
       </div>
 
       <div className="container footer-guarantee">
-        <Link to="/gewaehrleistung" className="footer-guarantee-link">
+        <GuaranteeModalLink className="footer-guarantee-link">
           <img src="/images/eu-gewaehrleistung-de.jpg" alt="" width={66} height={90} loading="lazy" />
           <span>
             <strong>Gesetzliche Gewährleistung: mindestens 2 Jahre</strong>
             <small>EU-Hinweis zur Gewährleistung ansehen →</small>
           </span>
-        </Link>
+        </GuaranteeModalLink>
       </div>
 
       <div className="container footer-widerruf">
