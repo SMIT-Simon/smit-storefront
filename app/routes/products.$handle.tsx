@@ -1,4 +1,5 @@
-import {Link, useLoaderData} from 'react-router';
+import {Suspense, useState} from 'react';
+import {Await, Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/products.$handle';
 import {
   getSelectedProductOptions,
@@ -14,6 +15,8 @@ import {Icon} from '~/components/Icon';
 import {CATEGORIES} from '~/lib/categories';
 import {ProductForm} from '~/components/ProductForm';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+import {ProductItem} from '~/components/ProductItem';
+import {parseSpecs, keySpecs} from '~/lib/specs';
 
 export const meta: Route.MetaFunction = ({data}) => {
   return [
@@ -73,14 +76,19 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
 function loadDeferredData({context, params}: Route.LoaderArgs) {
-  // Put any API calls that is not critical to be available on first page render
-  // For example: product reviews, product recommendations, social feeds.
-
-  return {};
+  const {storefront} = context;
+  const recommendations = storefront
+    .query(PRODUCT_RECOMMENDATIONS_QUERY, {variables: {handle: params.handle!}})
+    .then((r) => r.productRecommendations ?? [])
+    .catch((error: Error) => {
+      console.error(error);
+      return [];
+    });
+  return {recommendations};
 }
 
 export default function Product() {
-  const {product} = useLoaderData<typeof loader>();
+  const {product, recommendations} = useLoaderData<typeof loader>();
 
   // Optimistically selects a variant with given available variant information
   const selectedVariant = useOptimisticVariant(
@@ -104,95 +112,166 @@ export default function Product() {
     CATEGORIES.find((c) =>
       product.collections.nodes.some((pc) => pc.handle === c.handle),
     ) ?? null;
-  const hasSpecs = descriptionHtml.trim().length > 0;
+  const specs = parseSpecs(descriptionHtml);
+  const highlights = keySpecs(specs, 6);
+  const overview = product.overview?.value?.trim() ?? '';
+  const service = product.service?.value?.trim() ?? '';
+  const accessories = (product.accessories?.references?.nodes ?? []).filter(
+    (n): n is Extract<typeof n, {__typename: 'Product'}> =>
+      n.__typename === 'Product',
+  );
 
   return (
-    <div className="container product-page">
-      <nav className="breadcrumb" aria-label="Brotkrumen">
-        <Link to="/">Startseite</Link>
-        <span aria-hidden="true">/</span>
-        {category ? (
-          <>
-            <Link to={`/collections/${category.handle}`}>{category.title}</Link>
-            <span aria-hidden="true">/</span>
-          </>
-        ) : null}
-        <span>{title}</span>
-      </nav>
-
-      <div className="product">
-        <ProductGallery images={images} title={title} />
-
-        <div className="product-main">
-          {vendor || productType ? (
-            <span className="eyebrow">
-              {[vendor, productType].filter(Boolean).join(' · ')}
-            </span>
+    <div className="product-page">
+      <div className="container">
+        <nav className="breadcrumb" aria-label="Brotkrumen">
+          <Link to="/">Startseite</Link>
+          <span aria-hidden="true">/</span>
+          {category ? (
+            <>
+              <Link to={`/collections/${category.handle}`}>{category.title}</Link>
+              <span aria-hidden="true">/</span>
+            </>
           ) : null}
-          <h1 className="product-title">{title}</h1>
-          <dl className="product-ids">
-            {selectedVariant?.sku ? (
-              <div>
-                <dt>Art.-Nr.</dt>
-                <dd>{selectedVariant.sku}</dd>
-              </div>
-            ) : null}
-            {selectedVariant?.barcode ? (
-              <div>
-                <dt>EAN</dt>
-                <dd>{selectedVariant.barcode}</dd>
-              </div>
-            ) : null}
-          </dl>
+          <span>{title}</span>
+        </nav>
 
-          <div className="buy-box">
-            <ProductPrice
-              price={selectedVariant?.price}
-              compareAtPrice={selectedVariant?.compareAtPrice}
-            />
-            <p
-              className={
-                selectedVariant?.availableForSale
-                  ? 'availability in-stock'
-                  : 'availability out-of-stock'
-              }
-            >
-              <span className="dot" aria-hidden="true" />
-              {selectedVariant?.availableForSale
-                ? 'Lieferbar – Versand aus Deutschland'
-                : 'Derzeit nicht verfügbar'}
-            </p>
-            <ProductForm
-              productOptions={productOptions}
-              selectedVariant={selectedVariant}
-            />
-            <ul className="buy-usps">
-              <li>
-                <Icon name="shield" size={18} /> Original TERRA mit
-                Herstellergarantie
-              </li>
-              <li>
-                <Icon name="invoice" size={18} /> Rechnung mit ausgewiesener
-                MwSt.
-              </li>
-              <li>
-                <Icon name="headset" size={18} /> Fragen zum Gerät?{' '}
-                <Link to="/pages/kontakt">Beratung anfragen</Link>
-              </li>
-            </ul>
+        <div className="product">
+          <ProductGallery images={images} title={title} />
+
+          <div className="product-main">
+            {vendor || productType ? (
+              <span className="eyebrow">
+                {[vendor, productType].filter(Boolean).join(' · ')}
+              </span>
+            ) : null}
+            <h1 className="product-title">{title}</h1>
+
+            <div className="product-meta-row">
+              {service ? (
+                <span className="service-badge">
+                  <Icon name="shield" size={16} /> {service}
+                </span>
+              ) : null}
+              <dl className="product-ids">
+                {selectedVariant?.sku ? (
+                  <div>
+                    <dt>Art.-Nr.</dt>
+                    <dd>{selectedVariant.sku}</dd>
+                  </div>
+                ) : null}
+                {selectedVariant?.barcode ? (
+                  <div>
+                    <dt>EAN</dt>
+                    <dd>{selectedVariant.barcode}</dd>
+                  </div>
+                ) : null}
+              </dl>
+            </div>
+
+            {highlights.length ? (
+              <ul className="key-specs" aria-label="Wichtigste Merkmale">
+                {highlights.map((h) => (
+                  <li key={h.label}>
+                    <span>{h.label}</span>
+                    <strong>{h.value}</strong>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+
+            <div className="buy-box">
+              <ProductPrice
+                price={selectedVariant?.price}
+                compareAtPrice={selectedVariant?.compareAtPrice}
+              />
+              <p
+                className={
+                  selectedVariant?.availableForSale
+                    ? 'availability in-stock'
+                    : 'availability out-of-stock'
+                }
+              >
+                <span className="dot" aria-hidden="true" />
+                {selectedVariant?.availableForSale
+                  ? 'Lieferbar – Versand aus Deutschland'
+                  : 'Derzeit nicht verfügbar'}
+              </p>
+              <ProductForm
+                productOptions={productOptions}
+                selectedVariant={selectedVariant}
+              />
+              <ul className="buy-usps">
+                <li>
+                  <Icon name="shield" size={18} /> Original TERRA mit
+                  Herstellergarantie
+                </li>
+                <li>
+                  <Icon name="invoice" size={18} /> Rechnung mit ausgewiesener
+                  MwSt.
+                </li>
+                <li>
+                  <Icon name="headset" size={18} /> Fragen zum Gerät?{' '}
+                  <Link to="/pages/kontakt">Beratung anfragen</Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
 
-      {hasSpecs ? (
-        <section className="specs" aria-labelledby="specs-title">
-          <h2 id="specs-title">Technische Daten</h2>
-          <div
-            className="specs-body rich-text"
-            dangerouslySetInnerHTML={{__html: descriptionHtml}}
-          />
+      <ProductTabs
+        overview={overview}
+        specsHtml={descriptionHtml}
+        hasSpecs={specs.length > 0 || descriptionHtml.trim().length > 0}
+        highlights={highlights}
+        service={service}
+        title={title}
+      />
+
+      {accessories.length ? (
+        <section className="section section-muted product-related">
+          <div className="container">
+            <div className="section-head">
+              <h2>Passendes Zubehör</h2>
+            </div>
+            <div className="products-grid">
+              {accessories.map((p) => (
+                <ProductItem key={p.id} product={p} />
+              ))}
+            </div>
+          </div>
         </section>
       ) : null}
+
+      <Suspense fallback={null}>
+        <Await resolve={recommendations}>
+          {(recs) =>
+            recs.length ? (
+              <section className="section product-related">
+                <div className="container">
+                  <div className="section-head">
+                    <h2>Ähnliche Produkte</h2>
+                    {category ? (
+                      <Link
+                        to={`/collections/${category.handle}`}
+                        className="link-arrow"
+                      >
+                        Alle {category.title} <Icon name="chevron-right" size={16} />
+                      </Link>
+                    ) : null}
+                  </div>
+                  <div className="products-grid">
+                    {recs.slice(0, 4).map((p) => (
+                      <ProductItem key={p.id} product={p} />
+                    ))}
+                  </div>
+                </div>
+              </section>
+            ) : null
+          }
+        </Await>
+      </Suspense>
 
       <Analytics.ProductView
         data={{
@@ -212,6 +291,177 @@ export default function Product() {
     </div>
   );
 }
+
+type TabKey = 'overview' | 'specs' | 'service';
+
+function ProductTabs({
+  overview,
+  specsHtml,
+  hasSpecs,
+  highlights,
+  service,
+  title,
+}: {
+  overview: string;
+  specsHtml: string;
+  hasSpecs: boolean;
+  highlights: {label: string; value: string}[];
+  service: string;
+  title: string;
+}) {
+  const tabs: {key: TabKey; label: string}[] = [
+    {key: 'overview', label: 'Übersicht'},
+    ...(hasSpecs ? [{key: 'specs' as TabKey, label: 'Technische Daten'}] : []),
+    {key: 'service', label: 'Service & Garantie'},
+  ];
+  const [active, setActive] = useState<TabKey>('overview');
+  const paragraphs = overview ? overview.split(/\n\s*\n/) : [];
+
+  return (
+    <section className="product-tabs" aria-label="Produktinformationen">
+      <div className="container">
+        <div className="tab-list" role="tablist">
+          {tabs.map((t) => (
+            <button
+              key={t.key}
+              type="button"
+              role="tab"
+              id={`tab-${t.key}`}
+              aria-selected={active === t.key}
+              aria-controls={`panel-${t.key}`}
+              className={active === t.key ? 'tab active' : 'tab'}
+              onClick={() => setActive(t.key)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+
+        <div
+          role="tabpanel"
+          id="panel-overview"
+          aria-labelledby="tab-overview"
+          hidden={active !== 'overview'}
+          className="tab-panel"
+        >
+          <div className="overview-grid">
+            <div className="overview-text">
+              <h2>{title}</h2>
+              {paragraphs.length ? (
+                paragraphs.map((p, i) => <p key={i}>{p}</p>)
+              ) : (
+                <p>
+                  Original TERRA-Hardware von WORTMANN – entwickelt und
+                  gefertigt in Deutschland. Alle Details finden Sie unter
+                  „Technische Daten“.
+                </p>
+              )}
+              {hasSpecs ? (
+                <button
+                  type="button"
+                  className="link-arrow as-button"
+                  onClick={() => setActive('specs')}
+                >
+                  Alle technischen Daten anzeigen
+                  <Icon name="chevron-right" size={16} />
+                </button>
+              ) : null}
+            </div>
+            {highlights.length ? (
+              <div className="overview-facts">
+                <h3>Auf einen Blick</h3>
+                <dl>
+                  {highlights.map((h) => (
+                    <div key={h.label}>
+                      <dt>{h.label}</dt>
+                      <dd>{h.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ) : null}
+          </div>
+        </div>
+
+        {hasSpecs ? (
+          <div
+            role="tabpanel"
+            id="panel-specs"
+            aria-labelledby="tab-specs"
+            hidden={active !== 'specs'}
+            className="tab-panel"
+          >
+            <div
+              className="specs-body rich-text"
+              dangerouslySetInnerHTML={{__html: specsHtml}}
+            />
+          </div>
+        ) : null}
+
+        <div
+          role="tabpanel"
+          id="panel-service"
+          aria-labelledby="tab-service"
+          hidden={active !== 'service'}
+          className="tab-panel"
+        >
+          <div className="service-grid">
+            <div className="service-card">
+              <Icon name="shield" size={28} />
+              <h3>Inklusive</h3>
+              <p>
+                {service ||
+                  'Herstellergarantie der WORTMANN AG gemäß den TERRA-Servicebedingungen.'}
+              </p>
+            </div>
+            <div className="service-card">
+              <Icon name="truck" size={28} />
+              <h3>Vor-Ort-Service</h3>
+              <p>
+                Für TERRA-Geräte sind Garantieerweiterungen und 24h-Vor-Ort-Service
+                mit bis zu 60 Monaten Laufzeit erhältlich – sprechen Sie uns an.
+              </p>
+            </div>
+            <div className="service-card">
+              <Icon name="headset" size={28} />
+              <h3>Beratung</h3>
+              <p>
+                Sie sind unsicher, welche Ausstattung passt? Wir beraten Sie gern
+                und erstellen ein individuelles Angebot.
+              </p>
+              <Link to="/pages/kontakt" className="link-arrow">
+                Beratung anfragen <Icon name="chevron-right" size={16} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+const RELATED_PRODUCT_FRAGMENT = `#graphql
+  fragment RelatedProduct on Product {
+    id
+    title
+    handle
+    vendor
+    productType
+    featuredImage {
+      id
+      url
+      altText
+      width
+      height
+    }
+    priceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+    }
+  }
+` as const;
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment ProductVariant on ProductVariant {
@@ -274,6 +524,22 @@ const PRODUCT_FRAGMENT = `#graphql
         title
       }
     }
+    overview: metafield(namespace: "custom", key: "overview") {
+      value
+    }
+    service: metafield(namespace: "custom", key: "service") {
+      value
+    }
+    accessories: metafield(namespace: "custom", key: "accessories") {
+      references(first: 8) {
+        nodes {
+          __typename
+          ... on Product {
+            ...RelatedProduct
+          }
+        }
+      }
+    }
     description
     encodedVariantExistence
     encodedVariantAvailability
@@ -306,6 +572,7 @@ const PRODUCT_FRAGMENT = `#graphql
     }
   }
   ${PRODUCT_VARIANT_FRAGMENT}
+  ${RELATED_PRODUCT_FRAGMENT}
 ` as const;
 
 const PRODUCT_QUERY = `#graphql
@@ -320,4 +587,17 @@ const PRODUCT_QUERY = `#graphql
     }
   }
   ${PRODUCT_FRAGMENT}
+` as const;
+
+const PRODUCT_RECOMMENDATIONS_QUERY = `#graphql
+  query ProductRecommendations(
+    $country: CountryCode
+    $language: LanguageCode
+    $handle: String!
+  ) @inContext(country: $country, language: $language) {
+    productRecommendations(productHandle: $handle, intent: RELATED) {
+      ...RelatedProduct
+    }
+  }
+  ${RELATED_PRODUCT_FRAGMENT}
 ` as const;
