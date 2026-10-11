@@ -2,7 +2,7 @@ import {useEffect, useRef, useState} from 'react';
 import type {OptimisticCart} from '@shopify/hydrogen';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
 import {Icon} from '~/components/Icon';
-import type {QuoteCustomer, QuoteLine} from '~/lib/quote-pdf';
+import type {QuoteCustomer, QuoteLine} from '~/lib/quote-pdf.client';
 
 const STORAGE_KEY = 'smit-quote-customer';
 const EMPTY: QuoteCustomer = {
@@ -71,7 +71,7 @@ export function QuoteButton({cart}: {cart: OptimisticCart<CartApiQueryFragment |
       } catch {
         /* Speichern optional */
       }
-      const {downloadQuotePdf} = await import('~/lib/quote-pdf');
+      const {downloadQuotePdf} = await import('~/lib/quote-pdf.client');
       await downloadQuotePdf(data, lines);
       dialog.current?.close();
     } catch (err) {
