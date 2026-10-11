@@ -1587,7 +1587,7 @@ interface GeneratedQueryTypes {
     return: HighlightsQuery;
     variables: HighlightsQueryVariables;
   };
-  "#graphql\n  fragment RecommendedProduct on Product {\n    tags\n    id\n    title\n    handle\n    vendor\n    productType\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n  }\n  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    products(\n      first: 8\n      sortKey: CREATED_AT\n      reverse: true\n      query: \"-product_type:'Service-Option' -product_type:'Software-Option' -tag:'ausblenden'\"\n    ) {\n      nodes {\n        ...RecommendedProduct\n      }\n    }\n  }\n": {
+  "#graphql\n  fragment RecommendedProduct on Product {\n    tags\n    id\n    title\n    handle\n    vendor\n    productType\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n  }\n  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    products(\n      first: 8\n      sortKey: CREATED_AT\n      reverse: true\n      query: \"-product_type:'Service-Option' -product_type:'Software-Option' -product_type:'Software' -product_type:'Dienstleistung' -tag:'ausblenden'\"\n    ) {\n      nodes {\n        ...RecommendedProduct\n      }\n    }\n  }\n": {
     return: RecommendedProductsQuery;
     variables: RecommendedProductsQueryVariables;
   };

@@ -697,7 +697,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
       first: 8
       sortKey: CREATED_AT
       reverse: true
-      query: "-product_type:'Service-Option' -product_type:'Software-Option' -tag:'ausblenden'"
+      query: "-product_type:'Service-Option' -product_type:'Software-Option' -product_type:'Software' -product_type:'Dienstleistung' -tag:'ausblenden'"
     ) {
       nodes {
         ...RecommendedProduct
