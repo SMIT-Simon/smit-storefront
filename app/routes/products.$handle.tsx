@@ -36,7 +36,7 @@ export const meta: Route.MetaFunction = ({data}) => {
 export async function loader(args: Route.LoaderArgs) {
   // Start fetching non-critical data without blocking time to first byte
   const criticalData = await loadCriticalData(args);
-  const deferredData = loadDeferredData(args, criticalData);
+  const deferredData = loadDeferredData(args);
 
   return {...deferredData, ...criticalData};
 }
@@ -85,8 +85,24 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
       .filter((x): x is CardProductData => Boolean(x));
   }
 
+  // Passendes Zubehör: Metafeld hat Vorrang, sonst Wortmann-Zuordnung
+  const metaHandles = (product.accessories?.references?.nodes ?? [])
+    .map((n) => ('handle' in n ? n.handle : null))
+    .filter((h): h is string => Boolean(h));
+  const accHandles = (metaHandles.length ? metaHandles : wm.accessoryHandles).slice(0, 6);
+  const accMap = accHandles.length
+    ? await productsByHandle(storefront, accHandles).catch((e: Error) => {
+        console.error(e);
+        return {} as Record<string, CardProductData>;
+      })
+    : {};
+  const accessoryProducts = accHandles
+    .map((h) => accMap[h])
+    .filter((x): x is CardProductData => Boolean(x?.selectedOrFirstAvailableVariant?.id));
+
   return {
     product,
+    accessoryProducts,
     wmOverviewHtml: wm.overviewHtml,
     wmFeatures: wm.features,
     wmAccessoryHandles: wm.accessoryHandles,
@@ -99,31 +115,8 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
  * fetched after the initial page load. If it's unavailable, the page should still 200.
  * Make sure to not throw any errors here, as it will cause the page to 500.
  */
-function loadDeferredData(
-  {context, params}: Route.LoaderArgs,
-  critical: {wmAccessoryHandles: string[]; product: {accessories?: unknown}},
-) {
+function loadDeferredData({context, params}: Route.LoaderArgs) {
   const {storefront} = context;
-  const hasMetafieldAccessories = Boolean(
-    (critical.product as {accessories?: {references?: {nodes?: unknown[]}} | null})
-      .accessories?.references?.nodes?.length,
-  );
-  const handles = hasMetafieldAccessories ? [] : critical.wmAccessoryHandles.slice(0, 8);
-  const wmAccessories: Promise<RelatedProductFragment[]> = handles.length
-    ? (
-        storefront.query as unknown as (
-          query: string,
-          options: {cache: unknown},
-        ) => Promise<Record<string, RelatedProductFragment | null>>
-      ).call(storefront, buildAccessoryQuery(handles), {cache: storefront.CacheLong()})
-        .then((r) =>
-          Object.values(r).filter((x): x is RelatedProductFragment => Boolean(x?.id)),
-        )
-        .catch((error: Error) => {
-          console.error(error);
-          return [];
-        })
-    : Promise.resolve([]);
   const recommendations = storefront
     .query(PRODUCT_RECOMMENDATIONS_QUERY, {variables: {handle: params.handle!}})
     .then((r) => r.productRecommendations ?? [])
@@ -131,25 +124,12 @@ function loadDeferredData(
       console.error(error);
       return [];
     });
-  return {recommendations, wmAccessories};
+  return {recommendations};
 }
 
-/** Baut eine Abfrage mit einem Alias pro Zubehör-Handle. */
-function buildAccessoryQuery(handles: string[]) {
-  const fields = handles
-    .map((h, i) => `a${i}: product(handle: "${h}") { ...RelatedProduct }`)
-    .join('\n');
-  return `
-    query WortmannAccessories($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-      ${fields}
-    }
-    ${RELATED_PRODUCT_FRAGMENT}
-  `;
-}
 
 export default function Product() {
-  const {product, recommendations, wmAccessories, wmOverviewHtml, wmFeatures, addons} =
+  const {product, recommendations, accessoryProducts, wmOverviewHtml, wmFeatures, addons} =
     useLoaderData<typeof loader>();
 
   // Optimistically selects a variant with given available variant information
@@ -178,10 +158,6 @@ export default function Product() {
   const highlights = keySpecs(specs, 6);
   const overview = product.overview?.value?.trim() ?? '';
   const service = product.service?.value?.trim() ?? '';
-  const accessories = (product.accessories?.references?.nodes ?? []).filter(
-    (n): n is Extract<typeof n, {__typename: 'Product'}> =>
-      n.__typename === 'Product',
-  );
 
   return (
     <div className="product-page">
@@ -263,6 +239,7 @@ export default function Product() {
                 productOptions={productOptions}
                 selectedVariant={selectedVariant}
                 addons={addons}
+                accessories={accessoryProducts}
               />
               <ul className="buy-usps">
                 <li>
@@ -294,18 +271,6 @@ export default function Product() {
         title={title}
         isMonitor={productType === 'Monitor'}
       />
-
-      {accessories.length ? (
-        <AccessorySection products={accessories} />
-      ) : (
-        <Suspense fallback={null}>
-          <Await resolve={wmAccessories}>
-            {(items) =>
-              items.length ? <AccessorySection products={items} /> : null
-            }
-          </Await>
-        </Suspense>
-      )}
 
       {addons.length ? (
         <section className="section product-related software-section">
@@ -373,22 +338,6 @@ export default function Product() {
   );
 }
 
-function AccessorySection({products}: {products: RelatedProductFragment[]}) {
-  return (
-    <section className="section section-muted product-related">
-      <div className="container">
-        <div className="section-head">
-          <h2>Passendes Zubehör</h2>
-        </div>
-        <div className="products-grid">
-          {products.map((p) => (
-            <ProductItem key={p.id} product={p} />
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
 
 type TabKey = 'overview' | 'specs' | 'service';
 

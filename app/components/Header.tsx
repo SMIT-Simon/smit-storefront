@@ -25,6 +25,7 @@ type Viewport = 'desktop' | 'mobile';
 export function Header({header, isLoggedIn, cart}: HeaderProps) {
   const {shop} = header;
   return (
+    <>
     <header className="site-header">
       <div className="topbar">
         <div className="container topbar-inner">
@@ -77,8 +78,9 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
 
-      <HeaderMenu viewport="desktop" />
     </header>
+    <HeaderMenu viewport="desktop" />
+    </>
   );
 }
 

@@ -2766,3 +2766,70 @@ aside .cart-details > div:first-of-type {
 @media (min-width: 64em) {
   .category-link { padding-left: 0.6rem; padding-right: 0.6rem; font-size: 0.88rem; }
 }
+
+/* ---------- Sticky Kategorieleiste ---------- */
+.category-nav {
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  box-shadow: 0 1px 0 rgba(16, 24, 40, 0.02);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.category-nav.is-stuck { box-shadow: 0 6px 16px rgba(16, 24, 40, 0.08); }
+@media (min-width: 64em) {
+  .product-main { position: static; }
+  .flyer-products { top: 64px; }
+  .flyer-spread { scroll-margin-top: 60px; }
+}
+
+/* ---------- Produktseite: Zubehör & Sofortkauf ---------- */
+.acc-picker { margin: 0 0 1rem; }
+.acc-picker h3 { color: var(--brand-ink); font-size: 1rem; margin: 0 0 0.5rem; }
+.acc-item {
+  align-items: center;
+  background: var(--bg-muted);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem 0.75rem 0.5rem 0.5rem;
+}
+.acc-item.active { background: var(--brand-tint); border-color: rgba(11, 79, 156, 0.3); }
+.acc-img { align-items: center; background: #fff; border-radius: 4px; display: flex; height: 64px; justify-content: center; overflow: hidden; width: 64px; }
+.acc-img img { height: 100%; object-fit: contain; width: 100%; }
+.acc-title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: var(--ink);
+  display: -webkit-box;
+  font-size: 0.85rem;
+  line-height: 1.3;
+  overflow: hidden;
+  text-decoration: none;
+}
+.acc-title:hover { color: var(--brand); }
+.acc-qty { align-items: center; display: inline-flex; margin-top: 0.35rem; }
+.acc-qty .qty-value { min-width: 1.6rem; text-align: center; }
+.acc-unit { color: var(--ink-mute); font-size: 0.8rem; margin-left: 0.35rem; }
+.acc-price { text-align: right; white-space: nowrap; }
+.acc-price strong { color: var(--brand-ink); display: block; font-size: 0.95rem; }
+.acc-price small { color: var(--ink-mute); font-size: 0.72rem; }
+.btn-buynow {
+  align-items: center;
+  background: #1b2430;
+  border: 0;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  justify-content: center;
+  line-height: 1.2;
+  margin-top: 0.6rem;
+  padding: 0.65rem 1rem;
+  text-decoration: none;
+}
+.btn-buynow:hover { background: #000; color: #fff; }
+.buynow-methods { font-size: 0.72rem; font-weight: 500; opacity: 0.75; }
