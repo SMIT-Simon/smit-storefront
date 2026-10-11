@@ -1,6 +1,7 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {Link} from 'react-router';
 import {Icon} from '~/components/Icon';
+import {siteImg} from '~/lib/site-images';
 
 export type Slide = {
   image: string;
@@ -88,10 +89,11 @@ export function HeroSlider({slides}: {slides: Slide[]}) {
               </div>
               <div className="slide-media">
                 <img
-                  src={s.image}
+                  {...siteImg(s.image, '(min-width: 64em) 620px, calc(100vw - 2rem)')}
                   alt={s.alt}
                   loading={i === 0 ? 'eager' : 'lazy'}
-                  decoding="async"
+                  fetchPriority={i === 0 ? 'high' : 'low'}
+                  decoding={i === 0 ? 'sync' : 'async'}
                 />
               </div>
             </div>

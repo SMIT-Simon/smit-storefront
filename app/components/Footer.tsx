@@ -3,6 +3,7 @@ import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 import {CATEGORIES} from '~/lib/categories';
 import {Icon} from '~/components/Icon';
 import {GuaranteeModalLink} from '~/components/LegalGuaranteeNotice';
+import {siteImg} from '~/lib/site-images';
 
 interface FooterProps {
   footer: Promise<FooterQuery | null>;
@@ -44,7 +45,7 @@ export function Footer({header}: FooterProps) {
       <div className="container footer-columns">
         <div className="footer-col footer-about">
           <img
-            src="/images/logo-smit-white.webp"
+            {...siteImg('/images/logo-smit-white.webp', '200px')}
             alt={shopName}
             width={200}
             height={64}

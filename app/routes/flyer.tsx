@@ -5,6 +5,7 @@ import {productsByHandle, type CardProductData} from '~/lib/products-by-handle.s
 import {ProductItem} from '~/components/ProductItem';
 import {ModePrice} from '~/components/PriceMode';
 import {Icon} from '~/components/Icon';
+import {siteImg} from '~/lib/site-images';
 
 export const meta: Route.MetaFunction = () => [
   {title: `${FLYER.title} – Business-Flyer zum Durchklicken`},
@@ -56,7 +57,7 @@ export default function Flyer() {
           <nav className="flyer-thumbs" aria-label="Seiten">
             {FLYER.pages.map((p) => (
               <a key={p.page} href={`#seite-${p.page}`}>
-                <img src={FLYER.image(p.page)} alt={`Seite ${p.page}`} loading="lazy" width={p.w} height={p.h} />
+                <img {...siteImg(FLYER.image(p.page), '160px')} alt={`Seite ${p.page}`} loading="lazy" />
                 <span>{p.page}</span>
               </a>
             ))}
@@ -73,7 +74,7 @@ export default function Flyer() {
             <section key={p.page} id={`seite-${p.page}`} className="flyer-spread">
               <figure className="flyer-sheet">
                 <img
-                  src={FLYER.image(p.page)}
+                  {...siteImg(FLYER.image(p.page), '(min-width: 64em) 600px, 100vw')}
                   alt={`${FLYER.title}, Seite ${p.page}`}
                   width={p.w}
                   height={p.h}

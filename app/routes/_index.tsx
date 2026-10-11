@@ -19,6 +19,7 @@ import {CATEGORIES} from '~/lib/categories';
 import {HeroSlider, type Slide} from '~/components/HeroSlider';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {SolutionTiles} from '~/components/SolutionTiles';
+import {siteImg} from '~/lib/site-images';
 
 export const meta: Route.MetaFunction = () => [
   {title: 'TERRA Computer Shop – Notebooks, PCs, Monitore & Server von WORTMANN | terra-computershop.de'},
@@ -222,7 +223,7 @@ function FeatureWorkplace() {
       <div className="container feature-split">
         <div className="feature-media">
           <img
-            src="/images/home/section-arbeitsplatz.webp"
+            {...siteImg('/images/home/section-arbeitsplatz.webp', '(min-width: 64em) 600px, 100vw')}
             alt="TERRA Arbeitsplatz mit Monitor, Notebook, Dockingstation, Tastatur und Maus"
             loading="lazy"
             decoding="async"
@@ -282,7 +283,7 @@ function DuoTeasers() {
         {teasers.map((t) => (
           <Link key={t.to} to={t.to} className="duo-teaser" prefetch="intent">
             <div className="duo-teaser-media">
-              <img src={t.image} alt={t.alt} loading="lazy" decoding="async" />
+              <img {...siteImg(t.image, '(min-width: 64em) 600px, 100vw')} alt={t.alt} loading="lazy" decoding="async" />
             </div>
             <div className="duo-teaser-body">
               <span className="eyebrow">{t.eyebrow}</span>
@@ -353,7 +354,7 @@ function HighlightCard({
     <article className="highlight-card">
       <Link to={`/products/${product.handle}`} className="highlight-media" prefetch="intent">
         {image ? (
-          <img src={image} alt={title} loading="lazy" />
+          <img {...siteImg(image, '(min-width: 64em) 600px, 100vw')} alt={title} loading="lazy" />
         ) : img ? (
           <img src={`${img.url}&width=640`} alt={img.altText || title} loading="lazy" />
         ) : null}
@@ -395,7 +396,7 @@ function FlyerTeaser({products}: {products: Promise<Record<string, CardProductDa
       <div className="container flyer-teaser-inner">
         <Link to="/flyer" className="flyer-teaser-cover" prefetch="intent">
           <img
-            src={FLYER.image(1)}
+            {...siteImg(FLYER.image(1), '(min-width: 64em) 420px, 100vw')}
             alt={`${FLYER.title} – Titelseite`}
             loading="lazy"
             width={FLYER.pages[0].w}
@@ -445,7 +446,7 @@ function SystemhausSection() {
     <section className="section systemhaus" aria-labelledby="systemhaus">
       <div className="container systemhaus-inner">
         <div className="systemhaus-copy">
-          <img src="/images/logo-smit.webp" alt="SMIT Digital Services" width={220} height={70} loading="lazy" className="systemhaus-logo" />
+          <img {...siteImg('/images/logo-smit.webp', '220px')} alt="SMIT Digital Services" width={220} height={70} loading="lazy" className="systemhaus-logo" />
           <span className="eyebrow">Ihr IT-Partner aus Verl</span>
           <h2 id="systemhaus">Hardware kaufen – und die IT gleich mit betreuen lassen</h2>
           <p>
@@ -517,7 +518,7 @@ function MadeInGermany() {
       <div className="container">
         <div className="imig-banner">
           <img
-            src="/images/home/imig.webp"
+            {...siteImg('/images/home/imig.webp', '(min-width: 72em) 1140px, 100vw')}
             alt="WORTMANN AG – IT. Made in Germany. Eine Erfolgsgeschichte aus Ostwestfalen."
             loading="lazy"
             width={1140}
@@ -527,7 +528,7 @@ function MadeInGermany() {
         <div className="brand-inner">
           <div className="brand-copy">
             <img
-              src="/images/home/terra-logo.webp"
+              {...siteImg('/images/home/terra-logo.webp', '185px')}
               alt="TERRA – IT. Made in Germany."
               width={185}
               height={64}
@@ -553,7 +554,7 @@ function MadeInGermany() {
           </div>
           <div className="brand-media">
             <img
-              src="/images/home/produktion.webp"
+              {...siteImg('/images/home/produktion.webp', '(min-width: 64em) 600px, 100vw')}
               alt="Montage eines TERRA Systems in der Produktion in Hüllhorst"
               loading="lazy"
               width={1400}

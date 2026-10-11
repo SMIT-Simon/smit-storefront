@@ -8,6 +8,7 @@ import {findSolution, scenarioQuery, SOLUTIONS} from '~/lib/solutions';
 import {absUrl} from '~/lib/seo';
 import {isListable} from '~/lib/addons';
 import {SolutionTiles} from '~/components/SolutionTiles';
+import {siteImg} from '~/lib/site-images';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const s = data?.solution;
@@ -109,7 +110,7 @@ export default function SolutionPage() {
             </div>
           </div>
           <div className="solution-hero-media">
-            <img src={s.image} alt={s.imageAlt} width={1200} height={800} loading="eager" />
+            <img {...siteImg(s.image, '(min-width: 64em) 560px, 100vw')} alt={s.imageAlt} loading="eager" fetchPriority="high" />
           </div>
         </div>
       </section>

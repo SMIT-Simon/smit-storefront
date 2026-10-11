@@ -11,6 +11,7 @@ import {Icon} from '~/components/Icon';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {CATEGORIES} from '~/lib/categories';
 import {PriceModeToggle} from '~/components/PriceMode';
+import {siteImg} from '~/lib/site-images';
 
 const FLYER_LABEL = 'III-26';
 
@@ -53,7 +54,7 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
         <HeaderMenuMobileToggle />
         <Link prefetch="intent" to="/" className="logo" aria-label="Startseite">
           <img
-            src="/images/logo-smit.webp"
+            {...siteImg('/images/logo-smit.webp', '160px')}
             alt={shop.name}
             width={160}
             height={51}
