@@ -3164,3 +3164,6 @@ aside .cart-details > div:first-of-type {
 .eu-notice-figure { margin: 0.5rem 0 0; max-width: 480px; }
 .eu-notice-figure img { border: 1px solid var(--line); display: block; height: auto; width: 100%; }
 .eu-notice-figure figcaption { color: var(--ink-soft); font-size: 0.85rem; margin-top: 0.6rem; }
+.acc-qty-row { align-items: center; display: flex; gap: 0.5rem; margin-top: 0.35rem; }
+.acc-qty-row .acc-qty { margin-top: 0; }
+.acc-qty-row .acc-unit { margin-left: 0; }

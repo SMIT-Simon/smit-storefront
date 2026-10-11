@@ -311,11 +311,13 @@ function AccessoryPicker({
               <Link to={`/products/${p.handle}`} className="acc-title" prefetch="intent">
                 {p.title}
               </Link>
-              <div className="qty qty-small acc-qty" aria-label={`Menge ${p.title}`}>
-                <button type="button" onClick={() => set(p.handle, n - 1)} aria-label="weniger">−</button>
-                <span className="qty-value">{n}</span>
-                <button type="button" onClick={() => set(p.handle, n + 1)} aria-label="mehr">+</button>
-                <span className="acc-unit">Stk</span>
+              <div className="acc-qty-row">
+                <div className="qty qty-small acc-qty" aria-label={`Menge ${p.title}`}>
+                  <button type="button" onClick={() => set(p.handle, n - 1)} aria-label="weniger">−</button>
+                  <span className="qty-value">{n}</span>
+                  <button type="button" onClick={() => set(p.handle, n + 1)} aria-label="mehr">+</button>
+                </div>
+                <span className="acc-unit">Stk.</span>
               </div>
             </div>
             <div className="acc-price">
