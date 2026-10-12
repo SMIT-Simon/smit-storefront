@@ -413,11 +413,25 @@ export type HighlightProductFragment = Pick<
 export type HighlightsQueryVariables = StorefrontAPI.Exact<{
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
   language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+  pc: StorefrontAPI.Scalars['String']['input'];
   monitor: StorefrontAPI.Scalars['String']['input'];
   notebook: StorefrontAPI.Scalars['String']['input'];
 }>;
 
 export type HighlightsQuery = {
+  pc?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
+      featuredImage?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+      >;
+      priceRange: {
+        minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      };
+      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.ProductVariant, 'sku'>
+      >;
+    }
+  >;
   monitor?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
       featuredImage?: StorefrontAPI.Maybe<
@@ -1585,7 +1599,7 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
-  '#graphql\n  fragment HighlightProduct on Product {\n    tags\n    id\n    handle\n    title\n    featuredImage { url altText width height }\n    priceRange { minVariantPrice { amount currencyCode } }\n    selectedOrFirstAvailableVariant { sku }\n  }\n  query Highlights($country: CountryCode, $language: LanguageCode, $monitor: String!, $notebook: String!)\n  @inContext(country: $country, language: $language) {\n    monitor: product(handle: $monitor) { ...HighlightProduct }\n    notebook: product(handle: $notebook) { ...HighlightProduct }\n  }\n': {
+  '#graphql\n  fragment HighlightProduct on Product {\n    tags\n    id\n    handle\n    title\n    featuredImage { url altText width height }\n    priceRange { minVariantPrice { amount currencyCode } }\n    selectedOrFirstAvailableVariant { sku }\n  }\n  query Highlights($country: CountryCode, $language: LanguageCode, $pc: String!, $monitor: String!, $notebook: String!)\n  @inContext(country: $country, language: $language) {\n    pc: product(handle: $pc) { ...HighlightProduct }\n    monitor: product(handle: $monitor) { ...HighlightProduct }\n    notebook: product(handle: $notebook) { ...HighlightProduct }\n  }\n': {
     return: HighlightsQuery;
     variables: HighlightsQueryVariables;
   };
