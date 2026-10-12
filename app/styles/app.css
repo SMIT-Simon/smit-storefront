@@ -3190,3 +3190,9 @@ aside .cart-details > div:first-of-type {
 .included-service-terms dt { font-weight: 600; color: var(--brand-ink); }
 .included-service-terms dd { margin: 0; }
 @media (max-width: 40em) { .included-service-terms dl { grid-template-columns: 1fr; } .included-service-terms dd { margin-bottom: 0.4rem; } }
+
+/* Startseite: PC des Monats als breite Karte */
+@media (min-width: 64em) {
+  .highlight-card-wide { grid-column: 1 / -1; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); }
+  .highlight-card-wide .highlight-media img { max-height: 380px; }
+}

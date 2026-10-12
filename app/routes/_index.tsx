@@ -68,7 +68,11 @@ function loadDeferredData({context}: Route.LoaderArgs) {
 
   const highlights = context.storefront
     .query(HIGHLIGHTS_QUERY, {
-      variables: {monitor: MONTH_HIGHLIGHT.monitor.handle, notebook: MONTH_HIGHLIGHT.notebook.handle},
+      variables: {
+        pc: MONTH_HIGHLIGHT.pc.handle,
+        monitor: MONTH_HIGHLIGHT.monitor.handle,
+        notebook: MONTH_HIGHLIGHT.notebook.handle,
+      },
     })
     .catch((error: Error) => {
       console.error(error);
@@ -91,6 +95,18 @@ function loadDeferredData({context}: Route.LoaderArgs) {
  */
 const MONTH_HIGHLIGHT = {
   label: 'Oktober',
+  pc: {
+    handle: 'terra-pc-business-6000-core-ultra-5-225-16-gb-500-gb-w11-pro-art-nr-1000133-1000133',
+    eyebrow: 'PC des Monats',
+    title: 'TERRA PC BUSINESS 6000',
+    image: '/images/home/pc-des-monats.png',
+    bullets: [
+      'Intel® Core™ Ultra 5 Prozessor 225 (20 MB Cache, bis zu 4,90 GHz)',
+      'Windows 11 Pro',
+      'Intel® Grafik',
+      '2× DisplayPort, 1× HDMI',
+    ],
+  },
   monitor: {
     handle: 'terra-lcd-led-2427w-v3-ips-black-hdmi-dp-usb-c-3030256',
     eyebrow: 'LCD des Monats',
@@ -328,6 +344,14 @@ function MonthHighlights({data}: {data: Promise<HighlightsQuery | null>}) {
             {(res) => (
               <div className="highlight-grid">
                 <HighlightCard
+                  wide
+                  eyebrow={`${m.pc.eyebrow} – ${m.label}`}
+                  title={m.pc.title}
+                  bullets={m.pc.bullets}
+                  product={res?.pc ?? null}
+                  image={m.pc.image}
+                />
+                <HighlightCard
                   eyebrow={`${m.monitor.eyebrow} – ${m.label}`}
                   title={m.monitor.title}
                   bullets={m.monitor.bullets}
@@ -350,12 +374,14 @@ function MonthHighlights({data}: {data: Promise<HighlightsQuery | null>}) {
 }
 
 function HighlightCard({
+  wide = false,
   eyebrow,
   title,
   bullets,
   product,
   image,
 }: {
+  wide?: boolean;
   eyebrow: string;
   title: string;
   bullets: string[];
@@ -366,7 +392,7 @@ function HighlightCard({
   const img = product.featuredImage;
   const sku = product.selectedOrFirstAvailableVariant?.sku;
   return (
-    <article className="highlight-card">
+    <article className={wide ? 'highlight-card highlight-card-wide' : 'highlight-card'}>
       <Link to={`/products/${product.handle}`} className="highlight-media" prefetch="intent">
         {image ? (
           <img {...siteImg(image, '(min-width: 64em) 600px, 100vw')} alt={title} loading="lazy" />
@@ -677,8 +703,9 @@ const HIGHLIGHTS_QUERY = `#graphql
     priceRange { minVariantPrice { amount currencyCode } }
     selectedOrFirstAvailableVariant { sku }
   }
-  query Highlights($country: CountryCode, $language: LanguageCode, $monitor: String!, $notebook: String!)
+  query Highlights($country: CountryCode, $language: LanguageCode, $pc: String!, $monitor: String!, $notebook: String!)
   @inContext(country: $country, language: $language) {
+    pc: product(handle: $pc) { ...HighlightProduct }
     monitor: product(handle: $monitor) { ...HighlightProduct }
     notebook: product(handle: $notebook) { ...HighlightProduct }
   }

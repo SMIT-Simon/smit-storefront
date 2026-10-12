@@ -7,6 +7,7 @@ const CDN = 'https://cdn.shopify.com/s/files/1/1089/3439/8286/files/';
 const VERSION = '1791747634';
 
 const SITE_IMAGES: Record<string, [file: string, width: number, height: number]> = {
+  '/images/home/pc-des-monats.png': ['site-home-pc-des-monats-2026-10.png', 788, 709],
   '/images/home/imig.webp': ['site-home-imig.webp', 1140, 450],
   '/images/home/mobile-1671l.webp': ['site-home-mobile-1671l.webp', 788, 694],
   '/images/home/produktion.webp': ['site-home-produktion.webp', 1400, 788],
