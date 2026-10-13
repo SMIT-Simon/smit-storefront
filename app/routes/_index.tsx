@@ -617,7 +617,7 @@ const CATEGORY_IMAGES: Record<string, string> = {
   monitore: `${IMG}item303020110000.jpg?v=1791735203`,
   tablets: `${IMG}item122075215000.jpg?v=1791735039`,
   'server-netzwerk': `${IMG}item110011810000.jpg?v=1791735022`,
-  zubehoer: `${IMG}item148035510000.jpg?v=1791735133`,
+  zubehoer: `${IMG}item281075710000.jpg?v=1791735184`,
   'software-services': `${IMG}item65302505000.jpg?v=1791735231`,
 };
 
@@ -644,7 +644,7 @@ function CategoryGrid() {
                   <img
                     src={`${CATEGORY_IMAGES[c.handle]}&width=300`}
                     srcSet={`${CATEGORY_IMAGES[c.handle]}&width=200 200w, ${CATEGORY_IMAGES[c.handle]}&width=300 300w, ${CATEGORY_IMAGES[c.handle]}&width=450 450w`}
-                    sizes="(min-width: 64em) 220px, 40vw"
+                    sizes="(min-width: 64em) 200px, 35vw"
                     alt=""
                     width={300}
                     height={300}
