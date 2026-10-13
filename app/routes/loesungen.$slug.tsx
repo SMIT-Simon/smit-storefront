@@ -5,7 +5,7 @@ import {Icon} from '~/components/Icon';
 import {PriceModeNote} from '~/components/PriceMode';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {findSolution, scenarioQuery, SOLUTIONS} from '~/lib/solutions';
-import {absUrl} from '~/lib/seo';
+import {absUrl, SITE_URL} from '~/lib/seo';
 import {isListable} from '~/lib/addons';
 import {SolutionTiles} from '~/components/SolutionTiles';
 import {siteImg} from '~/lib/site-images';
@@ -68,9 +68,9 @@ export default function SolutionPage() {
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          {'@type': 'ListItem', position: 1, name: 'Startseite', item: '/'},
-          {'@type': 'ListItem', position: 2, name: 'Branchen & Lösungen', item: '/loesungen'},
-          {'@type': 'ListItem', position: 3, name: s.name},
+          {'@type': 'ListItem', position: 1, name: 'Startseite', item: `${SITE_URL}/`},
+          {'@type': 'ListItem', position: 2, name: 'Branchen & Lösungen', item: `${SITE_URL}/loesungen`},
+          {'@type': 'ListItem', position: 3, name: s.name, item: `${SITE_URL}/loesungen/${s.slug}`},
         ],
       },
     ],
