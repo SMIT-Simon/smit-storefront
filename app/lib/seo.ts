@@ -86,3 +86,34 @@ export function siteJsonLd() {
     ],
   };
 }
+
+/**
+ * Versand- und Rückgabeangaben für Google (Produkt-Snippets / Merchant Listings).
+ * Muss zu Versandprofil und Widerrufsbelehrung passen: DE 8,90 € (3–5 Werktage),
+ * AT/BE/DK 24,90 € (5–8 Werktage); 14 Tage Widerruf, Rücksendekosten trägt der Kunde.
+ */
+const shipping = (countries: string[], value: number, minDays: number, maxDays: number) =>
+  countries.map((c) => ({
+    '@type': 'OfferShippingDetails',
+    shippingRate: {'@type': 'MonetaryAmount', value: value.toFixed(2), currency: 'EUR'},
+    shippingDestination: {'@type': 'DefinedRegion', addressCountry: c},
+    deliveryTime: {
+      '@type': 'ShippingDeliveryTime',
+      handlingTime: {'@type': 'QuantitativeValue', minValue: 0, maxValue: 1, unitCode: 'DAY'},
+      transitTime: {'@type': 'QuantitativeValue', minValue: minDays, maxValue: maxDays, unitCode: 'DAY'},
+    },
+  }));
+
+export const OFFER_SHIPPING_DETAILS = [
+  ...shipping(['DE'], 8.9, 3, 5),
+  ...shipping(['AT', 'BE', 'DK'], 24.9, 5, 8),
+];
+
+export const OFFER_RETURN_POLICY = {
+  '@type': 'MerchantReturnPolicy',
+  applicableCountry: ['DE', 'AT', 'BE', 'DK'],
+  returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+  merchantReturnDays: 14,
+  returnMethod: 'https://schema.org/ReturnByMail',
+  returnFees: 'https://schema.org/ReturnFeesCustomerResponsibility',
+};

@@ -17,7 +17,7 @@ import {
   parseFilters,
 } from '~/lib/filters';
 import {SITE_NAME} from '~/lib/seo';
-import {categoryIntro} from '~/lib/category-texts';
+import {categoryIntro, categorySeoTitle} from '~/lib/category-texts';
 import {isListable} from '~/lib/addons';
 import {CollectionFilters} from '~/components/CollectionFilters';
 import {Icon} from '~/components/Icon';
@@ -35,7 +35,7 @@ export const meta: Route.MetaFunction = ({data}) => {
     c.description ||
     `${name} von TERRA / WORTMANN kaufen: ${cat?.teaser ?? 'IT-Hardware für Unternehmen'}. Originalware, Kauf auf Rechnung für Firmen, Beratung & Einrichtung vom Systemhaus aus Verl.`;
   return [
-    {title: `${name} kaufen – TERRA von WORTMANN | ${SITE_NAME}`},
+    {title: `${categorySeoTitle(c.handle, data?.sub?.slug) ?? `${name} kaufen – TERRA von WORTMANN`} | ${SITE_NAME}`},
     {name: 'description', content: description.slice(0, 300)},
     {property: 'og:title', content: `${name} – TERRA von WORTMANN`},
     {property: 'og:description', content: description.slice(0, 300)},

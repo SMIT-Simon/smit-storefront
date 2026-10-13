@@ -21,7 +21,7 @@ import {CONFIG_MODELS} from '~/lib/configurator';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import {parseSpecs, keySpecs} from '~/lib/specs';
-import {SITE_NAME, SITE_URL} from '~/lib/seo';
+import {SITE_NAME, SITE_URL, OFFER_SHIPPING_DETAILS, OFFER_RETURN_POLICY} from '~/lib/seo';
 import {getWortmannContent} from '~/lib/wortmann.server';
 import {
   ADDON_PRODUCT_TYPES,
@@ -242,6 +242,8 @@ export default function Product() {
             : 'https://schema.org/OutOfStock',
           itemCondition: 'https://schema.org/NewCondition',
           seller: {'@id': `${SITE_URL}/#store`},
+          shippingDetails: OFFER_SHIPPING_DETAILS,
+          hasMerchantReturnPolicy: OFFER_RETURN_POLICY,
         }
       : undefined,
   };

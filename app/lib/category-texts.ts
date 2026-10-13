@@ -5,7 +5,7 @@
 export const CATEGORY_TEXTS: Record<string, {intro: string; subs?: Record<string, string>}> = {
   notebooks: {
     intro:
-      'TERRA MOBILE Notebooks von WORTMANN für Büro, Homeoffice und unterwegs – vom günstigen Business-Notebook bis zum Copilot+ PC mit KI-Prozessor. Auf Wunsch fertig eingerichtet.',
+      'TERRA Laptops (TERRA MOBILE) vom deutschen Hersteller WORTMANN für Büro, Homeoffice und unterwegs – in 14, 15,6 und 16 Zoll, vom günstigen Business-Notebook bis zum Copilot+ PC mit KI-Prozessor. Auf Wunsch fertig eingerichtet.',
     subs: {
       business: 'Robuste Business-Notebooks mit Windows 11 Pro – die solide Wahl für Büro, Außendienst und Homeoffice.',
       'copilot-pc': 'Copilot+ PCs mit NPU für KI-Funktionen direkt auf dem Gerät – schnell, effizient und mit langer Akkulaufzeit.',
@@ -16,10 +16,10 @@ export const CATEGORY_TEXTS: Record<string, {intro: string; subs?: Record<string
   },
   'desktop-pcs': {
     intro:
-      'TERRA Desktop-PCs, gefertigt in Deutschland: vom platzsparenden Micro-PC für Empfang und Büro über leistungsstarke Business-PCs bis zur Workstation für CAD. Optional mit Vor-Ort-Service, Windows und Einrichtung.',
+      'TERRA PCs und Computer, gefertigt in Deutschland: vom platzsparenden TERRA Mini-PC für Empfang und Büro über leistungsstarke Business-PCs bis zur Workstation für CAD. Optional mit Vor-Ort-Service, Windows und Einrichtung.',
     subs: {
       business: 'Business-PCs für den Büroalltag – zuverlässig, leise und auf lange Laufzeit ausgelegt.',
-      'mini-micro': 'Mini- und Micro-PCs: klein, sparsam und per VESA-Halterung hinter dem Monitor montierbar.',
+      'mini-micro': 'TERRA Mini-PCs und Micro-PCs: klein, sparsam und per VESA-Halterung hinter dem Monitor montierbar.',
       workstation: 'Workstations mit Profi-Grafik für CAD, BIM, Rendering und anspruchsvolle Anwendungen.',
       industry: 'Industry-PCs für Fertigung und raue Umgebungen.',
       home: 'PCs für Zuhause – für Office, Internet, Fotos und Familie.',
@@ -47,7 +47,7 @@ export const CATEGORY_TEXTS: Record<string, {intro: string; subs?: Record<string
   },
   tablets: {
     intro:
-      'TERRA PAD Tablets mit Windows oder Android – für mobile Datenerfassung, Schule, Lager und unterwegs. Passende Tastatur-Cover und Zubehör finden Sie direkt dazu.',
+      'TERRA PAD Tablets mit Windows oder Android – für mobile Datenerfassung, Schule, Lager und unterwegs. Aktuelle Modelle wie TERRA PAD 1007, 1201 und 1262, dazu passende Tastatur-Cover und Zubehör.',
     subs: {
       windows: 'Windows-Tablets mit voller Desktop-Software – mit Type Cover auch als Notebook nutzbar.',
       android: 'Android-Tablets für Präsentation, Lernen und mobile Anwendungen.',
@@ -64,10 +64,10 @@ export const CATEGORY_TEXTS: Record<string, {intro: string; subs?: Record<string
   },
   zubehoer: {
     intro:
-      'Original TERRA-Zubehör: Dockingstations, Tastaturen, Mäuse, Webcams, Taschen und Netzteile – passend zu Ihren TERRA-Geräten.',
+      'Original TERRA-Zubehör: TERRA Tastaturen, Mäuse, Dockingstations, Webcams, Taschen und Netzteile – passend zu Ihren TERRA-Geräten.',
     subs: {
       dockingstations: 'Dockingstations für Notebooks – ein Kabel für Monitore, Netzwerk, USB und Strom.',
-      eingabegeraete: 'Tastaturen, Mäuse und Desktop-Sets – kabelgebunden oder kabellos.',
+      eingabegeraete: 'TERRA Tastaturen, Mäuse und Desktop-Sets – kabelgebunden oder kabellos, mit Copilot-Taste.',
       webcams: 'Webcams für Videokonferenzen mit Teams, Zoom & Co.',
       taschen: 'Notebook-Taschen, Rucksäcke und Schutzhüllen.',
       netzteile: 'Original-Netzteile und Akkus für TERRA-Geräte.',
@@ -91,4 +91,21 @@ export function categoryIntro(handle: string, sub?: string | null) {
   const c = CATEGORY_TEXTS[handle];
   if (!c) return null;
   return (sub && c.subs?.[sub]) || c.intro;
+}
+
+/** Seitentitel (Google) je Kategorie bzw. Unterkategorie – mit den Begriffen, nach denen gesucht wird. */
+const SEO_TITLES: Record<string, string> = {
+  notebooks: 'TERRA Laptop & Notebook kaufen – TERRA MOBILE 14, 15,6 & 16 Zoll',
+  'desktop-pcs': 'TERRA PC kaufen – Business-PC, Mini-PC & Workstation',
+  'desktop-pcs/mini-micro': 'TERRA Mini-PC kaufen – PC-Mini & PC-Micro',
+  'all-in-one-pcs': 'TERRA All-in-One-PC kaufen – 24 & 27 Zoll',
+  monitore: 'TERRA Monitor kaufen – LCD/LED 24, 27 & 32 Zoll',
+  tablets: 'TERRA PAD Tablet kaufen – Windows & Android',
+  'server-netzwerk': 'TERRA Server & Firewall kaufen',
+  zubehoer: 'TERRA Zubehör kaufen – Tastatur, Maus, Dockingstation',
+  'zubehoer/eingabegeraete': 'TERRA Tastatur & Maus kaufen',
+};
+
+export function categorySeoTitle(handle: string, sub?: string | null) {
+  return (sub && SEO_TITLES[`${handle}/${sub}`]) || SEO_TITLES[handle] || null;
 }

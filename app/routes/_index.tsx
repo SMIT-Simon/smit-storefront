@@ -37,11 +37,11 @@ export const links: Route.LinksFunction = () => {
 };
 
 export const meta: Route.MetaFunction = () => [
-  {title: 'TERRA Computer Shop – Notebooks, PCs, Monitore & Server von WORTMANN | terra-computershop.de'},
+  {title: 'TERRA Computer kaufen – TERRA PC, Laptop, Mini-PC & Monitor | terra-computershop.de'},
   {
     name: 'description',
     content:
-      'TERRA Notebooks, Business-PCs, Monitore, Server und Zubehör von WORTMANN – made in Germany. Netto-Preise für Firmen, PDF-Angebot, Kauf auf Rechnung, Einrichtung vom Systemhaus aus Verl.',
+      'TERRA Computer vom deutschen Hersteller WORTMANN: TERRA PCs, Laptops (TERRA MOBILE), Mini-PCs, Monitore, Server und Zubehör. Netto-Preise für Firmen, PDF-Angebot, Kauf auf Rechnung, Einrichtung vom Systemhaus aus Verl.',
   },
   {property: 'og:title', content: 'TERRA Computer Shop – IT made in Germany'},
 ];
