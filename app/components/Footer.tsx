@@ -135,6 +135,9 @@ export function Footer({header}: FooterProps) {
                 <Link to={l.to}>{l.title}</Link>
               </li>
             ))}
+            <li>
+              <CookieSettingsButton />
+            </li>
           </ul>
         </nav>
       </div>
@@ -190,5 +193,21 @@ function TrustItem({
         <p>{children}</p>
       </div>
     </div>
+  );
+}
+
+/** Öffnet die Cookie-Einstellungen des Shopify-Cookie-Banners erneut. */
+function CookieSettingsButton() {
+  return (
+    <button
+      type="button"
+      className="footer-link-button"
+      onClick={() => {
+        const w = window as unknown as {privacyBanner?: {showPreferences?: () => void}};
+        w.privacyBanner?.showPreferences?.();
+      }}
+    >
+      Cookie-Einstellungen
+    </button>
   );
 }
