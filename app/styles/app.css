@@ -807,11 +807,7 @@ aside li {
   }
 }
 
-@media (min-width: 80em) {
-  .category-grid {
-    grid-template-columns: repeat(7, 1fr);
-  }
-}
+
 
 .category-tile {
   background: #fff;
@@ -3210,3 +3206,13 @@ aside .cart-details > div:first-of-type {
 }
 .chat-optin:hover { filter: brightness(1.1); }
 @media print { .chat-optin { display: none; } }
+
+/* Startseite: Kategorie-Kacheln mit Produktfoto (4 × 2) */
+.category-tile { align-items: flex-start; padding: 0.9rem 1rem 1.15rem; }
+.category-tile-media {
+  align-items: center; aspect-ratio: 4 / 3; background: #fff; display: flex;
+  justify-content: center; margin-bottom: 0.4rem; width: 100%;
+}
+.category-tile-media img { height: 100%; object-fit: contain; transition: transform 200ms; width: 100%; }
+.category-tile:hover .category-tile-media img { transform: scale(1.04); }
+@media (min-width: 64em) { .category-tile { padding: 1rem 1.25rem 1.35rem; } }

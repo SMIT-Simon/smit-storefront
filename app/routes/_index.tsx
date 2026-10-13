@@ -608,6 +608,19 @@ function MadeInGermany() {
   );
 }
 
+/** Typisches Wortmann-Produktfoto je Kategorie (Shopify-CDN, unverändert). */
+const IMG = 'https://cdn.shopify.com/s/files/1/1089/3439/8286/files/';
+const CATEGORY_IMAGES: Record<string, string> = {
+  notebooks: `${IMG}item122085320000_ddc927d4-fc09-4bd6-94d5-94b077efeb9d.jpg?v=1791735055`,
+  'desktop-pcs': `${IMG}item10000915000_d932a031-027d-489a-9e69-12d253cc7f35.jpg?v=1791734953`,
+  'all-in-one-pcs': `${IMG}item100017510000.jpg?v=1791734982`,
+  monitore: `${IMG}item303020110000.jpg?v=1791735203`,
+  tablets: `${IMG}item122075215000.jpg?v=1791735039`,
+  'server-netzwerk': `${IMG}item110011810000.jpg?v=1791735022`,
+  zubehoer: `${IMG}item148035510000.jpg?v=1791735133`,
+  'software-services': `${IMG}item65302505000.jpg?v=1791735231`,
+};
+
 function CategoryGrid() {
   return (
     <section className="section section-tight">
@@ -626,8 +639,21 @@ function CategoryGrid() {
               className="category-tile"
               prefetch="intent"
             >
-              <span className="category-tile-icon">
-                <Icon name={c.icon} size={32} />
+              <span className="category-tile-media">
+                {CATEGORY_IMAGES[c.handle] ? (
+                  <img
+                    src={`${CATEGORY_IMAGES[c.handle]}&width=300`}
+                    srcSet={`${CATEGORY_IMAGES[c.handle]}&width=200 200w, ${CATEGORY_IMAGES[c.handle]}&width=300 300w, ${CATEGORY_IMAGES[c.handle]}&width=450 450w`}
+                    sizes="(min-width: 64em) 220px, 40vw"
+                    alt=""
+                    width={300}
+                    height={300}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                ) : (
+                  <Icon name={c.icon} size={32} />
+                )}
               </span>
               <span className="category-tile-title">{c.title}</span>
               <span className="category-tile-teaser">{c.teaser}</span>
