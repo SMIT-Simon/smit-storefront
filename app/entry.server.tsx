@@ -14,7 +14,16 @@ export default async function handleRequest(
   reactRouterContext: EntryContext,
   context: HydrogenRouterContextProvider,
 ) {
+  // Elfsight KI-Chatbot (wird erst nach Einwilligung bzw. Klick geladen)
+  const ELFSIGHT = ['https://elfsightcdn.com', 'https://*.elfsightcdn.com', 'https://*.elfsight.com'];
   const {nonce, header, NonceProvider} = createContentSecurityPolicy({
+    defaultSrc: [...ELFSIGHT, 'data:', 'blob:'],
+    scriptSrc: ["'self'", 'https://cdn.shopify.com', 'https://shopify.com', ...ELFSIGHT],
+    styleSrc: [...ELFSIGHT, 'https://fonts.googleapis.com'],
+    fontSrc: ["'self'", 'https://cdn.shopify.com', 'https://fonts.gstatic.com', 'data:', ...ELFSIGHT],
+    imgSrc: ["'self'", 'https://cdn.shopify.com', 'data:', 'blob:', ...ELFSIGHT],
+    connectSrc: [...ELFSIGHT, 'wss://*.elfsight.com'],
+    frameSrc: ["'self'", 'https://shopify.com', ...ELFSIGHT],
     shop: {
       checkoutDomain: context.env.PUBLIC_CHECKOUT_DOMAIN || context.env.PUBLIC_STORE_DOMAIN,
       storeDomain: context.env.PUBLIC_STORE_DOMAIN,
