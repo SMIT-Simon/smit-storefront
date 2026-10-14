@@ -17,6 +17,7 @@ const INFO = [
   {to: '/flyer', label: 'Business-Flyer'},
   ...CONFIG_MODELS.map((m) => ({to: `/konfigurator/${m.slug}`, label: `PC-Konfigurator ${m.name}`})),
   {to: '/pages/kontakt', label: 'Kontakt & Angebotsanfrage'},
+  {to: '/zahlungsarten', label: 'Zahlungsarten'},
   {to: '/search', label: 'Produktsuche'},
   {to: '/account', label: 'Kundenkonto'},
 ];

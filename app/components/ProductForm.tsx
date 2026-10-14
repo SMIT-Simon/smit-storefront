@@ -183,7 +183,7 @@ export function ProductForm({
       {available && buyNowHref ? (
         <a href={buyNowHref} className="btn btn-buynow btn-block" rel="nofollow">
           Sofort kaufen
-          <span className="buynow-methods">PayPal · Kreditkarte · Rechnung</span>
+          <span className="buynow-methods">PayPal · Kreditkarte · Klarna · Apple Pay</span>
         </a>
       ) : null}
       {available ? <LegalGuaranteeNotice compact /> : null}

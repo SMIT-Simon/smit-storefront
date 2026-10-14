@@ -1,0 +1,64 @@
+/**
+ * Zahlungsarten im Shopify-Checkout (Stand: Checkout geprüft am 14.10.2026).
+ * Icons: offizielle Shopify-Zahlungssymbole (activemerchant/payment_icons) in /public/images/payment.
+ */
+export type PaymentIcon = {file: string; label: string};
+
+export const PAYMENT_ICONS: PaymentIcon[] = [
+  {file: 'paypal', label: 'PayPal'},
+  {file: 'visa', label: 'Visa'},
+  {file: 'master', label: 'Mastercard'},
+  {file: 'maestro', label: 'Maestro'},
+  {file: 'american_express', label: 'American Express'},
+  {file: 'klarna', label: 'Klarna'},
+  {file: 'apple_pay', label: 'Apple Pay'},
+  {file: 'google_pay', label: 'Google Pay'},
+  {file: 'shopify_pay', label: 'Shop Pay'},
+];
+
+export const paymentIconSrc = (file: string) => `/images/payment/${file}.svg`;
+
+export type PaymentMethod = {
+  title: string;
+  icons: string[];
+  text: string;
+  points: string[];
+};
+
+export const PAYMENT_METHODS: PaymentMethod[] = [
+  {
+    title: 'PayPal',
+    icons: ['paypal'],
+    text: 'Bezahlen Sie bequem mit Ihrem PayPal-Konto – direkt im Checkout oder per Express-Button im Warenkorb.',
+    points: [
+      'Sie melden sich bei PayPal an und bestätigen die Zahlung',
+      'Je nach PayPal-Konto auch per Lastschrift oder „Später bezahlen“',
+      'PayPal-Käuferschutz für berechtigte Käufe',
+    ],
+  },
+  {
+    title: 'Kreditkarte & Debitkarte',
+    icons: ['visa', 'master', 'maestro', 'american_express'],
+    text: 'Visa, Mastercard, Maestro, American Express und UnionPay – verschlüsselt verarbeitet über Shopify Payments.',
+    points: [
+      'Sichere Zahlung mit 3-D Secure',
+      'Kartendaten werden nicht bei uns gespeichert',
+    ],
+  },
+  {
+    title: 'Klarna',
+    icons: ['klarna'],
+    text: 'Mit Klarna bezahlen Sie sofort oder später. Welche Optionen Ihnen angeboten werden, zeigt Klarna nach einer kurzen Prüfung direkt im Checkout an.',
+    points: ['Auswahl im Checkout unter „Klarna“', 'Abwicklung und Prüfung durch Klarna'],
+  },
+  {
+    title: 'Apple Pay, Google Pay & Shop Pay',
+    icons: ['apple_pay', 'google_pay', 'shopify_pay'],
+    text: 'Schnell bezahlen mit einem Klick – mit den in Ihrem Gerät oder Konto hinterlegten Zahlungsdaten.',
+    points: [
+      'Apple Pay auf iPhone, iPad und Mac (Safari)',
+      'Google Pay in Chrome und auf Android',
+      'Shop Pay speichert Ihre Daten für künftige Bestellungen',
+    ],
+  },
+];

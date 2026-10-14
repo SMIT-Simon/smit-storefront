@@ -1,3 +1,4 @@
+import {PaymentIconRow} from '~/components/PaymentIcons';
 import {Link} from 'react-router';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 import {CATEGORIES} from '~/lib/categories';
@@ -104,6 +105,9 @@ export function Footer({header}: FooterProps) {
               <Link to="/pages/kontakt">Kontakt &amp; Angebotsanfrage</Link>
             </li>
             <li>
+              <Link to="/zahlungsarten">Zahlungsarten</Link>
+            </li>
+            <li>
               <Link to="/loesungen">Branchen &amp; Lösungen</Link>
             </li>
             <li>
@@ -158,6 +162,12 @@ export function Footer({header}: FooterProps) {
             </li>
           </ul>
         </nav>
+      </div>
+
+      <div className="container footer-payments">
+        <Link to="/zahlungsarten" aria-label="Alle Zahlungsarten ansehen">
+          <PaymentIconRow compact />
+        </Link>
       </div>
 
       <div className="container footer-guarantee">

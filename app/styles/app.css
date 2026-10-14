@@ -3490,3 +3490,26 @@ html:has(.overlay.expanded) .chat-optin {
 .server-guide .check-list svg { margin-top: 0.15rem; }
 @media (min-width: 64em) { .needs-grid.cloud-features.server-four { grid-template-columns: repeat(4, 1fr); } }
 .server-guide-hero img { aspect-ratio: 2400 / 1251; height: auto; object-fit: contain; width: 100%; }
+
+/* Zahlungsarten */
+.payment-icons { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 1rem 0 2rem; padding: 0; }
+.payment-icons img { display: block; height: 36px; width: auto; }
+.payment-icons-compact { justify-content: center; margin: 0; gap: 0.4rem; }
+.payment-icons-compact img { height: 24px; }
+.footer-payments { padding: 1.25rem var(--gutter) 0; }
+.footer-payments a { display: block; }
+.payment-grid { display: grid; gap: 1rem; margin-bottom: 2rem; }
+@media (min-width: 48em) { .payment-grid { grid-template-columns: repeat(2, 1fr); } }
+.payment-card { background: var(--bg); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem 1.25rem 0.5rem; }
+.payment-card h2 { font-size: 1.15rem; margin: 0.75rem 0 0.4rem; }
+.payment-card p { color: var(--ink-soft); margin: 0 0 0.75rem; line-height: 1.55; }
+.payment-card .check-list li { align-items: flex-start; line-height: 1.45; }
+.payment-card .check-list svg { margin-top: 0.1rem; }
+.payment-card-icons { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.payment-card-icons img { height: 32px; width: auto; }
+.payment-card-invoice { background: var(--brand-tint); border-color: transparent; padding-bottom: 1.25rem; }
+@media (min-width: 48em) { .payment-card-invoice { grid-column: 1 / -1; } }
+.payment-invoice-icon { align-items: center; background: var(--bg); border-radius: var(--radius-sm); color: var(--brand); display: inline-flex; height: 40px; justify-content: center; width: 56px; }
+.payment-secure { align-items: flex-start; background: var(--bg-muted); border-radius: var(--radius); display: flex; gap: 0.75rem; margin-bottom: 2rem; padding: 1rem 1.25rem; }
+.payment-secure svg { color: var(--success); flex: none; }
+.payment-more { color: var(--ink-mute); margin-top: 2rem; }
