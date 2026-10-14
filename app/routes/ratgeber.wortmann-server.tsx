@@ -13,9 +13,9 @@ const SLUG = '/ratgeber/wortmann-server';
 /** Großes Bild oben: Rack-Server statt Tower */
 const HERO_HANDLE = 'terra-server-3230-g6-xeon-6369p-64-gb-3840-gb-ohne-betriebssystem-1100419';
 const H1 = 'Wortmann Server: TERRA SERVER made in Germany';
-const TITLE = 'Wortmann Server – TERRA SERVER kaufen oder in die Cloud? Ratgeber | terra-computershop.de';
+const TITLE = 'Wortmann Server & TERRA SERVER – Ratgeber: kaufen oder Cloud?';
 const DESCRIPTION =
-  'Wortmann Server (TERRA SERVER) aus Hüllhorst: individuell konfiguriert, Vor-Ort-Service bis 10 Jahre und kostenloser Notfallservice. Server im Haus oder TERRA CLOUD? Beratung gemeinsam mit WORTMANN.';
+  'Wortmann Server bzw. TERRA Server aus Hüllhorst: individuell konfiguriert, Vor-Ort-Service bis 10 Jahre und kostenloser Notfallservice. Server im Haus oder TERRA CLOUD? Beratung gemeinsam mit WORTMANN.';
 
 const FACTS = [
   {value: 'Made in Germany', label: 'Fertigung in Hüllhorst (ISO 9001)'},
@@ -82,6 +82,10 @@ const SERVER_INTEREST_OPTIONS = [
 
 const FAQ = [
   {
+    q: 'Was ist der Unterschied zwischen Wortmann Server und TERRA Server?',
+    a: 'Keiner – es ist dasselbe Produkt. WORTMANN ist der Hersteller aus Hüllhorst, TERRA die Marke. Wer nach „Wortmann Server“ oder „TERRA Server“ sucht, findet hier also dieselben Systeme.',
+  },
+  {
     q: 'Was sind Wortmann Server?',
     a: 'Wortmann Server sind die Server der WORTMANN AG aus Hüllhorst, die unter der Marke TERRA SERVER verkauft werden – vom leisen MINISERVER bis zum Rack-Server für Virtualisierung. Gefertigt werden sie in Deutschland nach ISO 9001:2015.',
   },
@@ -136,7 +140,7 @@ export const meta: Route.MetaFunction = ({data}) => [
   {property: 'og:description', content: DESCRIPTION},
   {
     property: 'og:image',
-    content: 'https://cdn.shopify.com/s/files/1/1089/3439/8286/files/site-server-rack.png?width=1200&format=jpg',
+    content: 'https://cdn.shopify.com/s/files/1/1089/3439/8286/files/site-server-rack.png?width=1200',
   },
 ];
 
