@@ -1,4 +1,4 @@
-import {Suspense} from 'react';
+import {Suspense, useCallback, useEffect, useRef, useState} from 'react';
 import {Await, Form, Link, NavLink, useAsyncValue} from 'react-router';
 import {
   type CartViewPayload,
@@ -166,9 +166,99 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
     );
   }
 
+  return <DesktopNav />;
+}
+
+type NavMode = 'scroll' | 'wrap';
+const NAV_MODE_KEY = 'smit-nav-mode';
+
+/**
+ * Desktop-Kategorieleiste. Zwei Varianten zum Testen (Umschalten per ?nav=scroll / ?nav=wrap,
+ * wird im Browser gemerkt):
+ *  - scroll: eine Zeile, bei zu schmalem Fenster seitlich schiebbar mit Pfeil-Buttons
+ *  - wrap:   bricht in eine zweite Zeile um
+ */
+function DesktopNav() {
+  const [mode, setMode] = useState<NavMode>('scroll');
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [canLeft, setCanLeft] = useState(false);
+  const [canRight, setCanRight] = useState(false);
+
+  useEffect(() => {
+    try {
+      const q = new URLSearchParams(window.location.search).get('nav');
+      if (q === 'scroll' || q === 'wrap') window.localStorage.setItem(NAV_MODE_KEY, q);
+      const saved = window.localStorage.getItem(NAV_MODE_KEY);
+      if (saved === 'scroll' || saved === 'wrap') setMode(saved);
+    } catch {
+      /* Speicher gesperrt */
+    }
+  }, []);
+
+  const update = useCallback(() => {
+    const el = trackRef.current;
+    if (!el || mode !== 'scroll') {
+      setCanLeft(false);
+      setCanRight(false);
+      return;
+    }
+    setCanLeft(el.scrollLeft > 4);
+    setCanRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 4);
+  }, [mode]);
+
+  useEffect(() => {
+    update();
+    const el = trackRef.current;
+    if (!el) return;
+    el.addEventListener('scroll', update, {passive: true});
+    window.addEventListener('resize', update);
+    return () => {
+      el.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
+    };
+  }, [update]);
+
+  // Im Schiebe-Modus würden Dropdowns vom Scroll-Container abgeschnitten → fest positionieren
+  const placeDropdown = (e: React.MouseEvent<HTMLDivElement> | React.FocusEvent<HTMLDivElement>) => {
+    if (mode !== 'scroll') return;
+    const item = e.currentTarget;
+    const dd = item.querySelector<HTMLElement>('.nav-dropdown');
+    if (!dd) return;
+    const r = item.getBoundingClientRect();
+    const w = Math.max(dd.offsetWidth, 260);
+    const left = Math.min(r.left, window.innerWidth - w - 12);
+    item.style.setProperty('--dd-left', `${Math.max(12, left)}px`);
+    item.style.setProperty('--dd-top', `${r.bottom}px`);
+  };
+
+  const scrollBy = (dir: 1 | -1) =>
+    trackRef.current?.scrollBy({left: dir * trackRef.current.clientWidth * 0.7, behavior: 'smooth'});
+
   return (
-    <nav className="category-nav" aria-label="Kategorien">
-      <div className="container category-nav-inner">
+    <nav className={`category-nav nav-mode-${mode}`} aria-label="Kategorien">
+      {canLeft ? (
+        <button type="button" className="nav-scroll-btn nav-scroll-left" aria-label="Menü nach links schieben" onClick={() => scrollBy(-1)}>
+          <Icon name="chevron-right" size={18} />
+        </button>
+      ) : null}
+      {canRight ? (
+        <button type="button" className="nav-scroll-btn nav-scroll-right" aria-label="Menü nach rechts schieben" onClick={() => scrollBy(1)}>
+          <Icon name="chevron-right" size={18} />
+        </button>
+      ) : null}
+      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- nur Positionierung der Dropdowns */}
+      <div
+        className="container category-nav-inner"
+        ref={trackRef}
+        onMouseOver={(e) => {
+          const item = (e.target as HTMLElement).closest<HTMLDivElement>('.nav-item');
+          if (item) placeDropdown({currentTarget: item} as React.MouseEvent<HTMLDivElement>);
+        }}
+        onFocus={(e) => {
+          const item = (e.target as HTMLElement).closest<HTMLDivElement>('.nav-item');
+          if (item) placeDropdown({currentTarget: item} as React.FocusEvent<HTMLDivElement>);
+        }}
+      >
         {CATEGORIES.map((c) => (
           <div key={c.handle} className="nav-item">
             <NavLink

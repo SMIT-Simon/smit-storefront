@@ -3359,3 +3359,75 @@ html:has(.overlay.expanded) .chat-optin {
   pointer-events: none !important;
   visibility: hidden !important;
 }
+
+/* ---------- Desktop-Menü: Varianten "scroll" (Pfeile) und "wrap" (2 Zeilen) ---------- */
+.category-nav { position: sticky; }
+.nav-scroll-btn { display: none; }
+@media (min-width: 48em) {
+  /* Variante A: eine Zeile, seitlich schiebbar */
+  .nav-mode-scroll .category-nav-inner {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+  }
+  .nav-mode-scroll .category-nav-inner::-webkit-scrollbar { display: none; }
+  .nav-mode-scroll .category-link { white-space: nowrap; }
+  .nav-scroll-btn {
+    align-items: center;
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(16, 24, 40, 0.15);
+    color: var(--brand-ink);
+    cursor: pointer;
+    display: inline-flex;
+    height: 32px;
+    justify-content: center;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 32px;
+    z-index: 3;
+  }
+  .nav-scroll-btn:hover { border-color: var(--brand); color: var(--brand); }
+  .nav-scroll-right { right: 8px; }
+  .nav-scroll-left { left: 8px; }
+  .nav-scroll-left svg { transform: rotate(180deg); }
+  /* weicher Verlauf am Rand, damit man sieht: da geht's weiter */
+  .nav-mode-scroll:has(.nav-scroll-right)::after,
+  .nav-mode-scroll:has(.nav-scroll-left)::before {
+    content: '';
+    height: 100%;
+    pointer-events: none;
+    position: absolute;
+    top: 0;
+    width: 70px;
+    z-index: 2;
+  }
+  .nav-mode-scroll:has(.nav-scroll-right)::after { background: linear-gradient(90deg, rgba(255,255,255,0), #fff 70%); right: 0; }
+  .nav-mode-scroll:has(.nav-scroll-left)::before { background: linear-gradient(270deg, rgba(255,255,255,0), #fff 70%); left: 0; }
+
+  /* Variante B: Umbruch in zweite Zeile */
+  .nav-mode-wrap .category-nav-inner {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    overflow: visible;
+  }
+}
+@media (min-width: 64em) {
+  /* Dropdowns im Schiebe-Modus fest positioniert (sonst vom Scroll-Bereich abgeschnitten) */
+  .nav-mode-scroll .nav-item .nav-dropdown,
+  .nav-mode-scroll .nav-item-solutions .nav-dropdown-wide,
+  .nav-mode-scroll .nav-item-cloud .nav-dropdown {
+    left: var(--dd-left, 0) !important;
+    position: fixed;
+    right: auto !important;
+    top: var(--dd-top, 100%);
+  }
+  /* Bei Umbruch keine Platzverteilung über die volle Breite */
+  .nav-mode-wrap .category-nav-inner { justify-content: flex-start !important; }
+}
