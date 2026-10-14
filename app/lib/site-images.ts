@@ -7,6 +7,21 @@ const CDN = 'https://cdn.shopify.com/s/files/1/1089/3439/8286/files/';
 const VERSION = '1791747634';
 
 const SITE_IMAGES: Record<string, [file: string, width: number, height: number]> = {
+  '/images/cloud/header.jpg': ['site-cloud-header.jpg', 1600, 588],
+  '/images/cloud/team.jpg': ['site-cloud-team.jpg', 1400, 940],
+  '/images/cloud/kachel-iaas.jpg': ['site-cloud-kachel-iaas.jpg', 1500, 1500],
+  '/images/cloud/kachel-basic.jpg': ['site-cloud-kachel-basic.jpg', 1500, 1500],
+  '/images/cloud/kachel-s3.jpg': ['site-cloud-kachel-s3.jpg', 1500, 1500],
+  '/images/cloud/kachel-backup.jpg': ['site-cloud-kachel-backup.jpg', 250, 250],
+  '/images/cloud/rz-server.jpg': ['site-cloud-rz-server.jpg', 1600, 762],
+  '/images/cloud/rz-tuer.jpg': ['site-cloud-rz-tuer.jpg', 330, 250],
+  '/images/cloud/rz-luft.jpg': ['site-cloud-rz-luft.jpg', 330, 250],
+  '/images/cloud/rz-netz.jpg': ['site-cloud-rz-netz.jpg', 900, 704],
+  '/images/cloud/rz-brandschutz.jpg': ['site-cloud-rz-brandschutz.jpg', 900, 704],
+  '/images/cloud/rz-strom.jpg': ['site-cloud-rz-strom.jpg', 900, 704],
+  '/images/cloud/rz-klima.jpg': ['site-cloud-rz-klima.jpg', 720, 480],
+  '/images/cloud/rz-zutritt.jpg': ['site-cloud-rz-zutritt.jpg', 900, 704],
+  '/images/cloud/rz-hebel.jpg': ['site-cloud-rz-hebel.jpg', 1600, 762],
   '/images/home/pc-des-monats.png': ['site-home-pc-des-monats-2026-10.png', 788, 709],
   '/images/home/imig.webp': ['site-home-imig.webp', 1140, 450],
   '/images/home/mobile-1671l.webp': ['site-home-mobile-1671l.webp', 788, 694],

@@ -3,6 +3,7 @@ import type {Route} from './+types/sitemap._index';
 import {CATEGORIES} from '~/lib/categories';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {CONFIG_MODELS} from '~/lib/configurator';
+import {CLOUD_SERVICES} from '~/lib/cloud';
 
 export const meta: Route.MetaFunction = () => [
   {title: 'Sitemap | terra-computershop.de'},
@@ -79,6 +80,20 @@ export default function Sitemap() {
             <li>
               <Link to="/loesungen">Alle Lösungen</Link>
             </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>TERRA CLOUD</h2>
+          <ul>
+            <li>
+              <Link to="/cloud">TERRA CLOUD im Überblick</Link>
+            </li>
+            {CLOUD_SERVICES.map((c) => (
+              <li key={c.slug}>
+                <Link to={`/cloud/${c.slug}`}>{c.name}</Link>
+              </li>
+            ))}
           </ul>
         </section>
 

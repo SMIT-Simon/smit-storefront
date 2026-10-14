@@ -109,6 +109,9 @@ export function Footer({header}: FooterProps) {
               <Link to="/ratgeber/laptop-aus-deutschland">Laptop aus Deutschland</Link>
             </li>
             <li>
+              <Link to="/cloud">TERRA CLOUD</Link>
+            </li>
+            <li>
               <Link to="/flyer">Business-Flyer</Link>
             </li>
             <li>

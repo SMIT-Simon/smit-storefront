@@ -12,6 +12,7 @@ import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {CATEGORIES} from '~/lib/categories';
 import {PriceModeToggle} from '~/components/PriceMode';
 import {siteImg} from '~/lib/site-images';
+import {CLOUD_SERVICES} from '~/lib/cloud';
 
 const FLYER_LABEL = 'III-26';
 
@@ -140,6 +141,18 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
             ))}
           </div>
         </div>
+        <div className="mobile-nav-group">
+          <NavLink end onClick={close} prefetch="intent" to="/cloud">
+            TERRA CLOUD
+          </NavLink>
+          <div className="mobile-nav-subs">
+            {CLOUD_SERVICES.map((x) => (
+              <Link key={x.slug} onClick={close} prefetch="intent" to={`/cloud/${x.slug}`}>
+                {x.name}
+              </Link>
+            ))}
+          </div>
+        </div>
         <NavLink onClick={close} prefetch="intent" to="/collections/all">
           Alle Produkte
         </NavLink>
@@ -229,6 +242,28 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
                 Alle Lösungen →
               </Link>
             </div>
+          </div>
+        </div>
+        <div className="nav-item nav-item-cloud">
+          <NavLink
+            prefetch="intent"
+            to="/cloud"
+            className={({isActive}) =>
+              isActive ? 'category-link nav-cloud active' : 'category-link nav-cloud'
+            }
+          >
+            Cloud
+            <Icon name="chevron-right" size={14} className="nav-caret" />
+          </NavLink>
+          <div className="nav-dropdown">
+            {CLOUD_SERVICES.map((x) => (
+              <Link key={x.slug} to={`/cloud/${x.slug}`} prefetch="intent">
+                {x.name}
+              </Link>
+            ))}
+            <Link to="/cloud" prefetch="intent" className="nav-dropdown-more">
+              TERRA CLOUD im Überblick →
+            </Link>
           </div>
         </div>
         <NavLink

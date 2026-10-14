@@ -20,6 +20,7 @@ import {HERO_SIZES, HeroSlider, type Slide} from '~/components/HeroSlider';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {SolutionTiles} from '~/components/SolutionTiles';
 import {siteImg} from '~/lib/site-images';
+import {CLOUD_SERVICES} from '~/lib/cloud';
 
 /** Erstes Slider-Bild (LCP) vorladen. */
 export const links: Route.LinksFunction = () => {
@@ -187,6 +188,7 @@ export default function Homepage() {
       <FlyerTeaser products={data.flyerProducts} />
       <FeatureWorkplace />
       <SolutionsSection />
+      <CloudTeaser />
       <RecommendedProducts products={data.recommendedProducts} />
       <PixelBanner />
       <DuoTeasers />
@@ -194,6 +196,49 @@ export default function Homepage() {
       <SystemhausSection />
       <BusinessBanner />
     </div>
+  );
+}
+
+function CloudTeaser() {
+  const tiles = CLOUD_SERVICES.filter((x) =>
+    ['virtuelle-server', 'backup', 'jtl-wawi-cloud', 'rechenzentrum'].includes(x.slug),
+  );
+  return (
+    <section className="home-cloud" aria-labelledby="home-cloud">
+      <img
+        {...siteImg('/images/cloud/header.jpg', '100vw')}
+        alt=""
+        className="home-cloud-bg"
+        loading="lazy"
+      />
+      <div className="container home-cloud-inner">
+        <div>
+          <span className="eyebrow eyebrow-light">Neu: TERRA CLOUD</span>
+          <h2 id="home-cloud">Ihre Server in der Cloud – aus Ostwestfalen</h2>
+          <p>
+            Virtuelle Server, Backup und Hosting aus dem Rechenzentrum der WORTMANN AG in Hüllhorst:
+            ISO 27001-zertifiziert, DSGVO-konform und monatlich kündbar. Eingerichtet und betreut von
+            uns – Preise auf Anfrage.
+          </p>
+          <div className="feature-actions">
+            <Link to="/cloud" className="btn btn-light" prefetch="intent">
+              TERRA CLOUD entdecken <Icon name="arrow-right" size={18} />
+            </Link>
+            <Link to="/cloud#anfrage" className="btn btn-outline-light">
+              Angebot anfragen
+            </Link>
+          </div>
+        </div>
+        <div className="home-cloud-tiles">
+          {tiles.map((t) => (
+            <Link key={t.slug} to={`/cloud/${t.slug}`} className="home-cloud-tile" prefetch="intent">
+              <strong>{t.name}</strong>
+              <span>{t.teaser}</span>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
