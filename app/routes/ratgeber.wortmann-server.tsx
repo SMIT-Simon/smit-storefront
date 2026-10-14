@@ -18,26 +18,34 @@ const DESCRIPTION =
 const FACTS = [
   {value: 'Made in Germany', label: 'Fertigung in Hüllhorst (ISO 9001)'},
   {value: 'bis 10 Jahre', label: 'Vor-Ort-Service für Server'},
-  {value: '24 h', label: 'Expressfertigung ohne Aufpreis'},
+  {value: '48 h', label: 'Wunschserver in dringenden Fällen'},
   {value: '99,95 %', label: 'VM-Verfügbarkeit in der TERRA CLOUD'},
 ];
 
 const SERIES = [
   {
     name: 'TERRA MINISERVER',
-    text: 'Der Einstieg für kleine Unternehmen, Praxen und Kanzleien: kompakt, leise, ohne Serverschrank. Ideal für Dateiablage, Warenwirtschaft und kleine Datenbanken.',
+    text: 'Der meistverkaufte TERRA Server für kleine und mittlere Anforderungen. Ein eigens entwickeltes Gehäuse kühlt effektiv und trotzdem leise – geeignet für den Betrieb direkt im Büro, in Praxis oder Kanzlei.',
   },
   {
-    name: 'TERRA SERVER 3000 / 5000',
-    text: 'Tower- und Rack-Server mit Intel Xeon oder AMD EPYC, Hot-Swap-Laufwerken (SATA, SAS, NVMe) und optional redundanten Netzteilen – das Arbeitspferd für den Mittelstand.',
+    name: 'TERRA SERVER 3000 bis 7000',
+    text: 'Tower- und 19"-Rack-Server in allen Leistungsklassen mit Intel Xeon oder AMD EPYC, Hot-Swap-Laufwerken und redundanten Netzteilen. Gut zu wissen: Mehr Leistung braucht mehr Kühlung und wird lauter – starke Modelle gehören in einen eigenen Raum oder Serverschrank.',
   },
   {
-    name: 'TERRA SERVER 7000',
-    text: 'Für Virtualisierung, große Datenbanken und Hochverfügbarkeit, mit Remote-Management-Modul für die Fernwartung.',
+    name: 'Hochverfügbarkeit',
+    text: 'Zwei Server im Cluster mit einem zentralen Speicher: Fällt ein Bauteil aus, übernimmt die intakte Hardware. Sinnvoll, wenn jede Stunde Stillstand teuer wird – und heute auch für den Mittelstand bezahlbar.',
+  },
+  {
+    name: 'Server im Rechenzentrum',
+    text: 'Ihr eigener TERRA Server kann auch im TERRA CLOUD Rechenzentrum in Hüllhorst laufen (Housing) – sicher, klimatisiert, redundant angebunden. Oft der Zwischenschritt zum Umstieg in die Cloud.',
   },
   {
     name: 'TERRA STORAGE',
     text: 'Speichererweiterungen (DAS) und SAN-Systeme, wenn Daten und Backups wachsen oder mehrere Server auf einen gemeinsamen Speicher zugreifen.',
+  },
+  {
+    name: 'TERRA Xaler (hyperkonvergent)',
+    text: 'Für besondere Anforderungen und maximale Performance: hyperkonvergente Systeme, die WORTMANN-Experten gemeinsam mit uns individuell auslegen und in Betrieb nehmen.',
   },
 ];
 
@@ -77,7 +85,7 @@ const FAQ = [
   },
   {
     q: 'Kann ich einen TERRA SERVER individuell konfigurieren lassen?',
-    a: 'Ja. Prozessor, Arbeitsspeicher, Laufwerke, RAID-Controller, Netzteile und Service-Laufzeit werden passend zu Ihren Anwendungen zusammengestellt. Gemeinsam mit den Server-Spezialisten von WORTMANN erstellen wir ein Angebot; die Fertigung dauert mit Expressfertigung nur rund 24 Stunden.',
+    a: 'Ja. Prozessor, Arbeitsspeicher, Laufwerke, RAID-Controller, Netzteile und Service-Laufzeit werden passend zu Ihren Anwendungen zusammengestellt. Gemeinsam mit den Server-Spezialisten von WORTMANN erstellen wir ein Angebot. Die meisten TERRA Server werden nach Kundenwunsch gefertigt, einige Standardmodelle sind ab Lager lieferbar – in dringenden Fällen ist Ihr Wunschserver binnen 48 Stunden gebaut.',
   },
   {
     q: 'Was kostet ein Wortmann Server?',
@@ -180,7 +188,7 @@ export default function WortmannServer() {
             <p>
               Hinter dem Suchbegriff <strong>„Wortmann Server“</strong> stehen die <strong>TERRA SERVER</strong> der
               WORTMANN AG aus Hüllhorst in Ostwestfalen – entwickelt, gefertigt und betreut in Deutschland. Vom
-              leisen Miniserver fürs Büro bis zum Virtualisierungs-Host im Rack.
+              leisen Miniserver fürs Büro über 19-Zoll-Rack-Server bis zur Hochverfügbarkeitslösung.
             </p>
             <p>
               Kein Server gleicht dem anderen. Deshalb beraten wir als Systemhaus aus Verl – auf Wunsch{' '}
@@ -240,7 +248,7 @@ export default function WortmannServer() {
               <h2>Welcher TERRA SERVER passt zu Ihnen?</h2>
             </div>
           </div>
-          <div className="needs-grid cloud-features server-four">
+          <div className="needs-grid cloud-features">
             {SERIES.map((s, i) => (
               <div key={s.name} className="need-card">
                 <span className="need-num">{String(i + 1).padStart(2, '0')}</span>
@@ -405,8 +413,8 @@ export default function WortmannServer() {
               </Link>
             </div>
             <p className="server-guide-hint">
-              Vorkonfigurierte Modelle mit Preis. Andere Ausstattung gewünscht? Wir konfigurieren jeden Server
-              individuell – einfach unten anfragen.
+              Vorkonfigurierte Standardmodelle mit Preis. Die meisten TERRA Server werden aber individuell nach Ihren
+              Wünschen gefertigt – einfach unten anfragen.
             </p>
             <div className="products-grid">
               {products.map((p) => (
@@ -446,7 +454,7 @@ export default function WortmannServer() {
           <div className="solution-chips landing-related">
             <span>Auch interessant:</span>
             <Link to="/cloud" className="sub-chip" prefetch="intent">TERRA CLOUD</Link>
-            <Link to="/cloud/hosting-housing" className="sub-chip" prefetch="intent">Hosting &amp; Housing</Link>
+            <Link to="/cloud/hosting-housing" className="sub-chip" prefetch="intent">Eigenen Server im Rechenzentrum (Housing)</Link>
             <Link to="/cloud/rechenzentrum" className="sub-chip" prefetch="intent">Rechenzentrum</Link>
             <Link to="/collections/server-netzwerk?sub=tower-server" className="sub-chip" prefetch="intent">Tower-Server</Link>
             <Link to="/ratgeber/laptop-aus-deutschland" className="sub-chip" prefetch="intent">Laptop aus Deutschland</Link>
