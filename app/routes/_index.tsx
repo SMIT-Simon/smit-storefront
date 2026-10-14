@@ -299,7 +299,7 @@ function FeatureWorkplace() {
       <div className="container feature-split">
         <div className="feature-media">
           <img
-            {...siteImg('/images/home/section-arbeitsplatz.webp', '(min-width: 64em) 600px, 100vw')}
+            {...siteImg('/images/home/section-arbeitsplatz.webp', '(min-width: 64em) 600px, 93vw')}
             alt="TERRA Arbeitsplatz mit Monitor, Notebook, Dockingstation, Tastatur und Maus"
             loading="lazy"
             decoding="async"
@@ -440,9 +440,19 @@ function HighlightCard({
     <article className={wide ? 'highlight-card highlight-card-wide' : 'highlight-card'}>
       <Link to={`/products/${product.handle}`} className="highlight-media" prefetch="intent">
         {image ? (
-          <img {...siteImg(image, '(min-width: 64em) 600px, 100vw')} alt={title} loading="lazy" />
+          <img {...siteImg(image, '(min-width: 64em) 600px, 82vw')} alt={title} loading="lazy" />
         ) : img ? (
-          <img src={`${img.url}&width=640`} alt={img.altText || title} loading="lazy" />
+          <img
+            src={`${img.url}&width=640`}
+            srcSet={[320, 480, 560, 640, 800]
+              .map((w) => `${img.url}&width=${w} ${w}w`)
+              .join(', ')}
+            sizes="(min-width: 64em) 300px, 73vw"
+            width={img.width ?? 640}
+            height={img.height ?? 640}
+            alt={img.altText || title}
+            loading="lazy"
+          />
         ) : null}
       </Link>
       <div className="highlight-body">
@@ -482,7 +492,7 @@ function FlyerTeaser({products}: {products: Promise<Record<string, CardProductDa
       <div className="container flyer-teaser-inner">
         <Link to="/flyer" className="flyer-teaser-cover" prefetch="intent">
           <img
-            {...siteImg(FLYER.image(1), '(min-width: 64em) 420px, 100vw')}
+            {...siteImg(FLYER.image(1), '(min-width: 64em) 420px, 87vw')}
             alt={`${FLYER.title} – Titelseite`}
             loading="lazy"
             width={FLYER.pages[0].w}

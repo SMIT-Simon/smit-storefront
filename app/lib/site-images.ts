@@ -62,7 +62,7 @@ const SITE_IMAGES: Record<string, [file: string, width: number, height: number]>
   '/images/logo-smit-white.webp': ['site-logo-smit-white.webp', 512, 164],
 };
 
-const STEPS = [320, 480, 640, 800, 1000, 1200, 1400, 1600];
+const STEPS = [320, 480, 560, 640, 720, 800, 1000, 1200, 1400, 1600];
 
 export type SiteImgProps = {
   src: string;
