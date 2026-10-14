@@ -3489,3 +3489,4 @@ html:has(.overlay.expanded) .chat-optin {
 .server-guide .check-list li { align-items: flex-start; line-height: 1.5; }
 .server-guide .check-list svg { margin-top: 0.15rem; }
 @media (min-width: 64em) { .needs-grid.cloud-features.server-four { grid-template-columns: repeat(4, 1fr); } }
+.server-guide-hero img { aspect-ratio: 2400 / 1251; height: auto; object-fit: contain; width: 100%; }

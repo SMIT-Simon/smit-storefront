@@ -14,6 +14,7 @@ const SITE_IMAGES: Record<string, [file: string, width: number, height: number]>
   '/images/cloud/kachel-s3.jpg': ['site-cloud-kachel-s3.jpg', 1500, 1500],
   '/images/cloud/kachel-backup.jpg': ['site-cloud-kachel-backup.jpg', 250, 250],
   '/images/cloud/rz-server.jpg': ['site-cloud-rz-server.jpg', 1600, 762],
+  '/images/server/rack.png': ['site-server-rack.png', 2400, 1251],
   '/images/cloud/rz-tuer.jpg': ['site-cloud-rz-tuer.jpg', 330, 250],
   '/images/cloud/rz-luft.jpg': ['site-cloud-rz-luft.jpg', 330, 250],
   '/images/cloud/rz-netz.jpg': ['site-cloud-rz-netz.jpg', 900, 704],

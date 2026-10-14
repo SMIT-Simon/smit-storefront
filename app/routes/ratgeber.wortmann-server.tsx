@@ -10,6 +10,8 @@ import {SITE_URL} from '~/lib/seo';
 import {siteImg} from '~/lib/site-images';
 
 const SLUG = '/ratgeber/wortmann-server';
+/** Großes Bild oben: Rack-Server statt Tower */
+const HERO_HANDLE = 'terra-server-3230-g6-xeon-6369p-64-gb-3840-gb-ohne-betriebssystem-1100419';
 const H1 = 'Wortmann Server: TERRA SERVER made in Germany';
 const TITLE = 'Wortmann Server – TERRA SERVER kaufen oder in die Cloud? Ratgeber | terra-computershop.de';
 const DESCRIPTION =
@@ -120,7 +122,8 @@ export async function loader({context}: Route.LoaderArgs) {
         Number(b.priceRange.minVariantPrice.amount),
     );
   const hero =
-    products.find((p) => /3030-g6/.test(p.handle) && p.featuredImage) ??
+    products.find((p) => p.handle === HERO_HANDLE && p.featuredImage) ??
+    products.find((p) => /3230-g6/.test(p.handle) && p.featuredImage) ??
     products.find((p) => p.featuredImage) ??
     null;
   return {products, hero};
@@ -131,9 +134,10 @@ export const meta: Route.MetaFunction = ({data}) => [
   {name: 'description', content: DESCRIPTION},
   {property: 'og:title', content: H1},
   {property: 'og:description', content: DESCRIPTION},
-  ...(data?.hero?.featuredImage
-    ? [{property: 'og:image', content: `${data.hero.featuredImage.url}&width=1200`}]
-    : []),
+  {
+    property: 'og:image',
+    content: 'https://cdn.shopify.com/s/files/1/1089/3439/8286/files/site-server-rack.png?width=1200&format=jpg',
+  },
 ];
 
 const imgUrl = (url: string, w: number) => `${url}${url.includes('?') ? '&' : '?'}width=${w}`;
@@ -181,7 +185,7 @@ export default function WortmannServer() {
           <span aria-hidden>›</span>
           <span>Wortmann Server</span>
         </nav>
-        <div className={hero ? 'landing-top' : undefined}>
+        <div className="landing-top">
           <header className="landing-head">
             <span className="eyebrow">Ratgeber · IT made in Germany</span>
             <h1>{H1}</h1>
@@ -204,28 +208,22 @@ export default function WortmannServer() {
               </a>
             </div>
           </header>
-          {hero?.featuredImage ? (
-            <figure className="landing-hero">
-              <Link to={`/products/${hero.handle}`} prefetch="intent">
-                <img
-                  src={imgUrl(hero.featuredImage.url, 700)}
-                  srcSet={[400, 560, 700, 900].map((w) => `${imgUrl(hero.featuredImage!.url, w)} ${w}w`).join(', ')}
-                  sizes="(min-width: 64em) 460px, 90vw"
-                  alt={hero.featuredImage.altText || hero.title}
-                  width={700}
-                  height={700}
-                  loading="eager"
-                  fetchPriority="high"
-                />
-              </Link>
+          <figure className="landing-hero server-guide-hero">
+            <img
+              {...siteImg('/images/server/rack.png', '(min-width: 64em) 560px, 92vw')}
+              alt="TERRA SERVER Rack-Server der WORTMANN AG, gefertigt in Deutschland"
+              loading="eager"
+              fetchPriority="high"
+            />
+            {hero ? (
               <figcaption>
                 <Link to={`/products/${hero.handle}`} prefetch="intent">
-                  {hero.title.replace(/\s*-\s*\d{7}$/, '').slice(0, 70)}
+                  z. B. {hero.title.replace(/\s*-\s*\d{7}$/, '').slice(0, 70)}
                 </Link>
-                <span className="landing-hero-price">ab {formatPrice(hero.priceRange.minVariantPrice)}</span>
+                <span className="landing-hero-price">{formatPrice(hero.priceRange.minVariantPrice)}</span>
               </figcaption>
-            </figure>
-          ) : null}
+            ) : null}
+          </figure>
         </div>
       </div>
 
