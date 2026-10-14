@@ -3431,3 +3431,8 @@ html:has(.overlay.expanded) .chat-optin {
   /* Bei Umbruch keine Platzverteilung über die volle Breite */
   .nav-mode-wrap .category-nav-inner { justify-content: flex-start !important; }
 }
+@media (min-width: 48em) and (max-width: 82em) {
+  .nav-mode-wrap .category-link { font-size: 0.86rem; padding: 0.55rem 0.5rem; }
+  .nav-mode-wrap .nav-caret { display: none; }
+  .nav-mode-wrap .category-nav-inner { column-gap: 0.15rem; }
+}
