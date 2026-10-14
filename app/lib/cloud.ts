@@ -184,8 +184,8 @@ export const CLOUD_SERVICES: CloudService[] = [
     name: 'JTL-Wawi in der Cloud',
     title: 'JTL-Wawi in der Cloud – Server im deutschen Rechenzentrum',
     teaser: 'Ihre JTL-Wawi auf einem eigenen Cloud-Server – eingerichtet und betreut vom JTL-Servicepartner.',
-    image: '/images/cloud/kachel-basic.jpg',
-    imageAlt: 'TERRA CLOUD Server für JTL-Wawi',
+    image: '/images/cloud/rz-netz.jpg',
+    imageAlt: 'Netzwerkverkabelung im TERRA CLOUD Rechenzentrum',
     metaTitle: 'JTL-Wawi Cloud Server – Hosting in Deutschland vom JTL-Servicepartner | terra-computershop.de',
     metaDescription:
       'JTL-Wawi in der Cloud: eigener Windows-Server mit SQL-Datenbank in der TERRA CLOUD (Hüllhorst), Zugriff von überall, Backup inklusive – eingerichtet vom JTL-Servicepartner aus Verl.',

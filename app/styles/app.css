@@ -3238,7 +3238,11 @@ aside .cart-details > div:first-of-type {
 
 /* ---------- TERRA CLOUD ---------- */
 .cloud-hero { background: #14101f; color: #fff; overflow: hidden; position: relative; }
-.cloud-hero-bg { height: 100%; inset: 0; object-fit: cover; opacity: 0.45; position: absolute; width: 100%; }
+.cloud-hero-bg { height: 100%; inset: 0; object-fit: cover; object-position: right center; position: absolute; width: 100%; }
+.cloud-hero::after { background: linear-gradient(90deg, #14101f 0%, rgba(20, 16, 31, 0.96) 38%, rgba(20, 16, 31, 0.55) 70%, rgba(20, 16, 31, 0.2) 100%); content: ''; inset: 0; position: absolute; }
+@media (max-width: 63.99em) { .cloud-hero::after { background: rgba(20, 16, 31, 0.86); } }
+.cloud-hero-inner { z-index: 1; }
+.breadcrumb-light span { color: rgba(255, 255, 255, 0.75); }
 .cloud-hero-inner { padding: 2rem 1rem 3.5rem; position: relative; }
 @media (min-width: 64em) { .cloud-hero-inner { padding: 2.5rem 1.5rem 5rem; } }
 .cloud-hero h1 { color: #fff; font-size: clamp(2rem, 4.5vw, 3.2rem); line-height: 1.1; margin: 0.4rem 0 1rem; max-width: 16ch; }
@@ -3255,9 +3259,10 @@ aside .cart-details > div:first-of-type {
 .cloud-grid { display: grid; gap: 1.1rem; }
 @media (min-width: 40em) { .cloud-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 64em) { .cloud-grid { grid-template-columns: repeat(3, 1fr); } }
-.cloud-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); color: inherit; display: flex; flex-direction: column; overflow: hidden; text-decoration: none; transition: border-color 150ms, box-shadow 150ms, transform 150ms; }
+.cloud-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); color: inherit; display: flex; flex-direction: row; overflow: hidden; text-decoration: none; transition: border-color 150ms, box-shadow 150ms, transform 150ms; }
 .cloud-card:hover { border-color: var(--brand); box-shadow: var(--shadow); transform: translateY(-2px); }
-.cloud-card-media { aspect-ratio: 16 / 9; background: #1b1530; display: block; overflow: hidden; }
+.cloud-card-media { aspect-ratio: 1; align-self: stretch; background: #1b1530; display: block; flex: 0 0 120px; overflow: hidden; }
+@media (min-width: 64em) { .cloud-card-media { flex-basis: 140px; } }
 .cloud-card-media img { height: 100%; object-fit: cover; width: 100%; }
 .cloud-card-body { display: flex; flex: 1; flex-direction: column; gap: 0.45rem; padding: 1.1rem 1.2rem 1.3rem; }
 .cloud-card-body strong { color: var(--brand-ink); font-size: 1.12rem; }
@@ -3309,7 +3314,9 @@ aside .cart-details > div:first-of-type {
 
 /* Startseite: Cloud-Teaser */
 .home-cloud { background: #14101f; color: #fff; overflow: hidden; position: relative; }
-.home-cloud-bg { height: 100%; inset: 0; object-fit: cover; opacity: 0.35; position: absolute; width: 100%; }
+.home-cloud-bg { height: 100%; inset: 0; object-fit: cover; object-position: right center; position: absolute; width: 100%; }
+.home-cloud::after { background: linear-gradient(90deg, #14101f 0%, rgba(20, 16, 31, 0.95) 45%, rgba(20, 16, 31, 0.75) 100%); content: ''; inset: 0; position: absolute; }
+.home-cloud-inner { z-index: 1; }
 .home-cloud-inner { display: grid; gap: 1.75rem; padding-bottom: 3rem; padding-top: 3rem; position: relative; }
 @media (min-width: 64em) { .home-cloud-inner { align-items: center; grid-template-columns: 1fr 1.15fr; } }
 .home-cloud h2 { color: #fff; font-size: clamp(1.6rem, 3vw, 2.3rem); margin: 0.3rem 0 0.8rem; }
@@ -3328,3 +3335,5 @@ aside .cart-details > div:first-of-type {
 }
 .btn-outline-light { background: transparent; border: 1px solid rgba(255, 255, 255, 0.6); color: #fff; }
 .btn-outline-light:hover { background: rgba(255, 255, 255, 0.12); border-color: #fff; color: #fff; }
+@media (min-width: 64em) { .needs-grid.cloud-features { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 40em) and (max-width: 63.99em) { .needs-grid.cloud-features { grid-template-columns: repeat(2, 1fr); } }

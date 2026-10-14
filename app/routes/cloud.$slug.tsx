@@ -116,7 +116,7 @@ export default function CloudService() {
       <section className="section">
         <div className="container">
           <h2 className="section-title">Leistungen im Überblick</h2>
-          <div className="needs-grid">
+          <div className="needs-grid cloud-features">
             {s.features.map((f, i) => (
               <div key={f.title} className="need-card">
                 <span className="need-num">{String(i + 1).padStart(2, '0')}</span>
