@@ -3261,7 +3261,7 @@ aside .cart-details > div:first-of-type {
 @media (min-width: 64em) { .cloud-grid { grid-template-columns: repeat(3, 1fr); } }
 .cloud-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); color: inherit; display: flex; flex-direction: row; overflow: hidden; text-decoration: none; transition: border-color 150ms, box-shadow 150ms, transform 150ms; }
 .cloud-card:hover { border-color: var(--brand); box-shadow: var(--shadow); transform: translateY(-2px); }
-.cloud-card-media { aspect-ratio: 1; align-self: stretch; background: #1b1530; display: block; flex: 0 0 120px; overflow: hidden; }
+.cloud-card-media { aspect-ratio: 1; align-self: center; margin-left: 0.75rem; border-radius: 8px; background: #1b1530; display: block; flex: 0 0 120px; overflow: hidden; }
 @media (min-width: 64em) { .cloud-card-media { flex-basis: 140px; } }
 .cloud-card-media img { height: 100%; object-fit: cover; width: 100%; }
 .cloud-card-body { display: flex; flex: 1; flex-direction: column; gap: 0.45rem; padding: 1.1rem 1.2rem 1.3rem; }
@@ -3337,3 +3337,5 @@ aside .cart-details > div:first-of-type {
 .btn-outline-light:hover { background: rgba(255, 255, 255, 0.12); border-color: #fff; color: #fff; }
 @media (min-width: 64em) { .needs-grid.cloud-features { grid-template-columns: repeat(3, 1fr); } }
 @media (min-width: 40em) and (max-width: 63.99em) { .needs-grid.cloud-features { grid-template-columns: repeat(2, 1fr); } }
+
+.cloud-hero .breadcrumb-light > span { color: rgba(255, 255, 255, 0.85) !important; }
