@@ -21,7 +21,7 @@ const FAQ = [
   },
   {
     q: 'Kann ich per Vorkasse überweisen?',
-    a: 'Ja. Fordern Sie ein Angebot an oder melden Sie sich kurz bei uns – Sie erhalten unsere Bankverbindung. Sobald der Betrag eingegangen ist, versenden wir Ihre Bestellung.',
+    a: 'Ja. Wählen Sie im Checkout „Banküberweisung“. Nach der Bestellung erhalten Sie unsere Bankverbindung; sobald der Betrag eingegangen ist, versenden wir Ihre Bestellung.',
   },
   {
     q: 'Ist Bankeinzug (SEPA-Lastschrift) möglich?',

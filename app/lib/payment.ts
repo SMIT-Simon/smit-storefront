@@ -69,9 +69,9 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
   {
     title: 'Vorkasse per Überweisung',
     icons: [],
-    text: 'Sie überweisen den Rechnungsbetrag vorab auf unser Bankkonto – ohne Zahlungsdienstleister. Sobald das Geld da ist, versenden wir Ihre Bestellung.',
+    text: 'Wählen Sie im Checkout einfach „Banküberweisung“ und überweisen Sie den Betrag vorab auf unser Bankkonto – ohne Zahlungsdienstleister.',
     points: [
-      'Angebot anfordern oder kurz bei uns melden – Sie erhalten unsere Bankverbindung',
+      'Bankverbindung erhalten Sie nach der Bestellung',
       'Versand nach Zahlungseingang',
     ],
   },
