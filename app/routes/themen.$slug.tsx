@@ -33,13 +33,17 @@ export async function loader({params, context}: Route.LoaderArgs) {
     .filter(isListable)
     .sort(
       (a, b) =>
-        Number(a.priceRange.minVariantPrice.amount) - Number(b.priceRange.minVariantPrice.amount),
+        Number(a.priceRange.minVariantPrice.amount) -
+        Number(b.priceRange.minVariantPrice.amount),
     );
-  return {landing, products};
+  const hero = landing.hero
+    ? (products.find((p) => p.handle === landing.hero?.handle) ?? null)
+    : null;
+  return {landing, products, hero};
 }
 
 export default function LandingPage() {
-  const {landing: l, products} = useLoaderData<typeof loader>();
+  const {landing: l, products, hero} = useLoaderData<typeof loader>();
   const url = `${SITE_URL}/themen/${l.slug}`;
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -47,7 +51,12 @@ export default function LandingPage() {
       {
         '@type': 'BreadcrumbList',
         itemListElement: [
-          {'@type': 'ListItem', position: 1, name: 'Startseite', item: `${SITE_URL}/`},
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Startseite',
+            item: `${SITE_URL}/`,
+          },
           {'@type': 'ListItem', position: 2, name: l.h1, item: url},
         ],
       },
@@ -63,34 +72,77 @@ export default function LandingPage() {
       },
       {
         '@type': 'FAQPage',
-        mainEntity: l.faq.map((f) => ({'@type': 'Question', name: f.q, acceptedAnswer: {'@type': 'Answer', text: f.a}})),
+        mainEntity: l.faq.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: {'@type': 'Answer', text: f.a},
+        })),
       },
     ],
   };
 
   return (
     <div className="landing-page">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
+      />
       <div className="container">
         <nav className="breadcrumb" aria-label="Brotkrümel">
           <Link to="/">Startseite</Link>
           <span aria-hidden>›</span>
           <span>{l.h1}</span>
         </nav>
-        <header className="landing-head">
-          <h1>{l.h1}</h1>
-          {l.intro.map((p) => (
-            <p key={p.slice(0, 24)}>{p}</p>
-          ))}
-          <div className="feature-actions">
-            <a href="#modelle" className="btn btn-primary">
-              {products.length} Modelle ansehen <Icon name="arrow-right" size={18} />
-            </a>
-            <Link to={l.category.href} className="btn btn-secondary" prefetch="intent">
-              {l.category.label}
-            </Link>
-          </div>
-        </header>
+        <div className={hero ? 'landing-top' : undefined}>
+          <header className="landing-head">
+            <h1>{l.h1}</h1>
+            {l.intro.map((p) => (
+              <p key={p.slice(0, 24)}>{p}</p>
+            ))}
+            <div className="feature-actions">
+              <a href="#modelle" className="btn btn-primary">
+                {products.length} Modelle ansehen{' '}
+                <Icon name="arrow-right" size={18} />
+              </a>
+              <Link
+                to={l.category.href}
+                className="btn btn-secondary"
+                prefetch="intent"
+              >
+                {l.category.label}
+              </Link>
+            </div>
+          </header>
+          {hero?.featuredImage ? (
+            <figure className="landing-hero">
+              <Link to={`/products/${hero.handle}`} prefetch="intent">
+                <img
+                  src={`${hero.featuredImage.url}${hero.featuredImage.url.includes('?') ? '&' : '?'}width=700`}
+                  srcSet={[400, 560, 700, 900]
+                    .map(
+                      (w) =>
+                        `${hero.featuredImage!.url}${hero.featuredImage!.url.includes('?') ? '&' : '?'}width=${w} ${w}w`,
+                    )
+                    .join(', ')}
+                  sizes="(min-width: 64em) 460px, 90vw"
+                  alt={hero.featuredImage.altText || hero.title}
+                  width={700}
+                  height={700}
+                  loading="eager"
+                  fetchPriority="high"
+                />
+              </Link>
+              <figcaption>
+                <Link to={`/products/${hero.handle}`} prefetch="intent">
+                  {l.hero?.caption}
+                </Link>
+                <span className="landing-hero-price">
+                  {formatPrice(hero.priceRange.minVariantPrice)}
+                </span>
+              </figcaption>
+            </figure>
+          ) : null}
+        </div>
       </div>
 
       {l.compare === 'monitor' && products.length ? (
@@ -119,7 +171,9 @@ export default function LandingPage() {
                       <tr key={p.id}>
                         <th>
                           <Link to={`/products/${p.handle}`} prefetch="intent">
-                            {p.title.replace(/ IPS black.*$/i, '').replace(/^TERRA LCD\/LED /, 'TERRA ')}
+                            {p.title
+                              .replace(/ IPS black.*$/i, '')
+                              .replace(/^TERRA LCD\/LED /, 'TERRA ')}
                           </Link>
                         </th>
                         <td>{s.resolution}</td>
@@ -161,7 +215,9 @@ export default function LandingPage() {
           <div className="needs-grid cloud-features">
             {l.guide.map((g, i) => (
               <div key={g.title} className="need-card">
-                <span className="need-num">{String(i + 1).padStart(2, '0')}</span>
+                <span className="need-num">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
                 <strong>{g.title}</strong>
                 <p>{g.text}</p>
               </div>
@@ -184,7 +240,12 @@ export default function LandingPage() {
           <div className="solution-chips landing-related">
             <span>Auch interessant:</span>
             {l.related.map((r) => (
-              <Link key={r.href} to={r.href} className="sub-chip" prefetch="intent">
+              <Link
+                key={r.href}
+                to={r.href}
+                className="sub-chip"
+                prefetch="intent"
+              >
                 {r.label}
               </Link>
             ))}

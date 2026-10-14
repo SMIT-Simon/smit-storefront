@@ -15,6 +15,8 @@ export type Landing = {
   productQuery: string;
   /** Link zur passenden Kategorie (mit Filtern) */
   category: {label: string; href: string};
+  /** Großes Produktbild oben (Produkt-Handle) mit kurzer Bildunterschrift */
+  hero?: {handle: string; caption: string};
   /** Vergleichstabelle aus den Produkt-Tags erzeugen */
   compare?: 'monitor';
   guide: {title: string; text: string}[];
@@ -36,6 +38,10 @@ export const LANDINGS: Landing[] = [
     ],
     productQuery: 'product_type:Monitor AND tag:"sub:27-zoll"',
     category: {label: 'Alle 27-Zoll-Monitore mit Filtern', href: '/collections/monitore?sub=27-zoll'},
+    hero: {
+      handle: 'terra-lcd-led-2775w-pv-v3-2k-ips-black-usb-c-dp-hdmi-3030231',
+      caption: 'Topmodell: TERRA LCD/LED 2775W PV V3 – WQHD, höhenverstellbar mit Pivot, USB-C-Dock',
+    },
     compare: 'monitor',
     guide: [
       {
@@ -67,6 +73,10 @@ export const LANDINGS: Landing[] = [
       {
         q: 'Brauche ich WQHD bei 27 Zoll?',
         a: 'Für reine Office-Arbeit genügt Full HD. Wer viel mit Tabellen, mehreren Fenstern oder Grafik arbeitet, profitiert von der schärferen WQHD-Auflösung.',
+      },
+      {
+        q: 'Gibt es TERRA Monitore auch größer als 27 Zoll?',
+        a: 'Ja. Für noch mehr Arbeitsfläche gibt es TERRA Monitore mit 32 Zoll (81,3 cm) – zum Beispiel den TERRA LCD/LED 3285W HA mit gebogenem WQHD-Display (Curved), 100 Hz und USB-C sowie den 3295W PV mit 4K-Auflösung. Alle Modelle finden Sie unter „32-Zoll-Monitore“.',
       },
       {
         q: 'Gibt es Vor-Ort-Service für TERRA Monitore?',
