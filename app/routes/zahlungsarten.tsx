@@ -6,18 +6,26 @@ import {PaymentIconRow} from '~/components/PaymentIcons';
 import {SITE_URL} from '~/lib/seo';
 import {COMPANY} from '~/lib/company';
 
-const TITLE = 'Zahlungsarten: PayPal, Kreditkarte, Klarna, Rechnung & Leasing | terra-computershop.de';
+const TITLE = 'Zahlungsarten: PayPal, Kreditkarte, Klarna, Vorkasse, Rechnung & Leasing | terra-computershop.de';
 const DESCRIPTION =
-  'So bezahlen Sie bei terra-computershop.de: PayPal, Visa, Mastercard, American Express, Klarna, Apple Pay, Google Pay und Shop Pay. Später bezahlen und Rechnungskauf über PayPal oder Klarna, für Firmen Kauf auf Rechnung und Leasing.';
+  'So bezahlen Sie bei terra-computershop.de: PayPal, Visa, Mastercard, American Express, Klarna, Apple Pay, Google Pay und Shop Pay, Vorkasse per Überweisung. Später bezahlen und Rechnungskauf über PayPal oder Klarna, für Firmen Rechnung, Bankeinzug und Leasing.';
 
 const FAQ = [
   {
     q: 'Welche Zahlungsarten gibt es bei terra-computershop.de?',
-    a: 'Sie können mit PayPal (auch Rechnungskauf, Bezahlung nach 30 Tagen oder Ratenzahlung), Kreditkarte (Visa, Mastercard, Maestro, American Express, UnionPay), Klarna, Apple Pay, Google Pay und Shop Pay bezahlen. Geschäftskunden, Schulen und Behörden können nach Prüfung direkt bei uns auf Rechnung kaufen; für Firmen ist auch Leasing auf Anfrage möglich.',
+    a: 'Sie können mit PayPal (auch Rechnungskauf, Bezahlung nach 30 Tagen oder Ratenzahlung), Kreditkarte (Visa, Mastercard, Maestro, American Express, UnionPay), Klarna, Apple Pay, Google Pay und Shop Pay bezahlen oder per Vorkasse überweisen. Geschäftskunden, Schulen und Behörden können nach Prüfung direkt bei uns auf Rechnung oder per Bankeinzug kaufen; für Firmen ist auch Leasing auf Anfrage möglich.',
   },
   {
     q: 'Kann ich auf Rechnung kaufen?',
     a: 'Ja – für Unternehmen, Schulen und öffentliche Einrichtungen nach kurzer Prüfung. Fordern Sie dazu ein Angebot an oder schreiben Sie uns; wir liefern dann auf Rechnung. Alle Kunden können außerdem im Checkout über PayPal oder Klarna auf Rechnung bzw. später bezahlen – nach Prüfung durch den jeweiligen Anbieter.',
+  },
+  {
+    q: 'Kann ich per Vorkasse überweisen?',
+    a: 'Ja. Fordern Sie ein Angebot an oder melden Sie sich kurz bei uns – Sie erhalten unsere Bankverbindung. Sobald der Betrag eingegangen ist, versenden wir Ihre Bestellung.',
+  },
+  {
+    q: 'Ist Bankeinzug (SEPA-Lastschrift) möglich?',
+    a: 'Ja, für Firmenkunden nach kurzer Prüfung. Sprechen Sie uns dazu einfach an.',
   },
   {
     q: 'Kann ich TERRA Hardware leasen?',
@@ -82,6 +90,11 @@ export default function Zahlungsarten() {
         {PAYMENT_METHODS.map((m) => (
           <section key={m.title} className="payment-card">
             <div className="payment-card-icons">
+              {m.icons.length === 0 ? (
+                <span className="payment-invoice-icon">
+                  <Icon name="invoice" size={26} />
+                </span>
+              ) : null}
               {m.icons.map((i) => {
                 const icon = PAYMENT_ICONS.find((p) => p.file === i);
                 return (
@@ -102,18 +115,27 @@ export default function Zahlungsarten() {
           </section>
         ))}
 
+      </div>
+
+      <h2 className="payment-section-title">Für Firmenkunden, Schulen und Behörden</h2>
+      <div className="payment-grid">
         <section className="payment-card payment-card-invoice">
           <div className="payment-card-icons">
             <span className="payment-invoice-icon">
               <Icon name="invoice" size={26} />
             </span>
           </div>
-          <h2>Kauf auf Rechnung für Geschäftskunden</h2>
+          <h2>Rechnung &amp; Bankeinzug für Geschäftskunden</h2>
           <p>
             Unternehmen, Schulen und öffentliche Einrichtungen können nach kurzer Prüfung direkt bei uns auf
-            Rechnung bestellen. Fordern Sie einfach ein Angebot an oder schreiben Sie uns.
+            Rechnung bestellen – auf Wunsch auch bequem per SEPA-Lastschrift (Bankeinzug). Fordern Sie einfach ein
+            Angebot an oder schreiben Sie uns.
           </p>
           <ul className="check-list">
+            <li>
+              <Icon name="check" size={18} />
+              <span>Bankeinzug per SEPA-Lastschrift nur für Firmenkunden</span>
+            </li>
             <li>
               <Icon name="check" size={18} />
               <span>PDF-Angebot direkt aus dem Warenkorb erstellen</span>
@@ -125,7 +147,7 @@ export default function Zahlungsarten() {
           </ul>
           <div className="feature-actions">
             <Link to="/pages/kontakt" className="btn btn-primary">
-              Rechnungskauf anfragen
+              Rechnungskauf / Bankeinzug anfragen
             </Link>
           </div>
         </section>

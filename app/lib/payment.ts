@@ -66,4 +66,13 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
       'Shop Pay speichert Ihre Daten für künftige Bestellungen',
     ],
   },
+  {
+    title: 'Vorkasse per Überweisung',
+    icons: [],
+    text: 'Sie überweisen den Rechnungsbetrag vorab auf unser Bankkonto – ohne Zahlungsdienstleister. Sobald das Geld da ist, versenden wir Ihre Bestellung.',
+    points: [
+      'Angebot anfordern oder kurz bei uns melden – Sie erhalten unsere Bankverbindung',
+      'Versand nach Zahlungseingang',
+    ],
+  },
 ];
