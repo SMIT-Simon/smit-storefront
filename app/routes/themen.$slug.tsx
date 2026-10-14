@@ -17,6 +17,9 @@ export const meta: Route.MetaFunction = ({data}) => {
     {name: 'description', content: l.metaDescription},
     {property: 'og:title', content: l.h1},
     {property: 'og:description', content: l.metaDescription},
+    ...(data?.hero?.featuredImage
+      ? [{property: 'og:image', content: `${data.hero.featuredImage.url}&width=1200`}]
+      : []),
   ];
 };
 
