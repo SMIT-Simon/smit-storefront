@@ -4,6 +4,7 @@ import {CATEGORIES} from '~/lib/categories';
 import {Icon} from '~/components/Icon';
 import {GuaranteeModalLink} from '~/components/LegalGuaranteeNotice';
 import {siteImg} from '~/lib/site-images';
+import {RATGEBER} from '~/lib/ratgeber';
 
 interface FooterProps {
   footer: Promise<FooterQuery | null>;
@@ -106,9 +107,6 @@ export function Footer({header}: FooterProps) {
               <Link to="/loesungen">Branchen &amp; Lösungen</Link>
             </li>
             <li>
-              <Link to="/ratgeber/laptop-aus-deutschland">Laptop aus Deutschland</Link>
-            </li>
-            <li>
               <Link to="/cloud">TERRA CLOUD</Link>
             </li>
             <li>
@@ -129,6 +127,20 @@ export function Footer({header}: FooterProps) {
               <a href="https://systemhaus-verl.de/Wartungsvertraege" target="_blank" rel="noopener noreferrer">
                 Wartungsverträge
               </a>
+            </li>
+          </ul>
+        </nav>
+
+        <nav className="footer-col" aria-label="Ratgeber">
+          <h3>Ratgeber</h3>
+          <ul>
+            {RATGEBER.map((r) => (
+              <li key={r.to}>
+                <Link to={r.to}>{r.label}</Link>
+              </li>
+            ))}
+            <li>
+              <Link to="/cloud/rechenzentrum">Rechenzentrum in Deutschland</Link>
             </li>
           </ul>
         </nav>

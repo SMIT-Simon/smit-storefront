@@ -4,6 +4,7 @@ import {CATEGORIES} from '~/lib/categories';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {CONFIG_MODELS} from '~/lib/configurator';
 import {CLOUD_SERVICES} from '~/lib/cloud';
+import {RATGEBER} from '~/lib/ratgeber';
 
 export const meta: Route.MetaFunction = () => [
   {title: 'Sitemap | terra-computershop.de'},
@@ -11,8 +12,7 @@ export const meta: Route.MetaFunction = () => [
 ];
 
 const INFO = [
-  {to: '/ratgeber/laptop-aus-deutschland', label: 'Ratgeber: Laptop aus Deutschland'},
-  {to: '/themen/terra-monitor-27-zoll', label: 'Ratgeber: TERRA Monitor 27 Zoll'},
+  ...RATGEBER.map((r) => ({to: r.to, label: `Ratgeber: ${r.label}`})),
   {to: '/collections/all', label: 'Alle Produkte'},
   {to: '/flyer', label: 'Business-Flyer'},
   ...CONFIG_MODELS.map((m) => ({to: `/konfigurator/${m.slug}`, label: `PC-Konfigurator ${m.name}`})),

@@ -1632,8 +1632,15 @@ aside li {
 
 @media (min-width: 48em) {
   .footer-columns {
-    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
   }
+  .footer-columns .footer-about { grid-column: 1 / -1; }
+}
+@media (min-width: 64em) {
+  .footer-columns {
+    grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+  }
+  .footer-columns .footer-about { grid-column: auto; }
 }
 
 .footer-logo {
