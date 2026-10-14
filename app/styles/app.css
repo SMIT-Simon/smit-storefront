@@ -3436,3 +3436,15 @@ html:has(.overlay.expanded) .chat-optin {
   .nav-mode-wrap .nav-caret { display: none; }
   .nav-mode-wrap .category-nav-inner { column-gap: 0.15rem; }
 }
+
+/* SEO-Themenseiten */
+.landing-head { max-width: 760px; padding: 0.5rem 0 1.5rem; }
+.landing-head h1 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); margin: 0.4rem 0 1rem; }
+.landing-head p { color: var(--ink-soft); line-height: 1.7; margin: 0 0 0.9rem; }
+.landing-head .feature-actions { margin-top: 1.25rem; }
+.landing-table th a { color: var(--brand-ink); text-decoration: none; }
+.landing-table th a:hover { color: var(--brand); text-decoration: underline; }
+.landing-price { font-weight: 700; white-space: nowrap; }
+.landing-related { margin-top: 1.5rem; }
+.collection-guide-link { font-size: 0.92rem; margin: 0.4rem 0 0; }
+.collection-guide-link a { color: var(--brand); font-weight: 600; }

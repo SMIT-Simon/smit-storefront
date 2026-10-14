@@ -171,6 +171,13 @@ export default function Collection() {
               {categoryIntro(collection.handle, sub?.slug) || collection.description}
             </p>
           ) : null}
+          {collection.handle === 'monitore' && (!sub || sub.slug === '27-zoll') ? (
+            <p className="collection-guide-link">
+              <Link to="/themen/terra-monitor-27-zoll" prefetch="intent">
+                Ratgeber: TERRA Monitor 27 Zoll – alle Modelle im Vergleich →
+              </Link>
+            </p>
+          ) : null}
         </div>
       </div>
 

@@ -12,6 +12,7 @@ export const meta: Route.MetaFunction = () => [
 
 const INFO = [
   {to: '/ratgeber/laptop-aus-deutschland', label: 'Ratgeber: Laptop aus Deutschland'},
+  {to: '/themen/terra-monitor-27-zoll', label: 'Ratgeber: TERRA Monitor 27 Zoll'},
   {to: '/collections/all', label: 'Alle Produkte'},
   {to: '/flyer', label: 'Business-Flyer'},
   ...CONFIG_MODELS.map((m) => ({to: `/konfigurator/${m.slug}`, label: `PC-Konfigurator ${m.name}`})),
