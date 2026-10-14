@@ -170,30 +170,17 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
 }
 
 type NavMode = 'scroll' | 'wrap';
-const NAV_MODE_KEY = 'smit-nav-mode';
 
 /**
- * Desktop-Kategorieleiste. Zwei Varianten zum Testen (Umschalten per ?nav=scroll / ?nav=wrap,
- * wird im Browser gemerkt):
- *  - scroll: eine Zeile, bei zu schmalem Fenster seitlich schiebbar mit Pfeil-Buttons
- *  - wrap:   bricht in eine zweite Zeile um
+ * Desktop-Kategorieleiste: eine Zeile, bei zu schmalem Fenster seitlich schiebbar mit
+ * Pfeil-Buttons. (Variante "wrap" = zweizeilig ist im CSS noch vorhanden.)
  */
 function DesktopNav() {
-  const [mode, setMode] = useState<NavMode>('scroll');
+  const mode: NavMode = 'scroll';
   const trackRef = useRef<HTMLDivElement>(null);
   const [canLeft, setCanLeft] = useState(false);
   const [canRight, setCanRight] = useState(false);
 
-  useEffect(() => {
-    try {
-      const q = new URLSearchParams(window.location.search).get('nav');
-      if (q === 'scroll' || q === 'wrap') window.localStorage.setItem(NAV_MODE_KEY, q);
-      const saved = window.localStorage.getItem(NAV_MODE_KEY);
-      if (saved === 'scroll' || saved === 'wrap') setMode(saved);
-    } catch {
-      /* Speicher gesperrt */
-    }
-  }, []);
 
   const update = useCallback(() => {
     const el = trackRef.current;
@@ -246,7 +233,7 @@ function DesktopNav() {
           <Icon name="chevron-right" size={18} />
         </button>
       ) : null}
-      {/* eslint-disable-next-line jsx-a11y/no-static-element-interactions -- nur Positionierung der Dropdowns */}
+      { }
       <div
         className="container category-nav-inner"
         ref={trackRef}

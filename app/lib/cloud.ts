@@ -75,7 +75,7 @@ export const CLOUD_SERVICES: CloudService[] = [
       ],
     },
     note:
-      'Wichtig: Datensicherung, Updates und Virenschutz innerhalb der VM liegen nicht beim Rechenzentrum. Das übernehmen wir für Sie – oder Sie buchen zusätzlich TERRA CLOUD Backup.',
+      'Gut zu wissen: Das Rechenzentrum betreibt Hardware, Netzwerk und Virtualisierung. Um alles innerhalb Ihrer Server kümmern wir uns – auf Wunsch als Rundum-Betreuung: Windows- und Software-Updates, Virenschutz, Überwachung und Datensicherung mit TERRA CLOUD Backup.',
     faq: [
       {q: 'Was kostet ein Cloud-Server?', a: 'Der Preis hängt von vCores, Arbeitsspeicher, Speicher und Lizenzen ab und wird monatlich abgerechnet. Schicken Sie uns Ihre Anforderungen – Sie erhalten innerhalb eines Werktags ein Angebot.'},
       {q: 'Gibt es eine Mindestlaufzeit?', a: 'Nein. Laut Leistungsbeschreibung gibt es keine Mindestvertragslaufzeit; der Vertrag verlängert sich monatlich und ist mit vier Wochen Frist kündbar.'},
