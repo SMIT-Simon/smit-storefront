@@ -3485,3 +3485,7 @@ html:has(.overlay.expanded) .chat-optin {
 @media (max-width: 47.99em) {
   .server-compare tbody th { white-space: normal; }
 }
+.server-guide-split p { margin: 0 0 1rem; line-height: 1.6; }
+.server-guide .check-list li { align-items: flex-start; line-height: 1.5; }
+.server-guide .check-list svg { margin-top: 0.15rem; }
+@media (min-width: 64em) { .needs-grid.cloud-features.server-four { grid-template-columns: repeat(4, 1fr); } }

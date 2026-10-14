@@ -240,7 +240,7 @@ export default function WortmannServer() {
               <h2>Welcher TERRA SERVER passt zu Ihnen?</h2>
             </div>
           </div>
-          <div className="needs-grid cloud-features">
+          <div className="needs-grid cloud-features server-four">
             {SERIES.map((s, i) => (
               <div key={s.name} className="need-card">
                 <span className="need-num">{String(i + 1).padStart(2, '0')}</span>
@@ -267,9 +267,18 @@ export default function WortmannServer() {
               bindet unnötig Kapital. Wir rechnen deshalb gemeinsam durch:
             </p>
             <ul className="check-list">
-              <li>Wie viel RAM und Speicher brauchen Sie heute – und in drei bis fünf Jahren?</li>
-              <li>Lohnt Kauf oder Leasing (mit automatisch verlängertem Service)?</li>
-              <li>Welche Teile laufen besser in der TERRA CLOUD, wo Ressourcen monatlich anpassbar sind?</li>
+              <li>
+                <Icon name="check" size={18} />
+                <span>Wie viel RAM und Speicher brauchen Sie heute – und in drei bis fünf Jahren?</span>
+              </li>
+              <li>
+                <Icon name="check" size={18} />
+                <span>Lohnt Kauf oder Leasing (mit automatisch verlängertem Service)?</span>
+              </li>
+              <li>
+                <Icon name="check" size={18} />
+                <span>Welche Teile laufen besser in der TERRA CLOUD, wo Ressourcen monatlich anpassbar sind?</span>
+              </li>
             </ul>
           </div>
           <div className="server-guide-box">
@@ -348,7 +357,10 @@ export default function WortmannServer() {
             </p>
             <ul className="check-list">
               {EMERGENCY.map((e) => (
-                <li key={e}>{e}</li>
+                <li key={e}>
+                  <Icon name="check" size={18} />
+                  <span>{e}</span>
+                </li>
               ))}
             </ul>
           </div>
@@ -358,7 +370,7 @@ export default function WortmannServer() {
       <section className="section">
         <div className="container">
           <h2 className="section-title">Service für TERRA Server</h2>
-          <div className="needs-grid cloud-features">
+          <div className="needs-grid cloud-features server-four">
             <div className="need-card">
               <span className="need-num">01</span>
               <strong>36 Monate inklusive</strong>
