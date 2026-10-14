@@ -29,10 +29,11 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
   {
     title: 'PayPal',
     icons: ['paypal'],
-    text: 'Bezahlen Sie bequem mit Ihrem PayPal-Konto – direkt im Checkout oder per Express-Button im Warenkorb.',
+    text: 'Bezahlen Sie bequem mit Ihrem PayPal-Konto – direkt im Checkout oder per Express-Button. Im PayPal-Fenster stehen je nach Konto weitere Optionen zur Wahl.',
     points: [
-      'Sie melden sich bei PayPal an und bestätigen die Zahlung',
-      'Je nach PayPal-Konto auch per Lastschrift oder „Später bezahlen“',
+      'Sofort bezahlen per PayPal-Guthaben, Lastschrift oder Karte',
+      'Kauf auf Rechnung über PayPal',
+      'Später bezahlen: Bezahlung nach 30 Tagen oder Ratenzahlung',
       'PayPal-Käuferschutz für berechtigte Käufe',
     ],
   },
@@ -48,8 +49,12 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
   {
     title: 'Klarna',
     icons: ['klarna'],
-    text: 'Mit Klarna bezahlen Sie sofort oder später. Welche Optionen Ihnen angeboten werden, zeigt Klarna nach einer kurzen Prüfung direkt im Checkout an.',
-    points: ['Auswahl im Checkout unter „Klarna“', 'Abwicklung und Prüfung durch Klarna'],
+    text: 'Mit Klarna bezahlen Sie sofort, später oder in Raten. Welche Optionen Ihnen angeboten werden, zeigt Klarna direkt im Checkout an.',
+    points: [
+      'Sofort bezahlen per Überweisung',
+      'Später bezahlen oder in Raten',
+      'Auswahl im Checkout unter „Klarna“',
+    ],
   },
   {
     title: 'Apple Pay, Google Pay & Shop Pay',

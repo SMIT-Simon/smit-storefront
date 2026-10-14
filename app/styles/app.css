@@ -3508,7 +3508,6 @@ html:has(.overlay.expanded) .chat-optin {
 .payment-card-icons { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .payment-card-icons img { height: 32px; width: auto; }
 .payment-card-invoice { background: var(--brand-tint); border-color: transparent; padding-bottom: 1.25rem; }
-@media (min-width: 48em) { .payment-card-invoice { grid-column: 1 / -1; } }
 .payment-invoice-icon { align-items: center; background: var(--bg); border-radius: var(--radius-sm); color: var(--brand); display: inline-flex; height: 40px; justify-content: center; width: 56px; }
 .payment-secure { align-items: flex-start; background: var(--bg-muted); border-radius: var(--radius); display: flex; gap: 0.75rem; margin-bottom: 2rem; padding: 1rem 1.25rem; }
 .payment-secure svg { color: var(--success); flex: none; }

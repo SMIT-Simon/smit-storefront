@@ -6,18 +6,22 @@ import {PaymentIconRow} from '~/components/PaymentIcons';
 import {SITE_URL} from '~/lib/seo';
 import {COMPANY} from '~/lib/company';
 
-const TITLE = 'Zahlungsarten: PayPal, Kreditkarte, Klarna, Apple Pay & Kauf auf Rechnung | terra-computershop.de';
+const TITLE = 'Zahlungsarten: PayPal, Kreditkarte, Klarna, Rechnung & Leasing | terra-computershop.de';
 const DESCRIPTION =
-  'So bezahlen Sie bei terra-computershop.de: PayPal, Visa, Mastercard, American Express, Klarna, Apple Pay, Google Pay und Shop Pay. Für Firmen, Schulen und Behörden Kauf auf Rechnung nach Prüfung.';
+  'So bezahlen Sie bei terra-computershop.de: PayPal, Visa, Mastercard, American Express, Klarna, Apple Pay, Google Pay und Shop Pay. Später bezahlen und Rechnungskauf über PayPal oder Klarna, für Firmen Kauf auf Rechnung und Leasing.';
 
 const FAQ = [
   {
     q: 'Welche Zahlungsarten gibt es bei terra-computershop.de?',
-    a: 'Sie können mit PayPal, Kreditkarte (Visa, Mastercard, Maestro, American Express, UnionPay), Klarna, Apple Pay, Google Pay und Shop Pay bezahlen. Geschäftskunden, Schulen und Behörden können nach Prüfung auf Rechnung kaufen.',
+    a: 'Sie können mit PayPal (auch Rechnungskauf, Bezahlung nach 30 Tagen oder Ratenzahlung), Kreditkarte (Visa, Mastercard, Maestro, American Express, UnionPay), Klarna, Apple Pay, Google Pay und Shop Pay bezahlen. Geschäftskunden, Schulen und Behörden können nach Prüfung direkt bei uns auf Rechnung kaufen; für Firmen ist auch Leasing auf Anfrage möglich.',
   },
   {
     q: 'Kann ich auf Rechnung kaufen?',
-    a: 'Ja – für Unternehmen, Schulen und öffentliche Einrichtungen nach kurzer Prüfung. Fordern Sie dazu ein Angebot an oder schreiben Sie uns; wir liefern dann auf Rechnung. Privatkunden können über Klarna oder PayPal später bezahlen, sofern der jeweilige Anbieter dies anbietet.',
+    a: 'Ja – für Unternehmen, Schulen und öffentliche Einrichtungen nach kurzer Prüfung. Fordern Sie dazu ein Angebot an oder schreiben Sie uns; wir liefern dann auf Rechnung. Alle Kunden können außerdem im Checkout über PayPal oder Klarna auf Rechnung bzw. später bezahlen – nach Prüfung durch den jeweiligen Anbieter.',
+  },
+  {
+    q: 'Kann ich TERRA Hardware leasen?',
+    a: 'Ja, für Firmenkunden bieten wir Leasing auf Anfrage an – für einzelne Geräte, ganze Arbeitsplätze oder Server. Sie zahlen eine feste monatliche Rate. Sprechen Sie uns an, wir erstellen Ihnen ein Angebot.',
   },
   {
     q: 'Wann wird mein Konto belastet?',
@@ -70,7 +74,7 @@ export default function Zahlungsarten() {
       <h1 className="page-title">Zahlungsarten</h1>
       <p className="ratgeber-lead">
         Bezahlen Sie so, wie es für Sie am einfachsten ist – sicher und verschlüsselt über den Shopify-Checkout.
-        Für Firmen, Schulen und Behörden ist außerdem Kauf auf Rechnung möglich.
+        Für Firmen, Schulen und Behörden ist außerdem Kauf auf Rechnung und Leasing möglich.
       </p>
       <PaymentIconRow />
 
@@ -106,8 +110,8 @@ export default function Zahlungsarten() {
           </div>
           <h2>Kauf auf Rechnung für Geschäftskunden</h2>
           <p>
-            Unternehmen, Schulen und öffentliche Einrichtungen können nach kurzer Prüfung auf Rechnung bestellen.
-            Fordern Sie einfach ein Angebot an oder schreiben Sie uns – wir melden uns schnell zurück.
+            Unternehmen, Schulen und öffentliche Einrichtungen können nach kurzer Prüfung direkt bei uns auf
+            Rechnung bestellen. Fordern Sie einfach ein Angebot an oder schreiben Sie uns.
           </p>
           <ul className="check-list">
             <li>
@@ -123,8 +127,36 @@ export default function Zahlungsarten() {
             <Link to="/pages/kontakt" className="btn btn-primary">
               Rechnungskauf anfragen
             </Link>
-            <a href={`mailto:${COMPANY.email}?subject=${encodeURIComponent('Kauf auf Rechnung')}`} className="btn btn-secondary">
-              E-Mail schreiben
+          </div>
+        </section>
+
+        <section className="payment-card payment-card-invoice">
+          <div className="payment-card-icons">
+            <span className="payment-invoice-icon">
+              <Icon name="desktop" size={26} />
+            </span>
+          </div>
+          <h2>Leasing für Firmenkunden</h2>
+          <p>
+            Hardware leasen statt kaufen: Sie zahlen eine feste monatliche Rate und schonen Ihre Liquidität –
+            für einzelne Geräte, komplette Arbeitsplätze oder Server.
+          </p>
+          <ul className="check-list">
+            <li>
+              <Icon name="check" size={18} />
+              <span>Feste Monatsrate, gut planbar</span>
+            </li>
+            <li>
+              <Icon name="check" size={18} />
+              <span>Auf Anfrage – wir erstellen Ihnen ein individuelles Angebot</span>
+            </li>
+          </ul>
+          <div className="feature-actions">
+            <a
+              href={`mailto:${COMPANY.email}?subject=${encodeURIComponent('Leasing-Anfrage')}`}
+              className="btn btn-primary"
+            >
+              Leasing anfragen
             </a>
           </div>
         </section>
