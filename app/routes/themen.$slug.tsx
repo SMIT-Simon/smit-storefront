@@ -1,6 +1,6 @@
 import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/themen.$slug';
-import {Money} from '@shopify/hydrogen';
+import {formatPrice} from '~/components/Price';
 import {ProductItem} from '~/components/ProductItem';
 import {Icon} from '~/components/Icon';
 import {PriceModeNote} from '~/components/PriceMode';
@@ -109,7 +109,7 @@ export default function LandingPage() {
                     <th>Standfuß</th>
                     <th>Anschluss</th>
                     <th>Bildrate</th>
-                    <th>Preis</th>
+                    <th>Preis (brutto)</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -127,7 +127,7 @@ export default function LandingPage() {
                         <td>{s.usbc}</td>
                         <td>{s.hz}</td>
                         <td className="landing-price">
-                          <Money data={p.priceRange.minVariantPrice} />
+                          {formatPrice(p.priceRange.minVariantPrice)}
                         </td>
                       </tr>
                     );
