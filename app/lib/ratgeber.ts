@@ -6,5 +6,6 @@ import {LANDINGS} from '~/lib/landings';
  */
 export const RATGEBER: {to: string; label: string}[] = [
   {to: '/ratgeber/laptop-aus-deutschland', label: 'Laptop aus Deutschland'},
+  {to: '/ratgeber/wortmann-server', label: 'Wortmann Server'},
   ...LANDINGS.map((l) => ({to: `/themen/${l.slug}`, label: l.keyword})),
 ];

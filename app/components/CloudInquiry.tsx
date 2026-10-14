@@ -4,7 +4,17 @@ import {COMPANY} from '~/lib/company';
 import type {CloudInquiryResult} from '~/routes/cloud.anfrage';
 
 /** Anfrageformular für TERRA CLOUD Leistungen (Preise auf Anfrage). */
-export function CloudInquiry({preset}: {preset?: string}) {
+export function CloudInquiry({
+  preset,
+  options = CLOUD_INTEREST_OPTIONS,
+  topic,
+}: {
+  preset?: string;
+  /** Auswahl-Chips (Standard: Cloud-Leistungen) */
+  options?: string[];
+  /** Betreff-Präfix der E-Mail, z. B. „Server-Anfrage“ */
+  topic?: string;
+}) {
   const fetcher = useFetcher<CloudInquiryResult>();
   const {pathname} = useLocation();
   const r = fetcher.data;
@@ -39,9 +49,10 @@ export function CloudInquiry({preset}: {preset?: string}) {
     <fetcher.Form method="post" action="/cloud/anfrage" className="cloud-inquiry">
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hp" aria-hidden />
       <input type="hidden" name="page" value={pathname} />
+      {topic ? <input type="hidden" name="topic" value={topic} /> : null}
       <fieldset className="cloud-interest">
         <legend>Was interessiert Sie?</legend>
-        {CLOUD_INTEREST_OPTIONS.map((o) => (
+        {options.map((o) => (
           <label key={o} className="cloud-chip">
             <input type="checkbox" name="interest" value={o} defaultChecked={o === preset} />
             <span>{o}</span>

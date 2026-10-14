@@ -29,14 +29,15 @@ export async function action({request, context}: Route.ActionArgs): Promise<Clou
     interest: fd.getAll('interest').map((x) => clean(x, 80)).filter(Boolean).join(', '),
     message: clean(fd.get('message')),
     page: clean(fd.get('page'), 200),
+    topic: clean(fd.get('topic'), 60) === 'Server-Anfrage' ? 'Server-Anfrage' : 'Cloud-Anfrage',
   };
   if (!f.name || !/^\S+@\S+\.\S+$/.test(f.email)) {
     return {ok: false, error: 'Bitte Name und eine gültige E-Mail-Adresse angeben.'};
   }
 
-  const subject = `Cloud-Anfrage: ${f.interest || 'TERRA CLOUD'} – ${f.company || f.name}`;
+  const subject = `${f.topic}: ${f.interest || (f.topic === 'Server-Anfrage' ? 'TERRA SERVER' : 'TERRA CLOUD')} – ${f.company || f.name}`;
   const text = [
-    'Neue Anfrage zur TERRA CLOUD über terra-computershop.de',
+    f.topic === 'Server-Anfrage' ? 'Neue Server-Anfrage über terra-computershop.de' : 'Neue Anfrage zur TERRA CLOUD über terra-computershop.de',
     '',
     `Firma: ${f.company || '–'}`,
     `Name: ${f.name}`,

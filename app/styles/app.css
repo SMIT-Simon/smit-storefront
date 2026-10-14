@@ -3463,3 +3463,25 @@ html:has(.overlay.expanded) .chat-optin {
 .landing-hero figcaption a { color: var(--brand-ink); font-weight: 600; text-decoration: none; }
 .landing-hero figcaption a:hover { color: var(--brand); }
 .landing-hero-price { color: var(--brand); font-size: 1.15rem; font-weight: 700; }
+
+/* Ratgeber Wortmann Server */
+.server-guide .eyebrow { display: block; margin-bottom: .4rem; }
+.server-guide-split { display: grid; gap: 2rem; align-items: start; }
+.server-guide-split h2 { margin-top: 0; }
+.server-guide-box {
+  display: flex; flex-direction: column; gap: .6rem;
+  background: var(--bg); border: 1px solid var(--line);
+  border-left: 4px solid var(--brand); border-radius: 12px; padding: 1.5rem;
+}
+.server-guide-box svg { color: var(--brand); }
+.server-guide-box strong { font-size: 1.15rem; }
+.server-guide-box p { margin: 0; }
+.server-guide-hint { margin: -.5rem 0 1.25rem; color: var(--ink-mute); }
+.server-compare tbody th { white-space: nowrap; }
+.server-compare td { min-width: 14rem; }
+@media (min-width: 64em) {
+  .server-guide-split { grid-template-columns: 1.4fr 1fr; gap: 3rem; }
+}
+@media (max-width: 47.99em) {
+  .server-compare tbody th { white-space: normal; }
+}

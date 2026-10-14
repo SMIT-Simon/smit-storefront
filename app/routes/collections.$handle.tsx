@@ -178,6 +178,13 @@ export default function Collection() {
               </Link>
             </p>
           ) : null}
+          {collection.handle === 'server-netzwerk' ? (
+            <p className="collection-guide-link">
+              <Link to="/ratgeber/wortmann-server" prefetch="intent">
+                Ratgeber: Wortmann Server – eigener Server oder TERRA CLOUD? →
+              </Link>
+            </p>
+          ) : null}
         </div>
       </div>
 
