@@ -8,12 +8,12 @@ import {COMPANY} from '~/lib/company';
 
 const TITLE = 'Zahlungsarten – PayPal, Klarna, Rechnung & Leasing';
 const DESCRIPTION =
-  'So bezahlen Sie bei terra-computershop.de: PayPal, Visa, Mastercard, American Express, Klarna, Apple Pay, Google Pay und Shop Pay, Vorkasse per Überweisung. Später bezahlen und Rechnungskauf über PayPal oder Klarna, für Firmen Rechnung, Bankeinzug und Leasing.';
+  'Zahlungsarten: PayPal (auch Rechnung), Kreditkarte, Klarna, iDEAL | Wero, Apple Pay, Google Pay, Shop Pay und Vorkasse. Für Firmen Rechnung und Leasing.';
 
 const FAQ = [
   {
     q: 'Welche Zahlungsarten gibt es bei terra-computershop.de?',
-    a: 'Sie können mit PayPal (auch Rechnungskauf, Bezahlung nach 30 Tagen oder Ratenzahlung), Kreditkarte (Visa, Mastercard, Maestro, American Express, UnionPay), Klarna, Apple Pay, Google Pay und Shop Pay bezahlen oder per Vorkasse überweisen. Geschäftskunden, Schulen und Behörden können nach Prüfung direkt bei uns auf Rechnung oder per Bankeinzug kaufen; für Firmen ist auch Leasing auf Anfrage möglich.',
+    a: 'Sie können mit PayPal (auch Rechnungskauf, Bezahlung nach 30 Tagen oder Ratenzahlung), Kreditkarte (Visa, Mastercard, Maestro, American Express, UnionPay), Klarna, iDEAL | Wero, Apple Pay, Google Pay und Shop Pay bezahlen oder per Vorkasse überweisen. Geschäftskunden, Schulen und Behörden können nach Prüfung direkt bei uns auf Rechnung oder per Bankeinzug kaufen; für Firmen ist auch Leasing auf Anfrage möglich.',
   },
   {
     q: 'Kann ich auf Rechnung kaufen?',
@@ -33,7 +33,7 @@ const FAQ = [
   },
   {
     q: 'Wann wird mein Konto belastet?',
-    a: 'Bei PayPal, Kreditkarte, Apple Pay, Google Pay und Shop Pay wird die Zahlung mit Abschluss der Bestellung ausgelöst. Bei Klarna gelten die Bedingungen der gewählten Klarna-Option.',
+    a: 'Bei PayPal, Kreditkarte, iDEAL | Wero, Apple Pay, Google Pay und Shop Pay wird die Zahlung mit Abschluss der Bestellung ausgelöst. Bei Klarna gelten die Bedingungen der gewählten Klarna-Option.',
   },
   {
     q: 'Ist die Zahlung sicher?',

@@ -11,6 +11,8 @@ export const PAYMENT_ICONS: PaymentIcon[] = [
   {file: 'maestro', label: 'Maestro'},
   {file: 'american_express', label: 'American Express'},
   {file: 'klarna', label: 'Klarna'},
+  {file: 'ideal', label: 'iDEAL'},
+  {file: 'wero', label: 'Wero'},
   {file: 'apple_pay', label: 'Apple Pay'},
   {file: 'google_pay', label: 'Google Pay'},
   {file: 'shopify_pay', label: 'Shop Pay'},
@@ -54,6 +56,16 @@ export const PAYMENT_METHODS: PaymentMethod[] = [
       'Sofort bezahlen per Überweisung',
       'Später bezahlen oder in Raten',
       'Auswahl im Checkout unter „Klarna“',
+    ],
+  },
+  {
+    title: 'iDEAL | Wero',
+    icons: ['ideal', 'wero'],
+    text: 'Sofort bezahlen über die Banking-App Ihrer Bank. iDEAL ist das beliebteste Bezahlverfahren in den Niederlanden und geht schrittweise in Wero auf, dem europäischen Bezahlverfahren der Banken.',
+    points: [
+      'Zahlung direkt in der Banking-App bestätigen',
+      'Keine Kartendaten nötig',
+      'Auswahl im Checkout unter „iDEAL | Wero“',
     ],
   },
   {
