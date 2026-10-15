@@ -143,7 +143,8 @@ export default function Configurator() {
       const v = shop[k];
       if (v) lines.push({merchandiseId: v.id, quantity: qty, attributes: [tag]});
     }
-    return lines;
+    // Shopify zeigt neu hinzugefügte Positionen zuerst – Grundgerät soll oben stehen
+    return lines.reverse();
   };
   const mailBody = [
     'Guten Tag,',
