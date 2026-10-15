@@ -6,14 +6,14 @@ import {Icon} from '~/components/Icon';
 import {CloudInquiry} from '~/components/CloudInquiry';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {isListable} from '~/lib/addons';
-import {SITE_URL} from '~/lib/seo';
+import {SITE_URL, pageTitle} from '~/lib/seo';
 import {siteImg} from '~/lib/site-images';
 
 const SLUG = '/ratgeber/wortmann-server';
 /** Großes Bild oben: Rack-Server statt Tower */
 const HERO_HANDLE = 'terra-server-3230-g6-xeon-6369p-64-gb-3840-gb-ohne-betriebssystem-1100419';
 const H1 = 'Wortmann Server: TERRA SERVER made in Germany';
-const TITLE = 'Wortmann Server & TERRA SERVER – Ratgeber: kaufen oder Cloud?';
+const TITLE = 'Wortmann Server & TERRA Server – Ratgeber';
 const DESCRIPTION =
   'Wortmann Server bzw. TERRA Server aus Hüllhorst: individuell konfiguriert, Vor-Ort-Service bis 10 Jahre und kostenloser Notfallservice. Server im Haus oder TERRA CLOUD? Beratung gemeinsam mit WORTMANN.';
 
@@ -134,7 +134,7 @@ export async function loader({context}: Route.LoaderArgs) {
 }
 
 export const meta: Route.MetaFunction = ({data}) => [
-  {title: TITLE},
+  {title: pageTitle(TITLE)},
   {name: 'description', content: DESCRIPTION},
   {property: 'og:title', content: H1},
   {property: 'og:description', content: DESCRIPTION},

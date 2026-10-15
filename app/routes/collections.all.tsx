@@ -1,4 +1,5 @@
 import type {Route} from './+types/collections.all';
+import {pageTitle} from '~/lib/seo';
 import {Link, useLoaderData, useNavigate} from 'react-router';
 import {getPaginationVariables} from '@shopify/hydrogen';
 import type {ProductSortKeys} from '@shopify/hydrogen/storefront-api-types';
@@ -10,7 +11,15 @@ import {ProductItem} from '~/components/ProductItem';
 import type {CollectionItemFragment} from 'storefrontapi.generated';
 
 export const meta: Route.MetaFunction = () => {
-  return [{title: 'Alle Produkte – TERRA Notebooks, PCs, Monitore & Server | terra-computershop.de'}];
+  return [
+    {title: pageTitle('Alle Produkte – TERRA Notebooks, PCs & Monitore')},
+    {
+      name: 'description',
+      content:
+        'Alle Produkte im Überblick: TERRA Notebooks, PCs, Mini-PCs, All-in-One-PCs, Monitore, Tablets, Server und Zubehör von WORTMANN – mit Preisen, Kauf auf Rechnung für Firmen.',
+    },
+    {property: 'og:title', content: 'Alle Produkte – TERRA von WORTMANN'},
+  ];
 };
 
 export async function loader(args: Route.LoaderArgs) {

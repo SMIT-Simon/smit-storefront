@@ -1,9 +1,14 @@
 import {useLoaderData} from 'react-router';
+import {pageTitle} from '~/lib/seo';
 import type {Route} from './+types/pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: `${data?.page.title ?? ''}`}];
+  const t = data?.page.title ?? '';
+  return [
+    {title: pageTitle(t)},
+    {property: 'og:title', content: t},
+  ];
 };
 
 export async function loader(args: Route.LoaderArgs) {

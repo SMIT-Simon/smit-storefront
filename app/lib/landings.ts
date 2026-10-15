@@ -29,7 +29,7 @@ export const LANDINGS: Landing[] = [
     slug: 'terra-monitor-27-zoll',
     keyword: 'TERRA Monitor 27 Zoll',
     h1: 'TERRA Monitor 27 Zoll',
-    metaTitle: 'TERRA Monitor 27 Zoll – alle Modelle im Vergleich | terra-computershop.de',
+    metaTitle: 'TERRA Monitor 27 Zoll – alle Modelle im Vergleich',
     metaDescription:
       'TERRA 27-Zoll-Monitore von WORTMANN im Vergleich: Full HD oder WQHD (2K), IPS-Panel, höhenverstellbar mit Pivot, USB-C mit Power Delivery. Alle Modelle mit Preis – direkt bestellen.',
     intro: [

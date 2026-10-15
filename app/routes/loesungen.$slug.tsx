@@ -5,7 +5,7 @@ import {Icon} from '~/components/Icon';
 import {PriceModeNote} from '~/components/PriceMode';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {findSolution, scenarioQuery, SOLUTIONS} from '~/lib/solutions';
-import {absUrl, SITE_URL} from '~/lib/seo';
+import {absUrl, SITE_URL, pageTitle} from '~/lib/seo';
 import {isListable} from '~/lib/addons';
 import {SolutionTiles} from '~/components/SolutionTiles';
 import {siteImg} from '~/lib/site-images';
@@ -14,7 +14,7 @@ export const meta: Route.MetaFunction = ({data}) => {
   const s = data?.solution;
   if (!s) return [{title: 'Lösung nicht gefunden'}];
   return [
-    {title: s.metaTitle},
+    {title: pageTitle(s.metaTitle)},
     {name: 'description', content: s.metaDescription},
     {property: 'og:title', content: s.metaTitle},
     {property: 'og:description', content: s.metaDescription},

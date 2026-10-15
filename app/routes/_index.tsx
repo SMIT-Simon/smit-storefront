@@ -1,4 +1,5 @@
 import {isListable} from '~/lib/addons';
+import {pageTitle} from '~/lib/seo';
 import {Await, useLoaderData, Link} from 'react-router';
 import type {Route} from './+types/_index';
 import {Suspense} from 'react';
@@ -38,7 +39,7 @@ export const links: Route.LinksFunction = () => {
 };
 
 export const meta: Route.MetaFunction = () => [
-  {title: 'TERRA Computer kaufen – TERRA PC, Laptop, Mini-PC & Monitor | terra-computershop.de'},
+  {title: pageTitle('TERRA Computer kaufen – PC, Laptop, Mini-PC & Monitor')},
   {
     name: 'description',
     content:

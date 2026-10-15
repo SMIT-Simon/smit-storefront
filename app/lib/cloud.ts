@@ -41,7 +41,7 @@ export const CLOUD_SERVICES: CloudService[] = [
     teaser: 'Windows- und Linux-Server im deutschen Rechenzentrum – hochverfügbar, monatlich kündbar.',
     image: '/images/cloud/kachel-iaas.jpg',
     imageAlt: 'TERRA CLOUD IaaS',
-    metaTitle: 'Cloud-Server mieten – Virtuelle Server (IaaS) aus Deutschland | terra-computershop.de',
+    metaTitle: 'Cloud-Server mieten – Virtuelle Server aus Deutschland',
     metaDescription:
       'Virtuelle Windows- und Linux-Server (IaaS) in der TERRA CLOUD: Rechenzentrum in Hüllhorst, ISO 27001, eigene Firewall & privates Netz, bis 99,95 % Verfügbarkeit, monatlich kündbar. Jetzt anfragen.',
     intro: [
@@ -90,7 +90,7 @@ export const CLOUD_SERVICES: CloudService[] = [
     teaser: 'Automatische, verschlüsselte Sicherung von Servern, PCs und Microsoft 365 – gespeichert in Deutschland.',
     image: '/images/cloud/kachel-backup.jpg',
     imageAlt: 'TERRA CLOUD Backup',
-    metaTitle: 'Cloud-Backup für Unternehmen – DSGVO-konform in Deutschland | terra-computershop.de',
+    metaTitle: 'Cloud-Backup für Unternehmen – DSGVO-konform',
     metaDescription:
       'TERRA CLOUD Backup: automatische Datensicherung für Server, PCs und Microsoft 365. AES-256-verschlüsselt, Rechenzentrum in Deutschland, monatlich kündbar. Einrichtung durch unser Systemhaus.',
     intro: [
@@ -124,7 +124,7 @@ export const CLOUD_SERVICES: CloudService[] = [
     teaser: 'S3-kompatibler Objektspeicher in Hüllhorst – für Backups, Archive und Anwendungen. Keine Traffickosten.',
     image: '/images/cloud/kachel-s3.jpg',
     imageAlt: 'TERRA CLOUD S3 Storage',
-    metaTitle: 'S3 Storage Deutschland – Objektspeicher aus der TERRA CLOUD | terra-computershop.de',
+    metaTitle: 'S3 Storage Deutschland – Objektspeicher TERRA CLOUD',
     metaDescription:
       'S3-kompatibler Objektspeicher im deutschen Rechenzentrum (Hüllhorst): Abrechnung pro TB, keine Traffickosten, Object Lock & Versionierung, Schnittstelle für QNAP und Synology.',
     intro: [
@@ -155,7 +155,7 @@ export const CLOUD_SERVICES: CloudService[] = [
     teaser: 'Dedizierte TERRA Server zur Miete oder Ihre eigene Hardware im Rack – mit Strom, Klima und Anbindung.',
     image: '/images/cloud/rz-server.jpg',
     imageAlt: 'Serverschrank mit TERRA CLOUD Logo im Rechenzentrum',
-    metaTitle: 'Server Hosting & Housing Deutschland – TERRA CLOUD Rechenzentrum | terra-computershop.de',
+    metaTitle: 'Server Hosting & Housing in Deutschland',
     metaDescription:
       'Dedizierte TERRA Server mieten (Hosting) oder eigene Hardware unterbringen (Housing) im TERRA CLOUD Rechenzentrum Hüllhorst: redundante Stromversorgung, 1 Gbit-Anbindung, Traffic inklusive.',
     intro: [
@@ -186,7 +186,7 @@ export const CLOUD_SERVICES: CloudService[] = [
     teaser: 'Ihre JTL-Wawi auf einem eigenen Cloud-Server – eingerichtet und betreut vom JTL-Servicepartner.',
     image: '/images/cloud/rz-netz.jpg',
     imageAlt: 'Netzwerkverkabelung im TERRA CLOUD Rechenzentrum',
-    metaTitle: 'JTL-Wawi Cloud Server – Hosting in Deutschland vom JTL-Servicepartner | terra-computershop.de',
+    metaTitle: 'JTL-Wawi Cloud Server – Hosting vom JTL-Partner',
     metaDescription:
       'JTL-Wawi in der Cloud: eigener Windows-Server mit SQL-Datenbank in der TERRA CLOUD (Hüllhorst), Zugriff von überall, Backup inklusive – eingerichtet vom JTL-Servicepartner aus Verl.',
     intro: [
@@ -222,7 +222,7 @@ export const CLOUD_SERVICES: CloudService[] = [
     teaser: 'ISO 27001, redundante Stromversorgung, Diesel für eine Woche, DE-CIX-Anbindung – Cloud aus Ostwestfalen.',
     image: '/images/cloud/rz-tuer.jpg',
     imageAlt: 'TERRA CLOUD Logo an der Glastür des Rechenzentrums',
-    metaTitle: 'Rechenzentrum in Deutschland – TERRA CLOUD Hüllhorst (ISO 27001) | terra-computershop.de',
+    metaTitle: 'Rechenzentrum Deutschland – TERRA CLOUD Hüllhorst',
     metaDescription:
       'TERRA CLOUD Rechenzentrum der WORTMANN AG in Hüllhorst: über 8.000 m² RZ-Fläche, ISO/IEC 27001:2022, redundante Stromversorgung, Notstrom für bis zu eine Woche, DE-CIX-Anbindung, ~90 % Ökostrom.',
     intro: [

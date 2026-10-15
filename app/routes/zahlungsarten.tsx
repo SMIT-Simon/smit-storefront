@@ -3,10 +3,10 @@ import type {Route} from './+types/zahlungsarten';
 import {Icon} from '~/components/Icon';
 import {PAYMENT_ICONS, PAYMENT_METHODS, paymentIconSrc} from '~/lib/payment';
 import {PaymentIconRow} from '~/components/PaymentIcons';
-import {SITE_URL} from '~/lib/seo';
+import {SITE_URL, pageTitle} from '~/lib/seo';
 import {COMPANY} from '~/lib/company';
 
-const TITLE = 'Zahlungsarten: PayPal, Kreditkarte, Klarna, Vorkasse, Rechnung & Leasing | terra-computershop.de';
+const TITLE = 'Zahlungsarten – PayPal, Klarna, Rechnung & Leasing';
 const DESCRIPTION =
   'So bezahlen Sie bei terra-computershop.de: PayPal, Visa, Mastercard, American Express, Klarna, Apple Pay, Google Pay und Shop Pay, Vorkasse per Überweisung. Später bezahlen und Rechnungskauf über PayPal oder Klarna, für Firmen Rechnung, Bankeinzug und Leasing.';
 
@@ -42,7 +42,7 @@ const FAQ = [
 ];
 
 export const meta: Route.MetaFunction = () => [
-  {title: TITLE},
+  {title: pageTitle(TITLE)},
   {name: 'description', content: DESCRIPTION},
   {property: 'og:title', content: 'Zahlungsarten bei terra-computershop.de'},
   {property: 'og:description', content: DESCRIPTION},

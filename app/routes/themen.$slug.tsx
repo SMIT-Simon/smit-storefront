@@ -7,13 +7,13 @@ import {PriceModeNote} from '~/components/PriceMode';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {findLanding, monitorSpecs} from '~/lib/landings';
 import {isListable} from '~/lib/addons';
-import {SITE_URL} from '~/lib/seo';
+import {SITE_URL, pageTitle} from '~/lib/seo';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const l = data?.landing;
   if (!l) return [{title: 'Nicht gefunden'}];
   return [
-    {title: l.metaTitle},
+    {title: pageTitle(l.metaTitle)},
     {name: 'description', content: l.metaDescription},
     {property: 'og:title', content: l.h1},
     {property: 'og:description', content: l.metaDescription},

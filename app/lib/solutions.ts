@@ -331,7 +331,7 @@ export const SOLUTIONS: Solution[] = [
     name: 'Empfangs-PCs',
     title: 'Empfangs-PCs: kompakt, leise, platzsparend',
     teaser: 'Kleine PCs für Empfang, Rezeption und Anmeldung.',
-    metaTitle: 'Empfangs-PC kaufen – kompakte Mini-PCs für Rezeption & Anmeldung',
+    metaTitle: 'Empfangs-PC kaufen – Mini-PCs für Rezeption',
     metaDescription:
       'Platzsparende und leise TERRA Mini- und Micro-PCs sowie All-in-Ones für Empfang, Rezeption und Anmeldung.',
     image: '/images/loesungen/arbeitsplatz.webp',
@@ -430,7 +430,7 @@ export const SOLUTIONS: Solution[] = [
     name: 'CAD & Konstruktion',
     title: 'CAD-Workstations für Konstruktion, Architektur und Planung',
     teaser: 'Workstations mit Profi-Grafik für CAD, BIM und Visualisierung.',
-    metaTitle: 'CAD-Workstation kaufen – TERRA Workstations für Konstruktion',
+    metaTitle: 'CAD-Workstation kaufen – TERRA für Konstruktion',
     metaDescription:
       'TERRA Workstations mit professionellen Grafikkarten für CAD, BIM, CAM und Visualisierung – für Architekten, Ingenieure und Konstruktion.',
     image: '/images/home/section-tower-server.webp',
@@ -463,7 +463,7 @@ export const SOLUTIONS: Solution[] = [
     name: 'Server & Netzwerk',
     title: 'Server und Netzwerk für kleine Unternehmen',
     teaser: 'Tower-Server, Firewall und VPN – die Basis für Praxis, Kanzlei und Büro.',
-    metaTitle: 'Server für kleine Unternehmen kaufen – TERRA Server & Firewall',
+    metaTitle: 'Server für kleine Unternehmen – TERRA Server',
     metaDescription:
       'TERRA Tower- und Rack-Server sowie Firewalls für kleine und mittlere Unternehmen, Praxen und Kanzleien – mit Einrichtung und Wartung.',
     image: '/images/loesungen/server-tower.webp',

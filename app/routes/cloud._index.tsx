@@ -3,10 +3,10 @@ import type {Route} from './+types/cloud._index';
 import {Icon} from '~/components/Icon';
 import {CloudInquiry} from '~/components/CloudInquiry';
 import {CLOUD_SERVICES, CLOUD_USPS, RZ_GALLERY} from '~/lib/cloud';
-import {SITE_URL, absUrl} from '~/lib/seo';
+import {SITE_URL, absUrl, pageTitle} from '~/lib/seo';
 import {siteImg} from '~/lib/site-images';
 
-const TITLE = 'TERRA CLOUD: Cloud-Server, Backup & Hosting aus deutschem Rechenzentrum | terra-computershop.de';
+const TITLE = 'TERRA CLOUD – Cloud-Server & Backup aus Deutschland';
 const DESCRIPTION =
   'Cloud „IT made in Germany“: virtuelle Server, Cloud-Backup, S3-Speicher und Hosting aus dem TERRA CLOUD Rechenzentrum in Hüllhorst – ISO 27001, DSGVO-konform, monatlich kündbar. Preise auf Anfrage.';
 
@@ -18,7 +18,7 @@ const FAQ = [
 ];
 
 export const meta: Route.MetaFunction = () => [
-  {title: TITLE},
+  {title: pageTitle(TITLE)},
   {name: 'description', content: DESCRIPTION},
   {property: 'og:title', content: 'TERRA CLOUD – Cloud aus deutschem Rechenzentrum'},
   {property: 'og:description', content: DESCRIPTION},

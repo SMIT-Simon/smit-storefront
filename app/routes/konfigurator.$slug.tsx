@@ -1,4 +1,5 @@
 import {useMemo, useState} from 'react';
+import {pageTitle} from '~/lib/seo';
 import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/konfigurator.$slug';
 import {Icon} from '~/components/Icon';
@@ -18,7 +19,8 @@ export const meta: Route.MetaFunction = ({data}) => {
   const m = data?.model;
   if (!m) return [{title: 'Konfigurator'}];
   return [
-    {title: `${m.name} individuell konfigurieren | terra-computershop.de`},
+    {title: pageTitle(`${m.name} individuell konfigurieren`)},
+    {property: 'og:title', content: `${m.name} individuell konfigurieren`},
     {
       name: 'description',
       content: `${m.name} nach Wunsch konfigurieren: Prozessor, RAM, SSD, Grafik, Windows und Vor-Ort-Service. Verbindliches Angebot innerhalb von einem Werktag.`,

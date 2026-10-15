@@ -6,6 +6,25 @@ import {COMPANY} from '~/lib/company';
 
 export const SITE_URL = 'https://www.terra-computershop.de';
 export const SITE_NAME = 'terra-computershop.de';
+/**
+ * Seitentitel: Google zeigt ca. 580 px (≈ 60 Zeichen). Der Shopname wird nur angehängt,
+ * wenn er noch hineinpasst – sonst bleibt der Titel ohne Zusatz (Google blendet den
+ * Websitenamen ohnehin separat ein).
+ */
+export function pageTitle(title: string) {
+  const suffix = ` | ${SITE_NAME}`;
+  return title.length + suffix.length <= 60 ? `${title}${suffix}` : title;
+}
+
+/** Meta-Description auf sinnvolle Länge bringen (≈ 120–155 Zeichen). */
+export function metaDescription(text: string, extra: string) {
+  let d = text.trim();
+  if (d.length < 120) d = `${d} ${extra}`.trim();
+  if (d.length <= 158) return d;
+  const cut = d.slice(0, 155);
+  return `${cut.slice(0, cut.lastIndexOf(' '))} …`;
+}
+
 export const DEFAULT_OG_IMAGE = `${SITE_URL}/images/og-default.jpg`;
 
 /** Parameter, die eigenständige, indexierbare Seiten erzeugen. */

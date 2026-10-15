@@ -5,6 +5,7 @@ import {SolutionTiles} from '~/components/SolutionTiles';
 
 export const meta: Route.MetaFunction = () => [
   {title: 'IT-Lösungen nach Branche und Einsatzbereich – TERRA Shop'},
+  {property: 'og:title', content: 'IT-Lösungen nach Branche und Einsatzbereich'},
   {
     name: 'description',
     content:

@@ -9,6 +9,7 @@ import {siteImg} from '~/lib/site-images';
 
 export const meta: Route.MetaFunction = () => [
   {title: `${FLYER.title} – Business-Flyer zum Durchklicken`},
+  {property: 'og:title', content: `${FLYER.title} – Business-Flyer`},
   {
     name: 'description',
     content:

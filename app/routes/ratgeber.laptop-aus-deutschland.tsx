@@ -1,6 +1,6 @@
 import {Link} from 'react-router';
 import type {Route} from './+types/ratgeber.laptop-aus-deutschland';
-import {SITE_URL} from '~/lib/seo';
+import {SITE_URL, pageTitle} from '~/lib/seo';
 
 const TITLE = 'Laptop aus Deutschland: TERRA Notebooks vom deutschen Hersteller WORTMANN';
 const DESCRIPTION =
@@ -26,7 +26,7 @@ const FAQ = [
 ];
 
 export const meta: Route.MetaFunction = () => [
-  {title: `${TITLE} | terra-computershop.de`},
+  {title: pageTitle('Laptop aus Deutschland – TERRA Notebooks von WORTMANN')},
   {name: 'description', content: DESCRIPTION},
   {property: 'og:title', content: TITLE},
   {property: 'og:description', content: DESCRIPTION},

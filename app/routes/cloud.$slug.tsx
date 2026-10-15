@@ -3,14 +3,14 @@ import type {Route} from './+types/cloud.$slug';
 import {Icon} from '~/components/Icon';
 import {CloudInquiry} from '~/components/CloudInquiry';
 import {CLOUD_INTEREST_OPTIONS, CLOUD_SERVICES, RZ_GALLERY, findCloudService} from '~/lib/cloud';
-import {SITE_URL, absUrl} from '~/lib/seo';
+import {SITE_URL, absUrl, pageTitle} from '~/lib/seo';
 import {siteImg} from '~/lib/site-images';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const s = data?.service;
   if (!s) return [{title: 'Nicht gefunden'}];
   return [
-    {title: s.metaTitle},
+    {title: pageTitle(s.metaTitle)},
     {name: 'description', content: s.metaDescription},
     {property: 'og:title', content: s.title},
     {property: 'og:description', content: s.metaDescription},

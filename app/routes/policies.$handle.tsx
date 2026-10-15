@@ -1,4 +1,5 @@
 import {Link, useLoaderData} from 'react-router';
+import {pageTitle} from '~/lib/seo';
 import type {Route} from './+types/policies.$handle';
 import {type Shop} from '@shopify/hydrogen/storefront-api-types';
 
@@ -17,7 +18,11 @@ const GERMAN_TITLES: Record<string, string> = {
 };
 
 export const meta: Route.MetaFunction = ({data}) => {
-  return [{title: data?.policy.title ?? 'Rechtliches'}];
+  const t = data?.policy.title ?? 'Rechtliches';
+  return [
+    {title: pageTitle(t)},
+    {property: 'og:title', content: t},
+  ];
 };
 
 export async function loader({params, context}: Route.LoaderArgs) {

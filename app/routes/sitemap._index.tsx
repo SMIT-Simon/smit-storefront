@@ -8,7 +8,8 @@ import {RATGEBER} from '~/lib/ratgeber';
 
 export const meta: Route.MetaFunction = () => [
   {title: 'Sitemap | terra-computershop.de'},
-  {name: 'description', content: 'Übersicht aller Kategorien, Lösungen und Informationsseiten von terra-computershop.de.'},
+  {property: 'og:title', content: 'Sitemap – terra-computershop.de'},
+  {name: 'description', content: 'Sitemap von terra-computershop.de: alle Kategorien (TERRA Notebooks, PCs, Monitore, Server, Zubehör), Branchenlösungen, Ratgeber, TERRA CLOUD und Service-Seiten auf einen Blick.'},
 ];
 
 const INFO = [
