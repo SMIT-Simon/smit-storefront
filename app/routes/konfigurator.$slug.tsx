@@ -182,6 +182,13 @@ export default function Configurator() {
               <p className="cfg-promise">
                 <Icon name="invoice" size={18} /> Verbindliches Angebot innerhalb von <strong>1 Werktag</strong>
               </p>
+              {model.productHandle && model.theme === 'gaming' ? (
+                <p className="cfg-small">
+                  Tipp: Die{' '}
+                  <Link to={`/products/${model.productHandle}`}>fertig konfigurierte Standardausstattung</Link> ist
+                  günstiger als eine individuelle Fertigung.
+                </p>
+              ) : null}
               {model.leadTime ? (
                 <p className="cfg-promise">
                   <Icon name="truck" size={18} /> Lieferzeit nach Auftrag: <strong>{model.leadTime}</strong>
