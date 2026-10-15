@@ -3713,6 +3713,7 @@ html:has(.overlay.expanded) .chat-optin {
 /* Slide mit Hintergrund: Produktbild auf dem Desktop 10 % größer */
 /* Bild ist breiten-begrenzt → Spalte breiter + skalieren: insgesamt ca. 1,1 × 1,3 der Ausgangsgröße */
 @media (min-width: 64em) {
-  .slide.has-bg { gap: 2rem; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); }
-  .slide.has-bg .slide-media img { transform: scale(1.17); transform-origin: 45% 50%; }
+  .slide.has-bg { gap: 2rem; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+  .slide.has-bg .slide-copy { position: relative; z-index: 1; }
+  .slide.has-bg .slide-media img { transform: scale(1.27); transform-origin: 80% 50%; }
 }
