@@ -310,8 +310,9 @@ export default function Configurator() {
                   <CartForm
                     route="/cart"
                     action={CartForm.ACTIONS.LinesAdd}
-                    inputs={{lines: cartLines(), redirectTo: '/cart'}}
+                    inputs={{lines: cartLines()}}
                   >
+                    <input type="hidden" name="redirectTo" value="/cart" />
                     <button type="submit" className="btn btn-primary btn-block">
                       In den Warenkorb
                     </button>
