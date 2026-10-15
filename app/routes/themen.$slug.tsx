@@ -28,17 +28,20 @@ export async function loader({params, context}: Route.LoaderArgs) {
   if (!landing) throw new Response('Not found', {status: 404});
   const res = await context.storefront
     .query(LANDING_PRODUCTS_QUERY, {
-      variables: {query: landing.productQuery, first: 30},
+      variables: {query: landing.productQuery, first: landing.picks ? 100 : 30},
       cache: context.storefront.CacheShort(),
     })
     .catch(() => null);
-  const products = (res?.products.nodes ?? [])
-    .filter(isListable)
-    .sort(
-      (a, b) =>
-        Number(a.priceRange.minVariantPrice.amount) -
-        Number(b.priceRange.minVariantPrice.amount),
-    );
+  const all = (res?.products.nodes ?? []).filter(isListable);
+  const products = landing.picks
+    ? landing.picks
+        .map((h) => all.find((p) => p.handle === h))
+        .filter((p): p is (typeof all)[number] => Boolean(p))
+    : all.sort(
+        (a, b) =>
+          Number(a.priceRange.minVariantPrice.amount) -
+          Number(b.priceRange.minVariantPrice.amount),
+      );
   const hero = landing.hero
     ? (products.find((p) => p.handle === landing.hero?.handle) ?? null)
     : null;
@@ -104,7 +107,7 @@ export default function LandingPage() {
             ))}
             <div className="feature-actions">
               <a href="#modelle" className="btn btn-primary">
-                {products.length} Modelle ansehen{' '}
+                {l.picks ? 'Beliebte Modelle ansehen' : `${products.length} Modelle ansehen`}{' '}
                 <Icon name="arrow-right" size={18} />
               </a>
               <Link
@@ -196,10 +199,29 @@ export default function LandingPage() {
         </section>
       ) : null}
 
+      {l.series?.length ? (
+        <section className="section">
+          <div className="container">
+            <h2 className="section-title">{l.seriesTitle ?? 'Baureihen'}</h2>
+            <div className="landing-series">
+              {l.series.map((s) => (
+                <Link key={s.href} to={s.href} className="landing-series-card" prefetch="intent">
+                  <strong>{s.title}</strong>
+                  <span>{s.text}</span>
+                  <span className="link-arrow">
+                    Modelle ansehen <Icon name="chevron-right" size={16} />
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       <section className="section section-muted" id="modelle">
         <div className="container">
           <div className="section-head">
-            <h2>{l.keyword} – direkt bestellen</h2>
+            <h2>{l.productsTitle ?? `${l.keyword} – direkt bestellen`}</h2>
             <Link to={l.category.href} className="link-arrow" prefetch="intent">
               Mit Filtern ansehen <Icon name="chevron-right" size={16} />
             </Link>
@@ -212,9 +234,31 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {l.story ? (
+        <section className="section">
+          <div className="container landing-story">
+            <div>
+              <h2>{l.story.title}</h2>
+              {l.story.paragraphs.map((p) => (
+                <p key={p.slice(0, 24)}>{p}</p>
+              ))}
+              {l.story.source ? <small className="landing-story-source">{l.story.source}</small> : null}
+            </div>
+            <ol className="landing-timeline">
+              {l.story.milestones.map((m) => (
+                <li key={m.year}>
+                  <strong>{m.year}</strong>
+                  <span>{m.text}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      ) : null}
+
       <section className="section">
         <div className="container">
-          <h2 className="section-title">Worauf Sie beim Kauf achten sollten</h2>
+          <h2 className="section-title">{l.guideTitle ?? 'Worauf Sie beim Kauf achten sollten'}</h2>
           <div className="needs-grid cloud-features">
             {l.guide.map((g, i) => (
               <div key={g.title} className="need-card">

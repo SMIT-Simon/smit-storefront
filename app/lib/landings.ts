@@ -19,12 +19,148 @@ export type Landing = {
   hero?: {handle: string; caption: string};
   /** Vergleichstabelle aus den Produkt-Tags erzeugen */
   compare?: 'monitor';
+  /** Nur diese Produkte (Handles, in dieser Reihenfolge) statt aller Treffer zeigen */
+  picks?: string[];
+  /** Überschrift über der Produktliste */
+  productsTitle?: string;
+  /** Baureihen/Unterkategorien als verlinkte Kacheln */
+  series?: {title: string; text: string; href: string}[];
+  seriesTitle?: string;
+  /** Geschichte / Hintergrund mit Zeitleiste */
+  story?: {title: string; paragraphs: string[]; milestones: {year: string; text: string}[]; source?: string};
+  guideTitle?: string;
   guide: {title: string; text: string}[];
   faq: LandingFaq[];
   related: {label: string; href: string}[];
 };
 
 export const LANDINGS: Landing[] = [
+  {
+    slug: 'terra-pc',
+    keyword: 'TERRA PC',
+    h1: 'TERRA PC – Computer von WORTMANN aus Deutschland',
+    metaTitle: 'TERRA PC kaufen – Business-PC & Mini-PC von WORTMANN',
+    metaDescription:
+      'TERRA PCs von WORTMANN aus Hüllhorst: Business-PCs, Mini- und Micro-PCs, Home- und Gaming-PCs. Modelle, Baureihen, Geschichte der Marke – mit Preisen direkt bestellen.',
+    intro: [
+      'TERRA PC ist die Computer-Marke der WORTMANN AG aus Hüllhorst in Ostwestfalen. Seit 1986 baut das Unternehmen Computer für Firmen, Behörden, Schulen und Privatkunden – gefertigt in Deutschland und vertrieben über den Fachhandel.',
+      'Das Sortiment reicht vom lüfterlosen Mini-PC für den Empfang über den klassischen Büro-PC bis zum leistungsstarken Gaming-PC. Hier finden Sie die wichtigsten Baureihen, beliebte Modelle mit Preis und ein wenig Geschichte zur Marke.',
+    ],
+    productQuery: "product_type:'Desktop-PC'",
+    picks: [
+      'terra-pc-business-6000-core-ultra-5-225-16-gb-500-gb-w11-pro-art-nr-1000133-1000133',
+      'terra-pc-business-4000-1000126',
+      'terra-pc-business-5200-le-eu1000049',
+      'terra-pc-micro-6000-core-5-120u-16-gb-500-gb-w11-pro-art-nr-1000151-1000151',
+      'terra-pc-mini-3550-fanless-1000047',
+      'terra-pc-micro-7000a-copilot-pc-1000184',
+      'terra-pc-business-7000-ryzen-7-8700g-16-gb-1-tb-w11-pro-1000160',
+      'terra-pc-home-6000-ryzen-5-pro-8500g-16-gb-1000-gb-w11-pro-1000171',
+    ],
+    productsTitle: 'Beliebte TERRA PCs – direkt bestellen',
+    category: {label: 'Alle TERRA PCs mit Filtern', href: '/collections/desktop-pcs'},
+    hero: {
+      handle: 'terra-pc-business-6000-core-ultra-5-225-16-gb-500-gb-w11-pro-art-nr-1000133-1000133',
+      caption: 'PC des Monats: TERRA PC BUSINESS 6000 – Core Ultra 5, 16 GB, 500 GB SSD, Windows 11 Pro',
+    },
+    seriesTitle: 'Die TERRA PC-Baureihen',
+    series: [
+      {
+        title: 'TERRA PC-BUSINESS',
+        text: 'Der klassische Büro-PC in den Leistungsklassen 4000, 5000, 6000 und 7000 – mit Windows 11 Pro, leise und für den Dauereinsatz im Unternehmen.',
+        href: '/collections/desktop-pcs?sub=business',
+      },
+      {
+        title: 'TERRA PC-MICRO & PC-MINI',
+        text: 'Kompakte Rechner, die per VESA-Halterung hinter den Monitor passen – ideal für Empfang, Praxis, Kasse und aufgeräumte Schreibtische. Teils lüfterlos.',
+        href: '/collections/desktop-pcs?sub=mini-micro',
+      },
+      {
+        title: 'TERRA Copilot+ PC',
+        text: 'Neue Generation mit KI-Beschleuniger (NPU) für Windows-KI-Funktionen direkt auf dem Gerät.',
+        href: '/collections/desktop-pcs?sub=copilot-pc',
+      },
+      {
+        title: 'TERRA PC-HOME',
+        text: 'Für Zuhause und das kleine Büro: Office, Internet, Fotos und Videos – mit viel Speicherplatz.',
+        href: '/collections/desktop-pcs?sub=home',
+      },
+      {
+        title: 'TERRA PC-GAMER',
+        text: 'Gaming-PCs mit starker Grafikkarte und schnellen Prozessoren für aktuelle Spiele.',
+        href: '/collections/desktop-pcs?sub=gamer',
+      },
+      {
+        title: 'TERRA PC-INDUSTRY',
+        text: 'Robuste Industrie-PCs für Fertigung, Lager und Umgebungen mit Staub und Wärme.',
+        href: '/collections/desktop-pcs?sub=industry',
+      },
+    ],
+    story: {
+      title: 'Die Geschichte hinter TERRA',
+      paragraphs: [
+        'Hinter TERRA steht die WORTMANN AG. Siegbert Wortmann gründete das Unternehmen 1986; Sitz ist bis heute Hüllhorst im Kreis Minden-Lübbecke. Dort werden die TERRA Business-PCs und Server gefertigt.',
+        'WORTMANN ist nicht börsennotiert und gilt als einer der größten unabhängigen Computerhersteller Europas. Verkauft wird über Fachhändler und Systemhäuser – so wie über uns, das Systemhaus aus Verl, ebenfalls in Ostwestfalen.',
+      ],
+      milestones: [
+        {year: '1986', text: 'Gründung durch Siegbert Wortmann'},
+        {year: '1996', text: 'Erstmals 100 Mio. Euro Umsatz'},
+        {year: '1998', text: 'Umwandlung in die WORTMANN AG'},
+        {year: '2009', text: 'Neue Produktionsstätten in Hüllhorst'},
+        {year: '2012', text: 'Eigenes Rechenzentrum – heute die TERRA CLOUD'},
+        {year: '2024', text: 'Über 1 Milliarde Euro Umsatz'},
+      ],
+      source: 'Quelle: Wikipedia, Artikel „Wortmann AG“',
+    },
+    guideTitle: 'Darauf sollten Sie beim TERRA PC achten',
+    guide: [
+      {
+        title: 'Prozessor: Core Ultra, Core oder Ryzen',
+        text: 'Für Office und Warenwirtschaft genügt ein Core i3/Core 3 bzw. Ryzen 3. Wer viele Programme parallel nutzt, ist mit Core Ultra 5 oder Ryzen 5 gut beraten. Core Ultra 7 und Ryzen 7 lohnen sich für große Datenmengen und Bildbearbeitung.',
+      },
+      {
+        title: '16 GB Arbeitsspeicher',
+        text: '8 GB reichen für einfache Aufgaben. Für Windows 11, Browser mit vielen Tabs, Teams und Office empfehlen wir 16 GB – die meisten TERRA PCs haben sie bereits ab Werk.',
+      },
+      {
+        title: 'Windows 11 Pro oder Home',
+        text: 'Für Firmennetzwerke, Domäne und BitLocker brauchen Sie Windows 11 Pro – bei den PC-BUSINESS-Modellen ist es vorinstalliert. Home-Modelle sind für den privaten Einsatz gedacht.',
+      },
+      {
+        title: 'Service inklusive',
+        text: 'TERRA PCs haben 24 Monate Bring-In-Service der WORTMANN AG inklusive. Auf Wunsch gibt es Vor-Ort-Service mit längerer Laufzeit – fragen Sie uns.',
+      },
+    ],
+    faq: [
+      {
+        q: 'Wer stellt TERRA PCs her?',
+        a: 'TERRA ist die Eigenmarke der WORTMANN AG mit Sitz in Hüllhorst (Ostwestfalen). Das Unternehmen wurde 1986 von Siegbert Wortmann gegründet und fertigt Business-PCs und Server in Deutschland.',
+      },
+      {
+        q: 'Sind TERRA PCs gut?',
+        a: 'TERRA PCs sind für den professionellen Einsatz in Unternehmen, Behörden und Schulen gebaut: Markenkomponenten, Windows 11 Pro und Service aus Deutschland. Dazu kommen 24 Monate Bring-In-Service inklusive.',
+      },
+      {
+        q: 'Wo kann ich einen TERRA PC kaufen?',
+        a: 'TERRA PCs werden über Fachhändler verkauft. Bei uns – dem Systemhaus aus Verl – bestellen Sie direkt online, auf Wunsch mit Einrichtung, Datenübernahme und Kauf auf Rechnung für Firmen.',
+      },
+      {
+        q: 'Was kostet ein TERRA PC?',
+        a: 'Kompakte TERRA Micro-PCs gibt es ab rund 430 €, Business-PCs mit Windows 11 Pro ab etwa 760 €. Die aktuellen Preise aller Modelle finden Sie in der Kategorie TERRA PCs.',
+      },
+      {
+        q: 'Welcher TERRA PC ist der richtige fürs Büro?',
+        a: 'Für die meisten Büroarbeitsplätze empfehlen wir einen TERRA PC BUSINESS 6000 mit 16 GB RAM und Windows 11 Pro. Wenig Platz? Dann ist ein TERRA PC-MICRO hinter dem Monitor die elegante Lösung.',
+      },
+    ],
+    related: [
+      {label: 'TERRA Mini-PC', href: '/collections/desktop-pcs?sub=mini-micro'},
+      {label: 'PC-Konfigurator', href: '/konfigurator/terra-pc-business-6000'},
+      {label: 'Laptop aus Deutschland', href: '/ratgeber/laptop-aus-deutschland'},
+      {label: 'TERRA Monitor 27 Zoll', href: '/themen/terra-monitor-27-zoll'},
+      {label: 'Business-PC fürs Büro', href: '/loesungen/buero-unternehmen'},
+    ],
+  },
   {
     slug: 'terra-monitor-27-zoll',
     keyword: 'TERRA Monitor 27 Zoll',

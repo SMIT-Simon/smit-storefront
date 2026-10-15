@@ -180,6 +180,13 @@ export default function Collection() {
               </Link>
             </p>
           ) : null}
+          {collection.handle === 'desktop-pcs' && !sub ? (
+            <p className="collection-guide-link">
+              <Link to="/themen/terra-pc" prefetch="intent">
+                Ratgeber: TERRA PC – Baureihen, beliebte Modelle und Geschichte →
+              </Link>
+            </p>
+          ) : null}
           {collection.handle === 'server-netzwerk' ? (
             <p className="collection-guide-link">
               <Link to="/ratgeber/wortmann-server" prefetch="intent">
