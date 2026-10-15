@@ -19,7 +19,7 @@ const INTERVAL = 6500;
 /** Mobil max. 240px hoch → selten breiter als ~360px. */
 export const HERO_SIZES = '(min-width: 64em) 620px, 360px';
 /** Slide mit Hintergrund: Produktbild läuft auf dem Desktop bis an den rechten Rand (~62 % der Breite). */
-const HERO_SIZES_WIDE = '(min-width: 64em) 62vw, 360px';
+export const HERO_SIZES_WIDE = '(min-width: 64em) 62vw, 360px';
 
 /**
  * Startseiten-Slider. Alle Slides liegen im selben Grid-Feld übereinander,

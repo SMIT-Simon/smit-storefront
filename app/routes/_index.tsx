@@ -17,7 +17,7 @@ import {ProductItem} from '~/components/ProductItem';
 import {MockShopNotice} from '~/components/MockShopNotice';
 import {Icon} from '~/components/Icon';
 import {CATEGORIES} from '~/lib/categories';
-import {HERO_SIZES, HeroSlider, type Slide} from '~/components/HeroSlider';
+import {HERO_SIZES, HERO_SIZES_WIDE, HeroSlider, type Slide} from '~/components/HeroSlider';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {SolutionTiles} from '~/components/SolutionTiles';
 import {siteImg} from '~/lib/site-images';
@@ -25,7 +25,7 @@ import {CLOUD_SERVICES} from '~/lib/cloud';
 
 /** Erstes Slider-Bild (LCP) vorladen. */
 export const links: Route.LinksFunction = () => {
-  const img = siteImg(SLIDES[0].image, HERO_SIZES);
+  const img = siteImg(SLIDES[0].image, SLIDES[0].background ? HERO_SIZES_WIDE : HERO_SIZES);
   return [
     {
       rel: 'preload',
