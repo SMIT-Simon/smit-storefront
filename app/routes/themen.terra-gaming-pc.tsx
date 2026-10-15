@@ -305,7 +305,7 @@ export default function TerraGamingPc() {
       </section>
 
       <section className="gaming-band">
-        <img {...siteImg('/images/gaming/bg1.png', '100vw')} alt="" className="gaming-band-bg" loading="lazy" />
+        <img {...siteImg('/images/gaming/bg5.jpg', '100vw')} alt="" className="gaming-band-bg" loading="lazy" />
         <div className="container gaming-band-inner">
           <h2>Gaming-Hardware von WORTMANN</h2>
           <p>
