@@ -28,6 +28,7 @@ export function HeroSlider({slides}: {slides: Slide[]}) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+  const touchX = useRef<number | null>(null);
   const count = slides.length;
 
   const go = useCallback(
@@ -51,10 +52,23 @@ export function HeroSlider({slides}: {slides: Slide[]}) {
       className="hero-slider"
       aria-roledescription="Karussell"
       aria-label="Highlights"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
+      // Nur echte Maus pausiert (Touch löst sonst „mouseenter“ ohne „mouseleave“ aus → Slider bleibt stehen)
+      onPointerEnter={(e) => e.pointerType === 'mouse' && setPaused(true)}
+      onPointerLeave={(e) => e.pointerType === 'mouse' && setPaused(false)}
+      // Tastatur-Fokus pausiert, Tippen nicht
+      onFocus={(e) => e.target.matches(':focus-visible') && setPaused(true)}
       onBlur={() => setPaused(false)}
+      onTouchStart={(e) => {
+        touchX.current = e.touches[0]?.clientX ?? null;
+      }}
+      onTouchEnd={(e) => {
+        const start = touchX.current;
+        touchX.current = null;
+        const end = e.changedTouches[0]?.clientX;
+        if (start == null || end == null) return;
+        const dx = end - start;
+        if (Math.abs(dx) > 40) go(dx < 0 ? index + 1 : index - 1);
+      }}
     >
       {slides.map((s, i) =>
         s.background ? (

@@ -2255,7 +2255,7 @@ aside .cart-details > div:first-of-type {
   }
   .slide-bg-note { bottom: auto; top: 0.5rem; }
 }
-.slides { display: grid; }
+.slides { display: grid; touch-action: pan-y; }
 .slide {
   align-items: center;
   display: grid;
