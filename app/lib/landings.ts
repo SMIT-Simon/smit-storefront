@@ -29,6 +29,8 @@ export type Landing = {
   /** Geschichte / Hintergrund mit Zeitleiste */
   story?: {title: string; paragraphs: string[]; milestones: {year: string; text: string}[]; source?: string};
   guideTitle?: string;
+  /** Vergleichstabelle (frei) */
+  table?: {title: string; head: string[]; rows: string[][]; note?: string};
   /** Bild-Text-Abschnitt (z. B. „IT made in Germany“) */
   feature?: {
     eyebrow?: string;
@@ -44,6 +46,128 @@ export type Landing = {
 };
 
 export const LANDINGS: Landing[] = [
+  {
+    slug: 'tower-server',
+    keyword: 'Tower-Server',
+    h1: 'Tower-Server kaufen – Server ohne Serverschrank',
+    metaTitle: 'Tower-Server kaufen – TERRA Server für Büro & Praxis',
+    metaDescription:
+      'Tower-Server von TERRA für kleine Unternehmen, Praxen und Kanzleien: kein Serverschrank nötig, Hardware-RAID, ECC-RAM, Windows Server 2025. Vorteile, Nachteile und Modelle mit Preis.',
+    intro: [
+      'Ein Tower-Server steht wie ein großer PC auf dem Boden oder im Technikraum – und braucht keinen 19-Zoll-Serverschrank. Für Unternehmen mit einem oder wenigen Servern ist das oft die einfachste und günstigste Lösung.',
+      'Die TERRA Tower-Server von WORTMANN werden in Deutschland gefertigt: vom leisen MINISERVER fürs Büro bis zum TERRA SERVER 3030 mit Intel Xeon oder AMD EPYC, Hardware-RAID und auf Wunsch redundantem Netzteil.',
+    ],
+    productQuery: 'product_type:Server AND tag:"sub:tower-server"',
+    category: {label: 'Alle Tower-Server mit Filtern', href: '/collections/server-netzwerk?sub=tower-server'},
+    hero: {
+      handle: 'terra-server-3030a-g6-32-gb-1920-gb-windows-server-2025-1100421',
+      caption: 'TERRA SERVER 3030A G6 – AMD EPYC, 32 GB ECC, 2 × 960 GB SSD (RAID 1), Windows Server 2025',
+    },
+    productsTitle: 'TERRA Tower-Server – direkt bestellen',
+    seriesTitle: 'Die TERRA Tower-Server',
+    series: [
+      {
+        title: 'TERRA MINISERVER G6',
+        text: 'Kompakt und geräuscharm – gebaut für den Betrieb direkt im Büro. Intel Xeon E-2400 oder Xeon 6300, bis 64 GB ECC-RAM.',
+        href: '/collections/server-netzwerk?sub=tower-server',
+      },
+      {
+        title: 'TERRA SERVER 3030 G6',
+        text: 'Der Allrounder mit Intel Xeon 6300: Hardware-RAID (Broadcom MegaRAID), Remote-Management, 4 Laufwerksschächte, optional redundantes Netzteil.',
+        href: '/collections/server-netzwerk?sub=tower-server',
+      },
+      {
+        title: 'TERRA SERVER 3030A G6',
+        text: 'Mit AMD EPYC 4005 und bis 192 GB ECC-RAM – viel Leistung für Virtualisierung, SQL-Datenbanken und Warenwirtschaft.',
+        href: '/collections/server-netzwerk?sub=tower-server',
+      },
+    ],
+    guideTitle: 'Vorteile eines Tower-Servers',
+    guide: [
+      {
+        title: 'Kein Serverschrank nötig',
+        text: 'Ein Tower-Server braucht weder 19-Zoll-Rack noch Schienen oder Schrankzubehör. Das spart gerade bei einem einzelnen Server Geld und Platz an der Wand.',
+      },
+      {
+        title: 'Flexibel aufstellen',
+        text: 'Technikraum, Abstellraum mit Lüftung oder abschließbarer Büroraum: Der Server steht dort, wo Netzwerk und Strom sind – mit rund 20 × 44 × 57 cm (TERRA SERVER 3030) braucht er wenig Fläche.',
+      },
+      {
+        title: 'Leiser als viele Rack-Server',
+        text: 'Große Gehäuse kühlen mit größeren, langsameren Lüftern. Der TERRA MINISERVER ist ausdrücklich für den Betrieb in Büroumgebungen ausgelegt.',
+      },
+      {
+        title: 'Echte Server-Technik',
+        text: 'ECC-Arbeitsspeicher, Hardware-RAID mit gespiegelten SSDs, Remote-Management und optional redundante Netzteile – Ausfallsicherheit, die ein normaler PC nicht bietet.',
+      },
+      {
+        title: 'Gut erweiterbar',
+        text: 'Freie Laufwerksschächte, RAM-Steckplätze und PCIe-Slots: Speicher, SSDs, Netzwerk- oder Backup-Karten lassen sich später nachrüsten.',
+      },
+      {
+        title: 'Vielseitig einsetzbar',
+        text: 'Dateiablage, Active Directory, Druckdienste, SQL-Datenbanken, JTL-Wawi, DATEV oder Praxissoftware – oder mehrere virtuelle Server auf einer Maschine.',
+      },
+    ],
+    table: {
+      title: 'Tower-Server oder Rack-Server?',
+      head: ['', 'Tower-Server', 'Rack-Server'],
+      rows: [
+        ['Serverschrank', 'nicht nötig', 'erforderlich (19 Zoll, mind. ca. 90 cm tief)'],
+        ['Kosten bei 1–2 Servern', 'meist günstiger', 'zusätzlich Schrank, Schienen, Zubehör'],
+        ['Lautstärke', 'häufig leiser', 'häufig lauter (kleine, schnelle Lüfter)'],
+        ['Viele Server / Storage', 'weniger geeignet', 'besonders geeignet'],
+        ['Verkabelung & Kühlung', 'einfach, Aufstellort beachten', 'strukturiert im Schrank'],
+        ['Typischer Einsatz', 'Büro, Praxis, Kanzlei, Filiale', 'Serverraum, Rechenzentrum'],
+      ],
+      note: 'Sie planen mehrere Server, Storage oder haben bereits einen Netzwerkschrank? Dann sind unsere Rack-Server die bessere Wahl.',
+    },
+    feature: {
+      eyebrow: 'Ohne Serverschrank – aber richtig aufgestellt',
+      title: 'Darauf sollten Sie beim Aufstellort achten',
+      paragraphs: [
+        'Auch ein Tower-Server erzeugt Abwärme und ist unter Last hörbar. Ideal ist ein separater, belüfteter Raum mit Netzwerkanschluss – nicht direkt neben dem Schreibtisch. Die empfohlene Raumtemperatur liegt laut WORTMANN bei 20 bis 22 °C.',
+        'Ohne abschließbaren Schrank sollte der Raum selbst verschließbar sein, damit niemand unbefugt an den Server kommt. Eine USV (unterbrechungsfreie Stromversorgung) schützt vor Stromausfällen, ein Backup – lokal und zusätzlich in der TERRA CLOUD – vor Datenverlust.',
+      ],
+      image: '/images/home/section-tower-server.webp',
+      imageAlt: 'TERRA Tower-Server',
+      facts: [
+        {value: '20–22 °C', label: 'empfohlene Raumtemperatur'},
+        {value: 'RAID 1', label: 'gespiegelte SSDs ab Werk'},
+        {value: 'abschließbar', label: 'Raum statt Serverschrank'},
+        {value: 'USV + Backup', label: 'Schutz vor Ausfall'},
+      ],
+    },
+    faq: [
+      {
+        q: 'Brauche ich für einen Tower-Server einen Serverschrank?',
+        a: 'Nein. Tower-Server stehen frei auf dem Boden oder einem Regal. Wichtig sind ein belüfteter, möglichst abschließbarer Raum, ein Netzwerkanschluss und idealerweise eine USV.',
+      },
+      {
+        q: 'Ist ein Tower-Server laut?',
+        a: 'Das hängt von Modell und Auslastung ab. Der TERRA MINISERVER ist für den Betrieb im Büro ausgelegt. Leistungsstärkere Server sollten in einem separaten Raum stehen – mehr Leistung bedeutet mehr Kühlung und damit mehr Geräusch.',
+      },
+      {
+        q: 'Welcher Tower-Server eignet sich für JTL-Wawi oder DATEV?',
+        a: 'Für die meisten kleinen und mittleren Betriebe reicht ein TERRA SERVER 3030 oder 3030A mit 32–64 GB ECC-RAM, gespiegelten SSDs und Windows Server 2025. Wir beraten Sie gern anhand Ihrer Benutzerzahl und Datenmenge.',
+      },
+      {
+        q: 'Kann ich einen Tower-Server später in ein Rack einbauen?',
+        a: 'Tower-Gehäuse sind für den Standbetrieb gebaut. Wenn ein Serverschrank absehbar ist, empfehlen wir direkt einen Rack-Server wie den TERRA SERVER 3230.',
+      },
+      {
+        q: 'Welcher Service ist bei TERRA Servern dabei?',
+        a: 'TERRA Server haben 36 Monate Bring-In-Service inklusive. Vor-Ort-Service bis 10 Jahre, Medieneinbehalt und der kostenlose TERRA Notfallservice sind zubuchbar – Details im Ratgeber Wortmann Server.',
+      },
+    ],
+    related: [
+      {label: 'Ratgeber Wortmann Server', href: '/ratgeber/wortmann-server'},
+      {label: 'Rack-Server', href: '/collections/server-netzwerk?sub=rack-server'},
+      {label: 'Server für kleine Unternehmen', href: '/loesungen/server-kleine-unternehmen'},
+      {label: 'Server in der Cloud', href: '/cloud/virtuelle-server'},
+      {label: 'JTL-Wawi in der Cloud', href: '/cloud/jtl-wawi-cloud'},
+    ],
+  },
   {
     slug: 'terra-pc',
     keyword: 'TERRA PC',

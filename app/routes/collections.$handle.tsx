@@ -208,6 +208,13 @@ export default function Collection() {
               </Link>
             </p>
           ) : null}
+          {collection.handle === 'server-netzwerk' && (!sub || sub.slug === 'tower-server') ? (
+            <p className="collection-guide-link">
+              <Link to="/themen/tower-server" prefetch="intent">
+                Ratgeber: Tower-Server – Server ohne Serverschrank →
+              </Link>
+            </p>
+          ) : null}
           {collection.handle === 'server-netzwerk' ? (
             <p className="collection-guide-link">
               <Link to="/ratgeber/wortmann-server" prefetch="intent">

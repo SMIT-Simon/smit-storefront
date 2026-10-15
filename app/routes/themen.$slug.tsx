@@ -288,6 +288,33 @@ export default function LandingPage() {
         </section>
       ) : null}
 
+      {l.table ? (
+        <section className="section section-muted">
+          <div className="container">
+            <h2 className="section-title">{l.table.title}</h2>
+            <div className="cloud-table-wrap">
+              <table className="cloud-table">
+                <thead>
+                  <tr>
+                    {l.table.head.map((h, i) => (
+                      <th key={h || i}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {l.table.rows.map((r) => (
+                    <tr key={r[0]}>
+                      {r.map((c, i) => (i === 0 ? <th key={c}>{c}</th> : <td key={`${r[0]}|${c}`}>{c}</td>))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {l.table.note ? <p className="landing-table-note">{l.table.note}</p> : null}
+          </div>
+        </section>
+      ) : null}
+
       <section className="section">
         <div className="container">
           <h2 className="section-title">{l.guideTitle ?? 'Worauf Sie beim Kauf achten sollten'}</h2>

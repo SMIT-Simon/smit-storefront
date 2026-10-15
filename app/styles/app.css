@@ -3660,3 +3660,4 @@ html:has(.overlay.expanded) .chat-optin {
 .cfg-index-card-gaming .cfg-index-badge { background: rgba(110,240,216,.12); color: #6ef0d8; }
 .cfg-index-card-gaming .link-arrow { color: #e2b6ff; }
 .cfg-index-card-gaming:hover { border-color: #b44dff; box-shadow: 0 0 0 1px #b44dff; }
+.landing-table-note { color: var(--ink-soft); margin-top: 1rem; }
