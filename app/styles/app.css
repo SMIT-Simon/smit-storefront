@@ -3362,10 +3362,15 @@ aside .cart-details > div:first-of-type {
 /* KI-Chat (Elfsight) ausblenden, solange Menü, Warenkorb oder Suche offen sind */
 html:has(.overlay.expanded) .es-portal-root,
 html:has(.overlay.expanded) [class*='elfsight-app-'],
+html:has(.overlay.expanded) [class*='eapps-'],
+html:has(.overlay.expanded) iframe[src*='elfsight'],
 html:has(.overlay.expanded) .chat-optin {
+  opacity: 0 !important;
   pointer-events: none !important;
   visibility: hidden !important;
 }
+/* Warenkorb/Menü/Suche immer über dem Chat-Widget */
+.overlay.expanded { z-index: 2147483647; }
 
 /* ---------- Desktop-Menü: Varianten "scroll" (Pfeile) und "wrap" (2 Zeilen) ---------- */
 .category-nav { position: sticky; }

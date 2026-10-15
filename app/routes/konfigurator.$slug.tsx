@@ -1,5 +1,6 @@
 import {useMemo, useState} from 'react';
-import {CartForm} from '@shopify/hydrogen';
+import {AddToCartButton} from '~/components/AddToCartButton';
+import {useAside} from '~/components/Aside';
 import {pageTitle} from '~/lib/seo';
 import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/konfigurator.$slug';
@@ -83,6 +84,7 @@ const eur = (n: number) =>
 export default function Configurator() {
   const {model, shop} = useLoaderData<typeof loader>();
   const {mode} = usePriceMode();
+  const {open} = useAside();
   const [sel, setSel] = useState<Selection>(() => defaultSelection(model));
   const [service, setService] = useState('bring-in');
   const [qty, setQty] = useState(1);
@@ -308,16 +310,9 @@ export default function Configurator() {
 
               {orderable && shop ? (
                 <>
-                  <CartForm
-                    route="/cart"
-                    action={CartForm.ACTIONS.LinesAdd}
-                    inputs={{lines: cartLines()}}
-                  >
-                    <input type="hidden" name="redirectTo" value="/cart" />
-                    <button type="submit" className="btn btn-primary btn-block">
-                      In den Warenkorb
-                    </button>
-                  </CartForm>
+                  <AddToCartButton lines={cartLines()} onClick={() => open('cart')}>
+                    In den Warenkorb
+                  </AddToCartButton>
                   <p className="cfg-small">
                     Im Warenkorb erscheinen Grundgerät und gewählte Komponenten als einzelne Positionen – die
                     komplette Konfiguration wird mit der Bestellung übermittelt.
