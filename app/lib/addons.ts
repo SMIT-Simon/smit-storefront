@@ -51,7 +51,7 @@ export function serviceTextsFor(productType?: string | null): ServiceTexts {
 }
 
 /** Optionen, die nur über die Produktseite gebucht werden (nicht in Kategorien/Suche). */
-export const OPTION_PRODUCT_TYPES = ['Service-Option', 'Software-Option'];
+export const OPTION_PRODUCT_TYPES = ['Service-Option', 'Software-Option', 'Konfiguration'];
 
 export function serviceHandleFor(productType?: string | null, sku?: string | null) {
   if (productType === 'Monitor') return LCD_SERVICE_HANDLE;

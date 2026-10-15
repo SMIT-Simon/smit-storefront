@@ -1,4 +1,5 @@
 import {useMemo, useState} from 'react';
+import {CartForm} from '@shopify/hydrogen';
 import {pageTitle} from '~/lib/seo';
 import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/konfigurator.$slug';
@@ -30,26 +31,80 @@ export const meta: Route.MetaFunction = ({data}) => {
   ];
 };
 
-export function loader({params}: Route.LoaderArgs) {
+export async function loader({params, context}: Route.LoaderArgs) {
   const model = findModel(params.slug);
   if (!model) throw new Response('Not found', {status: 404});
-  return {model};
+  // Gaming-Konfigurationen sind direkt bestellbar: Preise kommen aus dem versteckten
+  // Shopify-Produkt „konfiguration-<slug>“ (Grundgerät + Aufpreis-Varianten, SKU cfg|<gruppe>:<option>).
+  let shop: Record<string, {id: string; price: number}> | null = null;
+  if (model.theme === 'gaming') {
+    const res = await context.storefront
+      .query(CONFIG_PRODUCT_QUERY, {
+        variables: {handle: `konfiguration-${model.slug}`},
+        cache: context.storefront.CacheShort(),
+      })
+      .catch(() => null);
+    const nodes = res?.product?.variants.nodes ?? [];
+    if (nodes.length) {
+      shop = {};
+      for (const v of nodes) {
+        if (v.sku?.startsWith('cfg|') && v.availableForSale) {
+          shop[v.sku.slice(4)] = {id: v.id, price: Number(v.price.amount)};
+        }
+      }
+      if (!shop.base) shop = null;
+    }
+  }
+  return {model, shop};
 }
+
+const CONFIG_PRODUCT_QUERY = `#graphql
+  query ConfigProduct($handle: String!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
+    product(handle: $handle) {
+      id
+      variants(first: 100) {
+        nodes {
+          id
+          sku
+          availableForSale
+          price {
+            amount
+          }
+        }
+      }
+    }
+  }
+` as const;
 
 const eur = (n: number) =>
   n.toLocaleString('de-DE', {style: 'currency', currency: 'EUR'});
 
 export default function Configurator() {
-  const {model} = useLoaderData<typeof loader>();
+  const {model, shop} = useLoaderData<typeof loader>();
   const {mode} = usePriceMode();
   const [sel, setSel] = useState<Selection>(() => defaultSelection(model));
   const [service, setService] = useState('bring-in');
   const [qty, setQty] = useState(1);
   const [contact, setContact] = useState({company: '', name: '', email: '', phone: '', note: ''});
 
-  const price = useMemo(() => priceOf(model, sel, service), [model, sel, service]);
   const markup = model.markup ?? MARKUP;
   const gaming = model.theme === 'gaming';
+  const orderable = Boolean(shop);
+  const vat = 1 + VAT_RATE;
+  /** Aufpreis brutto einer Shop-Variante (0, wenn im Grundgerät enthalten) */
+  const vp = (key: string) => shop?.[key]?.price ?? 0;
+  const price = useMemo(() => {
+    if (!shop) return priceOf(model, sel, service);
+    let gross = vp('base');
+    for (const g of model.groups) {
+      for (const id of ([] as string[]).concat(sel[g.id] ?? [])) gross += vp(`${g.id}:${id}`);
+    }
+    gross += vp(`service:${service}`);
+    return {system: 0, fixed: 0, service: 0, total: Math.round((gross / vat) * 100) / 100, gross};
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [model, sel, service, shop]);
+  const [cfgId] = useState(() => Math.random().toString(36).slice(2, 8).toUpperCase());
   const show = (net: number) => (mode === 'net' ? net : net * (1 + VAT_RATE));
   const other = (net: number) => (mode === 'net' ? net * (1 + VAT_RATE) : net);
   const taxNote = mode === 'net' ? 'netto zzgl. MwSt.' : 'inkl. 19 % MwSt.';
@@ -62,6 +117,34 @@ export default function Configurator() {
     });
 
   const configText = describe(model, sel, service);
+
+  /** Warenkorb-Positionen: Grundgerät (mit kompletter Konfiguration) + Aufpreis-Komponenten. */
+  const cartLines = () => {
+    if (!shop) return [];
+    const tag = {key: 'Konfiguration Nr.', value: cfgId};
+    const lines = [
+      {
+        merchandiseId: shop.base.id,
+        quantity: qty,
+        attributes: [
+          tag,
+          {key: 'Modell', value: model.name},
+          {key: 'Ausstattung', value: configText.split('\n').slice(1).join(' | ').slice(0, 1800)},
+          ...(model.leadTime ? [{key: 'Lieferzeit', value: `${model.leadTime} (Fertigung nach Auftrag)`}] : []),
+        ],
+      },
+    ];
+    const keys: string[] = [];
+    for (const g of model.groups) {
+      for (const id of ([] as string[]).concat(sel[g.id] ?? [])) keys.push(`${g.id}:${id}`);
+    }
+    keys.push(`service:${service}`);
+    for (const k of keys) {
+      const v = shop[k];
+      if (v) lines.push({merchandiseId: v.id, quantity: qty, attributes: [tag]});
+    }
+    return lines;
+  };
   const mailBody = [
     'Guten Tag,',
     '',
@@ -96,7 +179,7 @@ export default function Configurator() {
             <Link to="/collections/desktop-pcs">Desktop-PCs</Link>
           )}
           <span aria-hidden>›</span>
-          <span>Konfigurator</span>
+          <Link to="/konfigurator">Konfigurator</Link>
         </nav>
 
         <header className="cfg-head">
@@ -127,7 +210,9 @@ export default function Configurator() {
                   const checked = multi
                     ? ([] as string[]).concat(sel[g.id] ?? []).includes(o.id)
                     : sel[g.id] === o.id;
-                  const delta = o.fixedNet ?? (o.ek ?? 0) * markup;
+                  const delta = orderable
+                    ? (vp(`${g.id}:${o.id}`) - (multi ? 0 : vp(`${g.id}:${g.default ?? g.options[0].id}`))) / vat
+                    : (o.fixedNet ?? (o.ek ?? 0) * markup);
                   return (
                     <label key={o.id} className={checked ? 'cfg-opt checked' : 'cfg-opt'}>
                       <input
@@ -152,7 +237,11 @@ export default function Configurator() {
             <fieldset className="cfg-group">
               <legend>Serviceauswahl</legend>
               {SERVICE_TIERS.map((t) => {
-                const net = t.pct ? Math.max(price.system * t.pct, t.minNet) : 0;
+                const net = orderable
+                  ? vp(`service:${t.id}`) / vat
+                  : t.pct
+                    ? Math.max(price.system * t.pct, t.minNet)
+                    : 0;
                 return (
                   <label key={t.id} className={service === t.id ? 'cfg-opt checked' : 'cfg-opt'}>
                     <input
@@ -174,24 +263,34 @@ export default function Configurator() {
 
           <div className="cfg-summary">
             <div className="cfg-summary-inner">
-              <span className="cfg-label">Richtpreis je Gerät</span>
-              <strong className="cfg-total">{eur(show(price.total))}</strong>
+              <span className="cfg-label">{orderable ? 'Preis je Gerät' : 'Richtpreis je Gerät'}</span>
+              <strong className="cfg-total">
+                {eur(orderable && 'gross' in price ? (mode === 'net' ? price.total : price.gross) : show(price.total))}
+              </strong>
               <span className="cfg-tax">
-                {taxNote} · {eur(other(price.total))} {mode === 'net' ? 'brutto' : 'netto'}
+                {taxNote} ·{' '}
+                {eur(orderable && 'gross' in price ? (mode === 'net' ? price.gross : price.total) : other(price.total))}{' '}
+                {mode === 'net' ? 'brutto' : 'netto'}
               </span>
-              <p className="cfg-promise">
-                <Icon name="invoice" size={18} /> Verbindliches Angebot innerhalb von <strong>1 Werktag</strong>
-              </p>
-              {model.productHandle && model.theme === 'gaming' ? (
+              {orderable ? (
+                <p className="cfg-promise">
+                  <Icon name="cart" size={18} /> Direkt bestellen und <strong>sicher bezahlen</strong>
+                </p>
+              ) : (
+                <p className="cfg-promise">
+                  <Icon name="invoice" size={18} /> Verbindliches Angebot innerhalb von <strong>1 Werktag</strong>
+                </p>
+              )}
+              {model.leadTime ? (
+                <p className="cfg-promise">
+                  <Icon name="truck" size={18} /> Lieferzeit nach Auftrag: <strong>{model.leadTime}</strong>
+                </p>
+              ) : null}
+              {model.productHandle && gaming ? (
                 <p className="cfg-small">
                   Tipp: Die{' '}
                   <Link to={`/products/${model.productHandle}`}>fertig konfigurierte Standardausstattung</Link> ist
                   günstiger als eine individuelle Fertigung.
-                </p>
-              ) : null}
-              {model.leadTime ? (
-                <p className="cfg-promise">
-                  <Icon name="truck" size={18} /> Lieferzeit nach Auftrag: <strong>{model.leadTime}</strong>
                 </p>
               ) : null}
 
@@ -200,45 +299,69 @@ export default function Configurator() {
                 <input
                   type="number"
                   min={1}
+                  max={20}
                   value={qty}
-                  onChange={(e) => setQty(Math.max(1, parseInt(e.target.value || '1', 10)))}
+                  onChange={(e) => setQty(Math.min(20, Math.max(1, parseInt(e.target.value || '1', 10))))}
                 />
               </label>
-              <label className="cfg-field">
-                <span>Firma</span>
-                <input value={contact.company} onChange={(e) => setContact({...contact, company: e.target.value})} />
-              </label>
-              <label className="cfg-field">
-                <span>Ansprechpartner</span>
-                <input value={contact.name} onChange={(e) => setContact({...contact, name: e.target.value})} />
-              </label>
-              <label className="cfg-field">
-                <span>E-Mail *</span>
-                <input type="email" value={contact.email} onChange={(e) => setContact({...contact, email: e.target.value})} />
-              </label>
-              <label className="cfg-field">
-                <span>Telefon</span>
-                <input value={contact.phone} onChange={(e) => setContact({...contact, phone: e.target.value})} />
-              </label>
-              <label className="cfg-field">
-                <span>Anmerkung</span>
-                <textarea rows={2} value={contact.note} onChange={(e) => setContact({...contact, note: e.target.value})} />
-              </label>
 
-              <a
-                href={canSend ? mailto : undefined}
-                aria-disabled={!canSend}
-                className={canSend ? 'btn btn-primary btn-block' : 'btn btn-primary btn-block disabled'}
-              >
-                Angebot anfordern
-              </a>
-              <p className="cfg-small">
-                Öffnet Ihr E-Mail-Programm mit der fertigen Anfrage. Lieber telefonisch?{' '}
-                <a href="tel:+4952469098980">05246 909 89 80</a>
-              </p>
-              <p className="cfg-small">
-                Richtpreis ohne Gewähr – maßgeblich ist unser Angebot.
-              </p>
+              {orderable && shop ? (
+                <>
+                  <CartForm
+                    route="/cart"
+                    action={CartForm.ACTIONS.LinesAdd}
+                    inputs={{lines: cartLines(), redirectTo: '/cart'}}
+                  >
+                    <button type="submit" className="btn btn-primary btn-block">
+                      In den Warenkorb
+                    </button>
+                  </CartForm>
+                  <p className="cfg-small">
+                    Im Warenkorb erscheinen Grundgerät und gewählte Komponenten als einzelne Positionen – die
+                    komplette Konfiguration wird mit der Bestellung übermittelt.
+                  </p>
+                  <p className="cfg-small">
+                    Lieber erst ein Angebot? <a href={mailto}>Konfiguration per E-Mail anfragen</a> oder{' '}
+                    <a href="tel:+4952469098980">05246 909 89 80</a>
+                  </p>
+                </>
+              ) : (
+                <>
+                  <label className="cfg-field">
+                    <span>Firma</span>
+                    <input value={contact.company} onChange={(e) => setContact({...contact, company: e.target.value})} />
+                  </label>
+                  <label className="cfg-field">
+                    <span>Ansprechpartner</span>
+                    <input value={contact.name} onChange={(e) => setContact({...contact, name: e.target.value})} />
+                  </label>
+                  <label className="cfg-field">
+                    <span>E-Mail *</span>
+                    <input type="email" value={contact.email} onChange={(e) => setContact({...contact, email: e.target.value})} />
+                  </label>
+                  <label className="cfg-field">
+                    <span>Telefon</span>
+                    <input value={contact.phone} onChange={(e) => setContact({...contact, phone: e.target.value})} />
+                  </label>
+                  <label className="cfg-field">
+                    <span>Anmerkung</span>
+                    <textarea rows={2} value={contact.note} onChange={(e) => setContact({...contact, note: e.target.value})} />
+                  </label>
+
+                  <a
+                    href={canSend ? mailto : undefined}
+                    aria-disabled={!canSend}
+                    className={canSend ? 'btn btn-primary btn-block' : 'btn btn-primary btn-block disabled'}
+                  >
+                    Angebot anfordern
+                  </a>
+                  <p className="cfg-small">
+                    Öffnet Ihr E-Mail-Programm mit der fertigen Anfrage. Lieber telefonisch?{' '}
+                    <a href="tel:+4952469098980">05246 909 89 80</a>
+                  </p>
+                  <p className="cfg-small">Richtpreis ohne Gewähr – maßgeblich ist unser Angebot.</p>
+                </>
+              )}
             </div>
           </div>
         </div>

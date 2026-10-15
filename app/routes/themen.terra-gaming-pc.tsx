@@ -241,7 +241,7 @@ export default function TerraGamingPc() {
           <h2 className="section-title">Ihren Gaming PC selbst zusammenstellen</h2>
           <p className="gaming-config-lead">
             Grafikkarte, Prozessor, Arbeitsspeicher, Kühlung, Windows und Service frei wählen – WORTMANN baut Ihren
-            PC nach Auftrag in Hüllhorst. Lieferzeit 2–3 Wochen, verbindliches Angebot innerhalb von einem Werktag.
+            PC nach Auftrag in Hüllhorst. Direkt online bestellen und bezahlen – Lieferzeit 2–3 Wochen.
           </p>
           <p className="gaming-config-lead">
             <strong>Tipp:</strong> Passt eine der fertig konfigurierten Ausstattungen oben, ist sie günstiger als

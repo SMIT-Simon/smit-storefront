@@ -10,6 +10,7 @@ const HIDDEN_HANDLES = [
   /^vor-ort-service-/,
   /^terra-lcd-vor-ort-service$/,
   /^windows-11-pro-oem-vorinstalliert-/,
+  /^konfiguration-/,
 ];
 
 export async function loader({

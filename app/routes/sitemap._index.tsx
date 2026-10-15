@@ -16,6 +16,7 @@ const INFO = [
   ...RATGEBER.map((r) => ({to: r.to, label: `Ratgeber: ${r.label}`})),
   {to: '/collections/all', label: 'Alle Produkte'},
   {to: '/flyer', label: 'Business-Flyer'},
+  {to: '/konfigurator', label: 'PC-Konfigurator (Übersicht)'},
   ...CONFIG_MODELS.map((m) => ({to: `/konfigurator/${m.slug}`, label: `PC-Konfigurator ${m.name}`})),
   {to: '/pages/kontakt', label: 'Kontakt & Angebotsanfrage'},
   {to: '/zahlungsarten', label: 'Zahlungsarten'},

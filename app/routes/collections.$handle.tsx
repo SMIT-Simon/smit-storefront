@@ -296,7 +296,7 @@ export default function Collection() {
               <Icon name="desktop" size={22} />
               <span>
                 <strong>Gaming PC nach Wunsch? Zum Gaming-Konfigurator</strong>
-                <small>GAMER ELITE 1, 2 und 4 – Grafikkarte, Prozessor, RAM und Kühlung selbst wählen, bis RTX 5090</small>
+                <small>GAMER ELITE 1, 2 und 4 – Grafikkarte, Prozessor, RAM und Kühlung selbst wählen und direkt bestellen</small>
               </span>
               <Icon name="chevron-right" size={18} />
             </Link>

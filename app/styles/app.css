@@ -3632,3 +3632,26 @@ html:has(.overlay.expanded) .chat-optin {
 .configurator-gaming .cfg-head p, .configurator-gaming .cfg-standard li { color: rgba(255,255,255,.82); }
 .configurator-gaming .cfg-head .eyebrow { color: #6ef0d8; }
 .configurator-gaming .cfg-head img { border-radius: 12px; object-fit: cover; }
+
+/* Konfigurator-Übersicht */
+.cfg-index-head { max-width: 760px; padding: .5rem 0 1.5rem; }
+.cfg-index-head h1 { font-size: clamp(1.8rem, 3.6vw, 2.5rem); margin: .4rem 0 1rem; }
+.cfg-index-head p, .cfg-index-lead { color: var(--ink-soft); line-height: 1.7; }
+.cfg-index-section { margin-bottom: 2.5rem; }
+.cfg-index-section h2 { margin: 0 0 .75rem; }
+.cfg-index-grid { display: grid; gap: 1rem; }
+@media (min-width: 40em) { .cfg-index-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 64em) { .cfg-index-grid { grid-template-columns: repeat(3, 1fr); } }
+.cfg-index-card { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; color: var(--ink); display: flex; flex-direction: column; gap: .5rem; padding: 1.25rem; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+.cfg-index-card:hover { border-color: var(--brand); box-shadow: var(--shadow); }
+.cfg-index-card img { border-radius: 10px; height: 160px; object-fit: contain; width: 100%; }
+.cfg-index-card strong { color: var(--brand-ink); font-size: 1.1rem; }
+.cfg-index-card > span:nth-of-type(2) { color: var(--ink-soft); flex: 1; font-size: .9rem; line-height: 1.5; }
+.cfg-index-badge { align-self: flex-start; background: var(--brand-tint); border-radius: 999px; color: var(--brand); font-size: .75rem; font-weight: 700; padding: .15rem .6rem; }
+.cfg-index-price { font-size: 1.2rem; font-weight: 800; }
+.cfg-index-card-gaming { background: #1d0d33; border-color: rgba(196,120,255,.25); color: #fff; }
+.cfg-index-card-gaming strong { color: #fff; }
+.cfg-index-card-gaming > span:nth-of-type(2) { color: rgba(255,255,255,.7); }
+.cfg-index-card-gaming .cfg-index-badge { background: rgba(110,240,216,.12); color: #6ef0d8; }
+.cfg-index-card-gaming .link-arrow { color: #e2b6ff; }
+.cfg-index-card-gaming:hover { border-color: #b44dff; box-shadow: 0 0 0 1px #b44dff; }

@@ -108,6 +108,9 @@ export function Footer({header}: FooterProps) {
               <Link to="/zahlungsarten">Zahlungsarten</Link>
             </li>
             <li>
+              <Link to="/konfigurator">PC-Konfigurator</Link>
+            </li>
+            <li>
               <Link to="/loesungen">Branchen &amp; Lösungen</Link>
             </li>
             <li>

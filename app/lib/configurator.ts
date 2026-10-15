@@ -101,7 +101,7 @@ const SATA_SSD = (): ConfigGroup => ({
   ]),
 });
 const GAMING_INTRO = (n: string) =>
-  `Ihr ${n}, gebaut nach Ihren Vorgaben von WORTMANN in Hüllhorst. Wählen Sie Prozessor, Grafikkarte, Speicher und Zubehör – wir senden Ihnen innerhalb von einem Werktag ein verbindliches Angebot.`;
+  `Ihr ${n}, gebaut nach Ihren Vorgaben von WORTMANN in Hüllhorst. Wählen Sie Prozessor, Grafikkarte, Speicher, Windows und Service – und bestellen Sie direkt online. Lieferzeit 2–3 Wochen.`;
 
 /** Vor-Ort-Service: Verkaufspreis = Anteil am Systempreis (min. Betrag netto). */
 export const SERVICE_TIERS = [
