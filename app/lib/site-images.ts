@@ -15,6 +15,11 @@ const SITE_IMAGES: Record<string, [file: string, width: number, height: number]>
   '/images/cloud/kachel-backup.jpg': ['site-cloud-kachel-backup.jpg', 250, 250],
   '/images/cloud/rz-server.jpg': ['site-cloud-rz-server.jpg', 1600, 762],
   '/images/server/rack.png': ['site-server-rack.png', 2400, 1251],
+  // Zielgruppenbilder Tower-Server (KI-generiert, Kennzeichnung im Bild)
+  '/images/tower/zielgruppe-praxis.webp': ['site-tower-zielgruppe-praxis.jpg', 1448, 1086],
+  '/images/tower/zielgruppe-kanzlei.webp': ['site-tower-zielgruppe-kanzlei.jpg', 1448, 1086],
+  '/images/tower/zielgruppe-handel.webp': ['site-tower-zielgruppe-handel.jpg', 1448, 1086],
+  '/images/tower/zielgruppe-kmu.webp': ['site-tower-zielgruppe-kmu.jpg', 1448, 1086],
   // Arbeitsplatzbilder aus der WORTMANN-Bilddatenbank (unverändert, nur skaliert ausgeliefert)
   '/images/ap/2448w-pv.png': ['site-ap-2448w-pv.png', 4000, 3500],
   '/images/ap/2727w.png': ['site-ap-2727w.png', 4000, 2340],
