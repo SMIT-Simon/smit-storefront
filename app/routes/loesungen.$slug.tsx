@@ -18,7 +18,7 @@ export const meta: Route.MetaFunction = ({data}) => {
     {name: 'description', content: s.metaDescription},
     {property: 'og:title', content: s.metaTitle},
     {property: 'og:description', content: s.metaDescription},
-    {property: 'og:image', content: absUrl(s.image)},
+    {property: 'og:image', content: s.image.startsWith('/images/ap/') ? `${siteImg(s.image).src}` : absUrl(s.image)},
   ];
 };
 

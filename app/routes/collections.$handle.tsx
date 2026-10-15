@@ -18,6 +18,8 @@ import {
 } from '~/lib/filters';
 import {metaDescription, pageTitle} from '~/lib/seo';
 import {categoryIntro, categorySeoTitle} from '~/lib/category-texts';
+import {categoryBanner} from '~/lib/category-banners';
+import {siteImg} from '~/lib/site-images';
 import {isListable} from '~/lib/addons';
 import {CollectionFilters} from '~/components/CollectionFilters';
 import {Icon} from '~/components/Icon';
@@ -149,11 +151,30 @@ export default function Collection() {
   };
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const banner = categoryBanner(collection.handle, sub?.slug);
 
   return (
     <div className="collection">
-      <div className="collection-hero">
-        <div className="container">
+      <div
+        className={
+          banner?.theme === 'gaming'
+            ? 'collection-hero collection-hero-gaming'
+            : banner
+              ? 'collection-hero collection-hero-media'
+              : 'collection-hero'
+        }
+      >
+        {banner?.theme === 'gaming' ? (
+          <img
+            {...siteImg(banner.image, '100vw')}
+            alt=""
+            className="collection-hero-bg"
+            loading="eager"
+            fetchPriority="high"
+          />
+        ) : null}
+        <div className="container collection-hero-inner">
+          <div className="collection-hero-copy">
           <nav className="breadcrumb" aria-label="Brotkrumen">
             <Link to="/">Startseite</Link>
             <span aria-hidden="true">/</span>
@@ -193,6 +214,23 @@ export default function Collection() {
                 Ratgeber: Wortmann Server – eigener Server oder TERRA CLOUD? →
               </Link>
             </p>
+          ) : null}
+          {collection.handle === 'desktop-pcs' && sub?.slug === 'gamer' ? (
+            <p className="collection-guide-link">
+              <Link to="/themen/terra-gaming-pc" prefetch="intent">
+                Mehr zu TERRA GAMING: Gaming-PCs aus Deutschland →
+              </Link>
+            </p>
+          ) : null}
+          </div>
+          {banner && banner.theme !== 'gaming' ? (
+            <div className="collection-hero-image">
+              <img
+                {...siteImg(banner.image, '(min-width: 64em) 420px, 0px')}
+                alt={banner.alt}
+                loading="eager"
+              />
+            </div>
           ) : null}
         </div>
       </div>

@@ -158,8 +158,8 @@ export const SOLUTIONS: Solution[] = [
     metaTitle: 'Business-PC für Büro kaufen – TERRA PCs für Unternehmen',
     metaDescription:
       'TERRA Business-PCs, Notebooks und Monitore für Büroarbeitsplätze. Einheitliche Geräte und Einrichtung vom Systemhaus.',
-    image: '/images/home/section-arbeitsplatz.webp',
-    imageAlt: 'TERRA Büroarbeitsplatz mit PC und Monitor',
+    image: '/images/ap/2427w.png',
+    imageAlt: 'Büroarbeitsplatz mit zwei TERRA Monitoren LCD/LED 2427W',
     intro: [
       'Im Büro zählt, dass die Technik einfach funktioniert. Einheitliche Arbeitsplätze lassen sich schneller einrichten, leichter betreuen und bei Bedarf unkompliziert ersetzen.',
       'TERRA-PCs werden von WORTMANN in Hüllhorst gefertigt. Wir kombinieren sie mit passenden Monitoren, Software und Einrichtung zu kompletten Arbeitsplätzen – vom Einzelplatz bis zur ganzen Abteilung.',
@@ -367,8 +367,8 @@ export const SOLUTIONS: Solution[] = [
     metaTitle: 'Multimonitor-Arbeitsplatz & Buchhaltungs-PC – TERRA',
     metaDescription:
       'PCs, Dockingstations und höhenverstellbare Monitore für Dual- und Triple-Monitor-Arbeitsplätze in Buchhaltung, Controlling und Disposition.',
-    image: '/images/loesungen/dual-monitor.webp',
-    imageAlt: 'TERRA Arbeitsplatz mit zwei Monitoren',
+    image: '/images/ap/2448w-pv.png',
+    imageAlt: 'Arbeitsplatz mit drei TERRA Monitoren LCD/LED 2448W PV und Notebook',
     intro: [
       'Buchhaltung, Controlling und Disposition profitieren messbar von mehr Bildschirmfläche: Beleg und Buchungsmaske, Tabelle und ERP, Mail und Kalender – alles gleichzeitig im Blick.',
       'Damit das klappt, müssen PC, Grafikausgänge, Kabel und Monitore zusammenpassen. Wir stellen Ihnen das komplette Set zusammen.',
@@ -400,8 +400,8 @@ export const SOLUTIONS: Solution[] = [
     metaTitle: 'Homeoffice-Ausstattung kaufen – Notebook, Monitor & Dock',
     metaDescription:
       'Komplette Homeoffice-Arbeitsplätze mit TERRA Notebooks, Dockingstations, Monitoren, Webcams und Headsets – eingerichtet vom Systemhaus.',
-    image: '/images/loesungen/homeoffice.webp',
-    imageAlt: 'Homeoffice-Arbeitsplatz mit Notebook, Monitor, Dockingstation und Headset',
+    image: '/images/ap/2427w-ha.png',
+    imageAlt: 'Homeoffice-Arbeitsplatz mit TERRA Notebook und zwei Monitoren LCD/LED 2427W HA',
     intro: [
       'Wer zuhause genauso produktiv arbeiten soll wie im Büro, braucht mehr als ein Notebook: einen großen Monitor, eine Dockingstation, ordentliche Eingabegeräte und eine gute Kamera für Besprechungen.',
       'Wir stellen Ihnen komplette Homeoffice-Pakete zusammen – einheitlich für alle Mitarbeitenden und vorbereitet für den sicheren Zugriff auf Ihr Firmennetz.',

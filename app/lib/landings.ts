@@ -29,6 +29,15 @@ export type Landing = {
   /** Geschichte / Hintergrund mit Zeitleiste */
   story?: {title: string; paragraphs: string[]; milestones: {year: string; text: string}[]; source?: string};
   guideTitle?: string;
+  /** Bild-Text-Abschnitt (z. B. „IT made in Germany“) */
+  feature?: {
+    eyebrow?: string;
+    title: string;
+    paragraphs: string[];
+    image: string;
+    imageAlt: string;
+    facts?: {value: string; label: string}[];
+  };
   guide: {title: string; text: string}[];
   faq: LandingFaq[];
   related: {label: string; href: string}[];
@@ -62,6 +71,22 @@ export const LANDINGS: Landing[] = [
     hero: {
       handle: 'terra-pc-business-6000-core-ultra-5-225-16-gb-500-gb-w11-pro-art-nr-1000133-1000133',
       caption: 'PC des Monats: TERRA PC BUSINESS 6000 – Core Ultra 5, 16 GB, 500 GB SSD, Windows 11 Pro',
+    },
+    feature: {
+      eyebrow: 'IT made in Germany',
+      title: 'Gebaut in Ostwestfalen – für Ihren Schreibtisch',
+      paragraphs: [
+        'TERRA PCs entstehen bei WORTMANN in Hüllhorst: Dort werden die Systeme aus Markenkomponenten montiert, mit Windows installiert und geprüft, bevor sie das Werk verlassen. Weil die Fertigung im eigenen Haus liegt, sind auch individuelle Ausstattungen schnell machbar.',
+        'Zusammen mit einem passenden TERRA Monitor entsteht so ein kompletter Arbeitsplatz aus einer Hand – auf Wunsch von uns vorinstalliert und bei Ihnen eingerichtet.',
+      ],
+      image: '/images/ap/2456w-pv.png',
+      imageAlt: 'TERRA PC mit TERRA Monitor LCD/LED 2456W PV am Schreibtisch',
+      facts: [
+        {value: 'seit 1986', label: 'Computer von WORTMANN'},
+        {value: 'Hüllhorst', label: 'Montage, Prüfung & Service'},
+        {value: '24 Monate', label: 'Bring-In-Service inklusive'},
+        {value: 'Verl', label: 'Beratung & Einrichtung vom Systemhaus'},
+      ],
     },
     seriesTitle: 'Die TERRA PC-Baureihen',
     series: [
@@ -179,6 +204,16 @@ export const LANDINGS: Landing[] = [
       caption: 'Topmodell: TERRA LCD/LED 2775W PV V3 – WQHD, höhenverstellbar mit Pivot, USB-C-Dock',
     },
     compare: 'monitor',
+    feature: {
+      eyebrow: 'Mehr Platz am Arbeitsplatz',
+      title: 'Zwei 27-Zöller statt Fenster-Jonglieren',
+      paragraphs: [
+        'Mit zwei TERRA 27-Zoll-Monitoren nebeneinander haben Sie Warenwirtschaft und E-Mail, Tabelle und Angebot oder Videokonferenz und Notizen gleichzeitig im Blick – ohne ständig zwischen Fenstern zu wechseln.',
+        'Schmale Rahmen lassen beide Bildschirme fast nahtlos ineinander übergehen. Mit einem USB-C-Modell genügt oft ein einziges Kabel zum Notebook.',
+      ],
+      image: '/images/ap/2727w.png',
+      imageAlt: 'Arbeitsplatz mit TERRA 27-Zoll-Monitoren LCD/LED 2727W',
+    },
     guide: [
       {
         title: 'Full HD oder WQHD (2K)?',

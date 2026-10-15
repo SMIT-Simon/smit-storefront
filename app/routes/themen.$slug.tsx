@@ -7,6 +7,7 @@ import {PriceModeNote} from '~/components/PriceMode';
 import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {findLanding, monitorSpecs} from '~/lib/landings';
 import {isListable} from '~/lib/addons';
+import {siteImg} from '~/lib/site-images';
 import {SITE_URL, pageTitle} from '~/lib/seo';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -194,6 +195,37 @@ export default function LandingPage() {
                   })}
                 </tbody>
               </table>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      {l.feature ? (
+        <section className="section landing-feature">
+          <div className="container landing-feature-inner">
+            <div className="landing-feature-media">
+              <img
+                {...siteImg(l.feature.image, '(min-width: 64em) 560px, 100vw')}
+                alt={l.feature.imageAlt}
+                loading="lazy"
+              />
+            </div>
+            <div className="landing-feature-copy">
+              {l.feature.eyebrow ? <span className="eyebrow">{l.feature.eyebrow}</span> : null}
+              <h2>{l.feature.title}</h2>
+              {l.feature.paragraphs.map((p) => (
+                <p key={p.slice(0, 24)}>{p}</p>
+              ))}
+              {l.feature.facts?.length ? (
+                <dl className="landing-feature-facts">
+                  {l.feature.facts.map((f) => (
+                    <div key={f.label}>
+                      <dt>{f.value}</dt>
+                      <dd>{f.label}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : null}
             </div>
           </div>
         </section>
