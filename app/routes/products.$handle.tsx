@@ -21,7 +21,7 @@ import {CONFIG_MODELS} from '~/lib/configurator';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import {parseSpecs, keySpecs, splitDescription} from '~/lib/specs';
-import {SITE_NAME, pageTitle, SITE_URL, OFFER_SHIPPING_DETAILS, OFFER_RETURN_POLICY} from '~/lib/seo';
+import {SITE_NAME, pageTitle, metaDescription, SITE_URL, OFFER_SHIPPING_DETAILS, OFFER_RETURN_POLICY} from '~/lib/seo';
 import {getWortmannContent} from '~/lib/wortmann.server';
 import {
   ADDON_PRODUCT_TYPES,
@@ -44,8 +44,10 @@ export const meta: Route.MetaFunction = ({data}) => {
     .map((x) => x.value)
     .join(', ');
   const fallback = `${p.title} kaufen${facts ? `: ${facts}` : ''}. Original TERRA von WORTMANN – Beratung & Einrichtung vom Systemhaus.`;
-  const description = (p.seo?.description || fallback).slice(0, 300);
-  const title = p.seo?.title || pageTitle(`${p.title} kaufen`);
+  const description = p.seo?.description || metaDescription(fallback, '');
+  // Google zeigt ca. 60 Zeichen: „kaufen“ nur anhängen, wenn es passt
+  const title =
+    p.seo?.title || pageTitle(`${p.title} kaufen`.length <= 60 ? `${p.title} kaufen` : p.title);
   const image = p.selectedOrFirstAvailableVariant?.image?.url ?? p.images.nodes[0]?.url;
   return [
     {title},

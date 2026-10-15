@@ -43,7 +43,7 @@ export const meta: Route.MetaFunction = () => [
   {
     name: 'description',
     content:
-      'TERRA Computer vom deutschen Hersteller WORTMANN: TERRA PCs, Laptops (TERRA MOBILE), Mini-PCs, Monitore, Server und Zubehör. Netto-Preise für Firmen, PDF-Angebot, Kauf auf Rechnung, Einrichtung vom Systemhaus aus Verl.',
+      'TERRA Computer vom deutschen Hersteller WORTMANN: PCs, Laptops, Mini-PCs, Monitore und Server. Netto-Preise, PDF-Angebot, Einrichtung vom Systemhaus aus Verl.',
   },
   {property: 'og:title', content: 'TERRA Computer Shop – IT made in Germany'},
 ];
