@@ -3711,4 +3711,8 @@ html:has(.overlay.expanded) .chat-optin {
 @media (max-width: 47.99em) { .audience-grid { grid-template-columns: 1fr; gap: 1.75rem; } }
 @media (min-width: 64em) { .audience-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; } .audience-card strong { font-size: 1.05rem; } .audience-card span { font-size: 0.95rem; } }
 /* Slide mit Hintergrund: Produktbild auf dem Desktop 10 % größer */
-@media (min-width: 64em) { .slide.has-bg .slide-media img { transform: scale(1.1); } }
+/* Bild ist breiten-begrenzt → Spalte breiter + skalieren: insgesamt ca. 1,1 × 1,3 der Ausgangsgröße */
+@media (min-width: 64em) {
+  .slide.has-bg { gap: 2rem; grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr); }
+  .slide.has-bg .slide-media img { transform: scale(1.17); transform-origin: 45% 50%; }
+}
