@@ -339,7 +339,7 @@ export default function LandingPage() {
             <div className="audience-grid">
               {l.audiences.items.map((a) => (
                 <figure key={a.title} className="audience-card">
-                  <img {...siteImg(a.image, '(min-width: 48em) 50vw, 100vw')} alt={a.alt} loading="lazy" />
+                  <img {...siteImg(a.image, '(min-width: 64em) 300px, (min-width: 48em) 50vw, 100vw')} alt={a.alt} loading="lazy" />
                   <figcaption>
                     <strong>{a.title}</strong>
                     <span>{a.text}</span>
