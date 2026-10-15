@@ -1,9 +1,10 @@
-import {useLoaderData} from 'react-router';
+import {redirect, useLoaderData} from 'react-router';
 import {metaDescription, pageTitle} from '~/lib/seo';
 
-const stripHtml = (html: string) => html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 import type {Route} from './+types/pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
+
+const stripHtml = (html: string) => html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 
 export const meta: Route.MetaFunction = ({data}) => {
   const t = data?.page.title ?? '';
@@ -37,6 +38,10 @@ export async function loader(args: Route.LoaderArgs) {
 async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
   if (!params.handle) {
     throw new Error('Missing page handle');
+  }
+  // Leere Standardseite von Shopify → auf unsere Kontaktseite umleiten
+  if (params.handle === 'contact') {
+    throw redirect('/pages/kontakt', 301);
   }
 
   const [{page}] = await Promise.all([

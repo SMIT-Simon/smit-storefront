@@ -38,8 +38,28 @@ async function loadCriticalData({context, request}: Route.LoaderArgs) {
     // Add other queries here, so that they are loaded in parallel
   ]);
 
+  // Solange es keine Blogbeiträge gibt, keine leere Blog-Übersicht ausliefern
+  if (blogs.nodes.length === 0 || !(await hasArticles(context))) {
+    throw new Response('Not found', {status: 404});
+  }
+
   return {blogs};
 }
+
+async function hasArticles(context: Route.LoaderArgs['context']) {
+  const res = await context.storefront.query(ANY_ARTICLE_QUERY).catch(() => null);
+  return Boolean(res?.articles.nodes.length);
+}
+
+const ANY_ARTICLE_QUERY = `#graphql
+  query AnyArticle {
+    articles(first: 1) {
+      nodes {
+        id
+      }
+    }
+  }
+` as const;
 
 /**
  * Load data for rendering content below the fold. This data is deferred and will be

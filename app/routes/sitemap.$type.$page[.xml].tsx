@@ -33,6 +33,12 @@ export async function loader({
     });
   }
 
+  if (params.type === 'pages') {
+    xml = xml.replace(/<url>[\s\S]*?<\/url>\s*/g, (block) =>
+      /\/pages\/contact<\/loc>/.test(block) ? '' : block,
+    );
+  }
+
   const headers = new Headers(response.headers);
   headers.set('Cache-Control', `max-age=${60 * 60 * 24}`);
   return new Response(xml, {status: response.status, headers});

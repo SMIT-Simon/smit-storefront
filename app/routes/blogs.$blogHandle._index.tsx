@@ -42,7 +42,8 @@ async function loadCriticalData({context, request, params}: Route.LoaderArgs) {
     // Add other queries here, so that they are loaded in parallel
   ]);
 
-  if (!blog?.articles) {
+  // Leere Blogs (z. B. das automatisch angelegte „Neuigkeiten“) nicht als dünne Seite ausliefern
+  if (!blog?.articles || blog.articles.nodes.length === 0) {
     throw new Response('Not found', {status: 404});
   }
 

@@ -1,9 +1,10 @@
 import {Link, useLoaderData} from 'react-router';
 import {metaDescription, pageTitle} from '~/lib/seo';
 
-const stripHtml = (html: string) => html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 import type {Route} from './+types/policies.$handle';
 import {type Shop} from '@shopify/hydrogen/storefront-api-types';
+
+const stripHtml = (html: string) => html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 
 type SelectedPolicies = keyof Pick<
   Shop,

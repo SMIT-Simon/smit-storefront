@@ -8,6 +8,8 @@ export async function loader({
   const response = await getSitemapIndex({
     storefront,
     request,
+    // Blogs ausgelassen, solange es keine Beiträge gibt
+    types: ['products', 'pages', 'collections'],
     customChildSitemaps: ['/sitemap-loesungen.xml'],
   });
 
