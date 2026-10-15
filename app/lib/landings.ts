@@ -52,7 +52,7 @@ export const LANDINGS: Landing[] = [
     h1: 'Tower-Server kaufen – Server ohne Serverschrank',
     metaTitle: 'Tower-Server kaufen – TERRA Server für Büro & Praxis',
     metaDescription:
-      'Tower-Server von TERRA für kleine Unternehmen, Praxen und Kanzleien: kein Serverschrank nötig, Hardware-RAID, ECC-RAM, Windows Server 2025. Vorteile, Nachteile und Modelle mit Preis.',
+      'Tower-Server von TERRA für Büro, Praxis und Kanzlei: kein Serverschrank nötig, Hardware-RAID, ECC-RAM. Vorteile, Nachteile und Modelle mit Preis.',
     intro: [
       'Ein Tower-Server steht wie ein großer PC auf dem Boden oder im Technikraum – und braucht keinen 19-Zoll-Serverschrank. Für Unternehmen mit einem oder wenigen Servern ist das oft die einfachste und günstigste Lösung.',
       'Die TERRA Tower-Server von WORTMANN werden in Deutschland gefertigt: vom leisen MINISERVER fürs Büro bis zum TERRA SERVER 3030 mit Intel Xeon oder AMD EPYC, Hardware-RAID und auf Wunsch redundantem Netzteil.',
