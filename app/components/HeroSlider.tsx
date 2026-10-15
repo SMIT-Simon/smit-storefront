@@ -89,7 +89,7 @@ export function HeroSlider({slides}: {slides: Slide[]}) {
           {slides.map((s, i) => (
             <div
               key={s.image}
-              className={i === index ? 'slide active' : 'slide'}
+              className={`slide${i === index ? ' active' : ''}${s.background ? ' has-bg' : ''}`}
               role="group"
               aria-roledescription="Folie"
               aria-label={`${i + 1} von ${count}`}
