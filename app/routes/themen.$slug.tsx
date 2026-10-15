@@ -259,7 +259,7 @@ export default function LandingPage() {
       <section className="section">
         <div className="container">
           <h2 className="section-title">{l.guideTitle ?? 'Worauf Sie beim Kauf achten sollten'}</h2>
-          <div className="needs-grid cloud-features">
+          <div className={l.guide.length === 4 ? 'needs-grid cloud-features server-four' : 'needs-grid cloud-features'}>
             {l.guide.map((g, i) => (
               <div key={g.title} className="need-card">
                 <span className="need-num">
