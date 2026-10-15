@@ -1,13 +1,22 @@
 import {useLoaderData} from 'react-router';
-import {pageTitle} from '~/lib/seo';
+import {metaDescription, pageTitle} from '~/lib/seo';
+
+const stripHtml = (html: string) => html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 import type {Route} from './+types/pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const t = data?.page.title ?? '';
+  const text = (data?.page.seo?.description || stripHtml(data?.page.body ?? '')).trim();
+  const description = metaDescription(
+    text.length > 160 ? text.slice(0, 200) : text,
+    'terra-computershop.de – TERRA Hardware von WORTMANN, Beratung und Service vom Systemhaus aus Verl.',
+  );
   return [
     {title: pageTitle(t)},
+    {name: 'description', content: description},
     {property: 'og:title', content: t},
+    {property: 'og:description', content: description},
   ];
 };
 

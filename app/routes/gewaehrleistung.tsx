@@ -3,7 +3,7 @@ import type {Route} from './+types/gewaehrleistung';
 import {EU_NOTICE_SRC} from '~/components/LegalGuaranteeNotice';
 
 export const meta: Route.MetaFunction = () => [
-  {title: 'Gesetzliche Gewährleistung (EU-Hinweis) | terra-computershop.de'},
+  {title: 'Gesetzliche Gewährleistung – EU-Hinweis'},
   {property: 'og:title', content: 'Gesetzliche Gewährleistung (EU-Hinweis)'},
   {
     name: 'description',

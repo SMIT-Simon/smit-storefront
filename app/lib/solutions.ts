@@ -333,7 +333,7 @@ export const SOLUTIONS: Solution[] = [
     teaser: 'Kleine PCs für Empfang, Rezeption und Anmeldung.',
     metaTitle: 'Empfangs-PC kaufen – Mini-PCs für Rezeption',
     metaDescription:
-      'Platzsparende und leise TERRA Mini- und Micro-PCs sowie All-in-Ones für Empfang, Rezeption und Anmeldung.',
+      'Platzsparende und leise TERRA Mini- und Micro-PCs sowie All-in-Ones für Empfang, Rezeption und Anmeldung – mit Beratung und Einrichtung vom Systemhaus.',
     image: '/images/loesungen/arbeitsplatz.webp',
     imageAlt: 'Aufgeräumter TERRA-Arbeitsplatz mit kompaktem PC',
     intro: [

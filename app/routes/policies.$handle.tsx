@@ -1,5 +1,7 @@
 import {Link, useLoaderData} from 'react-router';
-import {pageTitle} from '~/lib/seo';
+import {metaDescription, pageTitle} from '~/lib/seo';
+
+const stripHtml = (html: string) => html.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
 import type {Route} from './+types/policies.$handle';
 import {type Shop} from '@shopify/hydrogen/storefront-api-types';
 
@@ -19,9 +21,15 @@ const GERMAN_TITLES: Record<string, string> = {
 
 export const meta: Route.MetaFunction = ({data}) => {
   const t = data?.policy.title ?? 'Rechtliches';
+  const description = metaDescription(
+    `${t} von terra-computershop.de: ${stripHtml(data?.policy.body ?? '').slice(0, 200)}`,
+    '',
+  );
   return [
     {title: pageTitle(t)},
+    {name: 'description', content: description},
     {property: 'og:title', content: t},
+    {property: 'og:description', content: description},
   ];
 };
 

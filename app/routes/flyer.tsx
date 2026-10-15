@@ -13,7 +13,7 @@ export const meta: Route.MetaFunction = () => [
   {
     name: 'description',
     content:
-      'Der aktuelle TERRA BUSINESS-Flyer von WORTMANN – alle Produkte direkt anklickbar und im Shop bestellbar.',
+      'Der aktuelle TERRA BUSINESS-Flyer von WORTMANN zum Durchblättern: Notebooks, PCs und Monitore – alle Produkte direkt anklickbar und im Shop bestellbar.',
   },
 ];
 
