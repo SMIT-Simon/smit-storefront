@@ -334,7 +334,7 @@ export default function HyperVGuide() {
             <div className="section-head">
               <h2>TERRA SERVER mit Windows Server 2025</h2>
               <Link to="/ratgeber/wortmann-server" className="link-arrow" prefetch="intent">
-                Alle TERRA Server im Überblick <Icon name="chevron-right" size={16} />
+                Alle Server <Icon name="chevron-right" size={16} />
               </Link>
             </div>
             <p className="server-guide-hint">
