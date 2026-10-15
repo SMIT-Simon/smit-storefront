@@ -11,6 +11,8 @@ export type Slide = {
   text: string;
   cta: {label: string; to: string};
   secondary?: {label: string; to: string};
+  /** Optionales Hintergrundbild hinter der ganzen Folie (Produkte bleiben davor) */
+  background?: {image: string; note?: string};
 };
 
 const INTERVAL = 6500;
@@ -54,6 +56,20 @@ export function HeroSlider({slides}: {slides: Slide[]}) {
       onFocus={() => setPaused(true)}
       onBlur={() => setPaused(false)}
     >
+      {slides.map((s, i) =>
+        s.background ? (
+          <div key={`bg-${s.image}`} className={i === index ? 'slide-bg active' : 'slide-bg'} aria-hidden>
+            <img
+              {...siteImg(s.background.image, '100vw')}
+              alt=""
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchPriority="low"
+              decoding="async"
+            />
+            {s.background.note ? <span className="slide-bg-note">{s.background.note}</span> : null}
+          </div>
+        ) : null,
+      )}
       <div className="container">
         <div className="slides">
           {slides.map((s, i) => (

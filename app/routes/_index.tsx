@@ -143,6 +143,7 @@ const SLIDES: Slide[] = [
     text: 'Notebooks, Desktop-PCs, Monitore, Server und Zubehör von WORTMANN – entwickelt und gefertigt in Deutschland.',
     cta: {label: 'Sortiment entdecken', to: '/collections/all'},
     secondary: {label: 'Angebot anfragen', to: '/pages/kontakt'},
+    background: {image: '/images/home/hero-bg-terra.webp', note: 'Hintergrund mit Hilfe KI erstellt'},
   },
   {
     image: '/images/home/slide-arbeitsplatz.webp',
