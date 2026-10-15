@@ -13,7 +13,7 @@ export function SeoHead() {
       <meta property="og:locale" content="de_DE" />
       <meta property="og:type" content={pathname.startsWith('/products/') ? 'product' : 'website'} />
       <meta property="og:url" content={canonical} />
-      {/^\/(products|loesungen|themen)\/.|^\/ratgeber\/wortmann-server|^\/themen\/terra-gaming-pc/.test(pathname) ? null : (
+      {/^\/(products|loesungen|themen)\/.|^\/ratgeber\/(wortmann-server|hyper-v-virtualisierung)|^\/themen\/terra-gaming-pc/.test(pathname) ? null : (
         <meta property="og:image" content={DEFAULT_OG_IMAGE} />
       )}
       <meta name="twitter:card" content="summary_large_image" />

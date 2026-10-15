@@ -7,6 +7,7 @@ import {LANDINGS} from '~/lib/landings';
 export const RATGEBER: {to: string; label: string}[] = [
   {to: '/ratgeber/laptop-aus-deutschland', label: 'Laptop aus Deutschland'},
   {to: '/ratgeber/wortmann-server', label: 'Wortmann Server'},
+  {to: '/ratgeber/hyper-v-virtualisierung', label: 'Hyper-V Virtualisierung'},
   ...LANDINGS.map((l) => ({to: `/themen/${l.slug}`, label: l.keyword})),
   {to: '/themen/terra-gaming-pc', label: 'TERRA Gaming PC'},
 ];

@@ -1387,6 +1387,41 @@ export type ServiceOptionQuery = {
   >;
 };
 
+export type HyperVGuideProductsQueryVariables = StorefrontAPI.Exact<{
+  query: StorefrontAPI.Scalars['String']['input'];
+  first?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type HyperVGuideProductsQuery = {
+  products: {
+    nodes: Array<
+      Pick<
+        StorefrontAPI.Product,
+        'id' | 'handle' | 'title' | 'vendor' | 'productType' | 'tags'
+      > & {
+        featuredImage?: StorefrontAPI.Maybe<
+          Pick<
+            StorefrontAPI.Image,
+            'id' | 'altText' | 'url' | 'width' | 'height'
+          >
+        >;
+        priceRange: {
+          minVariantPrice: Pick<
+            StorefrontAPI.MoneyV2,
+            'amount' | 'currencyCode'
+          >;
+          maxVariantPrice: Pick<
+            StorefrontAPI.MoneyV2,
+            'amount' | 'currencyCode'
+          >;
+        };
+      }
+    >;
+  };
+};
+
 export type ServerGuideProductsQueryVariables = StorefrontAPI.Exact<{
   query: StorefrontAPI.Scalars['String']['input'];
   first?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Int']['input']>;
@@ -1808,6 +1843,10 @@ interface GeneratedQueryTypes {
   '#graphql\n  query ServiceOption($handle: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      id\n      title\n      variants(first: 10) {\n        nodes {\n          id\n          title\n          availableForSale\n          price {\n            amount\n            currencyCode\n          }\n        }\n      }\n    }\n  }\n': {
     return: ServiceOptionQuery;
     variables: ServiceOptionQueryVariables;
+  };
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query HyperVGuideProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
+    return: HyperVGuideProductsQuery;
+    variables: HyperVGuideProductsQueryVariables;
   };
   '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query ServerGuideProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
     return: ServerGuideProductsQuery;
