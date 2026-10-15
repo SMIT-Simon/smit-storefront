@@ -3661,3 +3661,13 @@ html:has(.overlay.expanded) .chat-optin {
 .cfg-index-card-gaming .link-arrow { color: #e2b6ff; }
 .cfg-index-card-gaming:hover { border-color: #b44dff; box-shadow: 0 0 0 1px #b44dff; }
 .landing-table-note { color: var(--ink-soft); margin-top: 1rem; }
+
+/* Landing: Zielgruppen mit Bild */
+.landing-audiences { border-top: 1px solid var(--line); }
+.audience-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.75rem; }
+.audience-card { margin: 0; }
+.audience-card img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: var(--radius); border: 1px solid var(--line); }
+.audience-card figcaption { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.9rem; }
+.audience-card strong { font-size: 1.1rem; }
+.audience-card span { color: var(--ink-soft); line-height: 1.55; }
+@media (max-width: 47.99em) { .audience-grid { grid-template-columns: 1fr; gap: 1.75rem; } }

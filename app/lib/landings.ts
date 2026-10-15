@@ -29,6 +29,8 @@ export type Landing = {
   /** Geschichte / Hintergrund mit Zeitleiste */
   story?: {title: string; paragraphs: string[]; milestones: {year: string; text: string}[]; source?: string};
   guideTitle?: string;
+  /** Zielgruppen mit Bild */
+  audiences?: {title: string; items: {title: string; text: string; image: string; alt: string}[]};
   /** Vergleichstabelle (frei) */
   table?: {title: string; head: string[]; rows: string[][]; note?: string};
   /** Bild-Text-Abschnitt (z. B. „IT made in Germany“) */
@@ -109,6 +111,35 @@ export const LANDINGS: Landing[] = [
         text: 'Dateiablage, Active Directory, Druckdienste, SQL-Datenbanken, JTL-Wawi, DATEV oder Praxissoftware – oder mehrere virtuelle Server auf einer Maschine.',
       },
     ],
+    audiences: {
+      title: 'Für welche Unternehmen eignen sich Tower-Server?',
+      items: [
+        {
+          title: 'Arztpraxen',
+          text: 'Praxisverwaltung, Terminkalender und Patientendaten zentral und sicher im eigenen Haus – mit RAID und Backup.',
+          image: '/images/tower/zielgruppe-praxis.webp',
+          alt: 'Empfang einer Arztpraxis mit zwei Monitoren und Praxissoftware',
+        },
+        {
+          title: 'Steuerkanzleien',
+          text: 'DATEV-Umgebung, Mandantenablage und Benutzerverwaltung auf einem Server, der leise im Büro oder Abstellraum läuft.',
+          image: '/images/tower/zielgruppe-kanzlei.webp',
+          alt: 'Steuerberater am Doppelmonitor-Arbeitsplatz in der Kanzlei',
+        },
+        {
+          title: 'Handel & Warenwirtschaft',
+          text: 'JTL-Wawi, SQL-Datenbank, Versand und Lager: schnelle NVMe-SSDs und ECC-RAM halten die Warenwirtschaft flüssig.',
+          image: '/images/tower/zielgruppe-handel.webp',
+          alt: 'Mitarbeiter im Lager arbeitet mit Warenwirtschaft am PC',
+        },
+        {
+          title: 'Kleine und mittlere Unternehmen',
+          text: 'Dateifreigaben, Drucker, Active Directory und virtuelle Server für 5 bis 50 Arbeitsplätze – ohne Serverschrank.',
+          image: '/images/tower/zielgruppe-kmu.webp',
+          alt: 'Team im Büro arbeitet gemeinsam am PC',
+        },
+      ],
+    },
     table: {
       title: 'Tower-Server oder Rack-Server?',
       head: ['', 'Tower-Server', 'Rack-Server'],
