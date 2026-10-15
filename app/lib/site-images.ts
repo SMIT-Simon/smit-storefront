@@ -42,6 +42,7 @@ const SITE_IMAGES: Record<string, [file: string, width: number, height: number]>
   '/images/cloud/rz-zutritt.jpg': ['site-cloud-rz-zutritt.jpg', 900, 704],
   '/images/cloud/rz-hebel.jpg': ['site-cloud-rz-hebel.jpg', 1600, 762],
   '/images/home/pc-des-monats.png': ['site-home-pc-des-monats-2026-10.png', 788, 709],
+  '/images/home/hero-bg-terra.webp': ['site-home-hero-bg-terra.jpg', 1877, 838],
   '/images/home/imig.webp': ['site-home-imig.webp', 1140, 450],
   '/images/home/mobile-1671l.webp': ['site-home-mobile-1671l.webp', 788, 694],
   '/images/home/produktion.webp': ['site-home-produktion.webp', 1400, 788],
