@@ -56,3 +56,16 @@ export function keySpecs(specs: Spec[], max = 6): Spec[] {
   }
   return res;
 }
+
+/**
+ * Die Shopify-Produktbeschreibung enthält vorne den Übersichtstext (für Google & Co.)
+ * in einem markierten Block, danach die technischen Daten.
+ * Hier wird beides für die Tabs „Übersicht“ und „Technische Daten“ getrennt.
+ */
+const OVERVIEW_BLOCK = /<div[^>]*data-smit-overview[^>]*>([\s\S]*?)<\/div>\s*<!--\s*\/smit-overview\s*-->/i;
+
+export function splitDescription(html: string): {overviewHtml: string; specsHtml: string} {
+  const m = OVERVIEW_BLOCK.exec(html ?? '');
+  if (!m) return {overviewHtml: '', specsHtml: html ?? ''};
+  return {overviewHtml: m[1].trim(), specsHtml: html.replace(m[0], '').trim()};
+}

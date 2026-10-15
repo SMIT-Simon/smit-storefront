@@ -20,7 +20,7 @@ import {LegalGuaranteeFull} from '~/components/LegalGuaranteeNotice';
 import {CONFIG_MODELS} from '~/lib/configurator';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
-import {parseSpecs, keySpecs} from '~/lib/specs';
+import {parseSpecs, keySpecs, splitDescription} from '~/lib/specs';
 import {SITE_NAME, pageTitle, SITE_URL, OFFER_SHIPPING_DETAILS, OFFER_RETURN_POLICY} from '~/lib/seo';
 import {getWortmannContent} from '~/lib/wortmann.server';
 import {
@@ -40,7 +40,7 @@ import {manufacturerFor, type Manufacturer} from '~/lib/manufacturers';
 export const meta: Route.MetaFunction = ({data}) => {
   const p = data?.product;
   if (!p) return [{title: 'Produkt nicht gefunden'}];
-  const facts = keySpecs(parseSpecs(p.descriptionHtml), 4)
+  const facts = keySpecs(parseSpecs(splitDescription(p.descriptionHtml).specsHtml), 4)
     .map((x) => x.value)
     .join(', ');
   const fallback = `${p.title} kaufen${facts ? `: ${facts}` : ''}. Original TERRA von WORTMANN – Beratung & Einrichtung vom Systemhaus.`;
@@ -97,7 +97,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
   let addons: CardProductData[] = [];
   if (ADDON_PRODUCT_TYPES.includes(product.productType)) {
     const osTag = osFromTags(product.tags);
-    const os = (parseSpecs(product.descriptionHtml).find((s) => s.label === 'Betriebssystem')?.value ?? '')
+    const os = (parseSpecs(splitDescription(product.descriptionHtml).specsHtml).find((s) => s.label === 'Betriebssystem')?.value ?? '')
       .replace(/WORTMANN AG empfiehlt Windows 11 Pro f\u00fcr Unternehmen/gi, '');
     const hasWindows = osTag ? osTag !== 'none' : /windows|\bW11/i.test(`${product.title} ${os}`);
     const map = await productsByHandle(storefront, addonHandlesFor(hasWindows)).catch(
@@ -197,7 +197,11 @@ export default function Product() {
     selectedOrFirstAvailableVariant: selectedVariant,
   });
 
-  const {title, descriptionHtml, vendor, productType} = product;
+  const {title, vendor, productType} = product;
+  // Übersichtsblock (Shopify) vorne abtrennen; Rest = technische Daten
+  const {overviewHtml: shopOverviewHtml, specsHtml: descriptionHtml} = splitDescription(
+    product.descriptionHtml,
+  );
   const configModel = CONFIG_MODELS.find(
     (m) => m.baseArt === product.selectedOrFirstAvailableVariant?.sku,
   );
@@ -371,7 +375,7 @@ export default function Product() {
 
       <ProductTabs
         overview={overview}
-        overviewHtml={wmOverviewHtml}
+        overviewHtml={shopOverviewHtml || wmOverviewHtml}
         features={wmFeatures}
         specsHtml={descriptionHtml}
         hasSpecs={specs.length > 0 || descriptionHtml.trim().length > 0}
