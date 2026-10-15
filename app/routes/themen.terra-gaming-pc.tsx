@@ -7,6 +7,7 @@ import {PRODUCT_ITEM_FRAGMENT} from '~/lib/product-item-fragment';
 import {isListable} from '~/lib/addons';
 import {SITE_URL, pageTitle} from '~/lib/seo';
 import {siteImg} from '~/lib/site-images';
+import {CONFIG_MODELS, priceOf, defaultSelection} from '~/lib/configurator';
 
 const SLUG = '/themen/terra-gaming-pc';
 const H1 = 'TERRA Gaming PC – Gaming-Rechner aus Deutschland';
@@ -230,6 +231,34 @@ export default function TerraGamingPc() {
                   </Link>
                 );
               })}
+          </div>
+        </div>
+      </section>
+
+      <section className="section gaming-section gaming-config" id="konfigurator">
+        <div className="container">
+          <span className="gaming-eyebrow">Gaming-PC-Konfigurator</span>
+          <h2 className="section-title">Ihren Gaming PC selbst zusammenstellen</h2>
+          <p className="gaming-config-lead">
+            Grafikkarte, Prozessor, Arbeitsspeicher, Kühlung, Windows und Service frei wählen – WORTMANN baut Ihren
+            PC nach Auftrag in Hüllhorst. Lieferzeit 2–3 Wochen, verbindliches Angebot innerhalb von einem Werktag.
+          </p>
+          <div className="gaming-config-grid">
+            {CONFIG_MODELS.filter((m) => m.theme === 'gaming').map((m) => {
+              const p = priceOf(m, defaultSelection(m), 'bring-in');
+              return (
+                <Link key={m.slug} to={`/konfigurator/${m.slug}`} className="gaming-config-card" prefetch="intent">
+                  <strong>{m.name}</strong>
+                  <span>{m.standard[1]}</span>
+                  <span className="gaming-config-price">
+                    ab {formatPrice({amount: String(Math.round(p.total * 1.19 * 100) / 100), currencyCode: 'EUR'})}
+                  </span>
+                  <span className="link-arrow">
+                    Konfigurieren <Icon name="chevron-right" size={16} />
+                  </span>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

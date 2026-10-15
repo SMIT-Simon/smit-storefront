@@ -3611,3 +3611,24 @@ html:has(.overlay.expanded) .chat-optin {
 .gaming-band-bg { opacity: 1; }
 .landing-feature-copy p { margin: 0 0 1rem; }
 @media (max-width: 39.99em) { .gaming-tier img { align-self: center; max-width: 170px; } }
+.gaming-page .gaming-hero h1, .gaming-page .gaming-band h2, .gaming-page .gaming-section h2 { color: #fff; }
+.gaming-page .gaming-hero .breadcrumb span:last-child { color: rgba(255,255,255,.8); }
+.gaming-page .gaming-band::after { background: rgba(18,6,31,.72); }
+.gaming-page .gaming-band-inner p { color: #fff; }
+
+.gaming-config { border-top: 1px solid var(--g-line); }
+.gaming-config-lead { color: rgba(255,255,255,.82); line-height: 1.7; max-width: 760px; }
+.gaming-config-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+@media (min-width: 40em) { .gaming-config-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 72em) { .gaming-config-grid { grid-template-columns: repeat(5, 1fr); } }
+.gaming-config-card { background: var(--g-card); border: 1px solid var(--g-line); border-radius: 14px; color: #fff; display: flex; flex-direction: column; gap: .5rem; padding: 1.1rem; text-decoration: none; transition: border-color .15s, box-shadow .15s; }
+.gaming-config-card:hover { border-color: var(--g-accent); box-shadow: 0 0 0 1px var(--g-accent); }
+.gaming-config-card > span:nth-child(2) { color: rgba(255,255,255,.65); flex: 1; font-size: .85rem; line-height: 1.45; }
+.gaming-config-price { font-size: 1.2rem; font-weight: 800; }
+.gaming-config-card .link-arrow { color: #e2b6ff; }
+/* Konfigurator im Gaming-Look */
+.configurator-gaming .cfg-head { background: #12061f; border-radius: 16px; color: #fff; padding: 1.5rem; }
+.configurator-gaming .cfg-head h1 { color: #fff; }
+.configurator-gaming .cfg-head p, .configurator-gaming .cfg-standard li { color: rgba(255,255,255,.82); }
+.configurator-gaming .cfg-head .eyebrow { color: #6ef0d8; }
+.configurator-gaming .cfg-head img { border-radius: 12px; object-fit: cover; }

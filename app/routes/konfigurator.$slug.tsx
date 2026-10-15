@@ -5,11 +5,13 @@ import type {Route} from './+types/konfigurator.$slug';
 import {Icon} from '~/components/Icon';
 import {usePriceMode} from '~/components/PriceMode';
 import {COMPANY} from '~/lib/company';
+import {siteImg} from '~/lib/site-images';
 import {VAT_RATE} from '~/lib/categories';
 import {
   defaultSelection,
   describe,
   findModel,
+  MARKUP,
   priceOf,
   SERVICE_TIERS,
   type Selection,
@@ -23,7 +25,7 @@ export const meta: Route.MetaFunction = ({data}) => {
     {property: 'og:title', content: `${m.name} individuell konfigurieren`},
     {
       name: 'description',
-      content: `${m.name} nach Wunsch konfigurieren: Prozessor, RAM, SSD, Grafik, Windows und Vor-Ort-Service. Verbindliches Angebot innerhalb von einem Werktag.`,
+      content: `${m.name} nach Wunsch konfigurieren: Prozessor, ${m.theme === 'gaming' ? 'Grafikkarte, RAM, SSD, Kühlung' : 'RAM, SSD, Grafik'}, Windows und Vor-Ort-Service. Verbindliches Angebot innerhalb von einem Werktag.`,
     },
   ];
 };
@@ -46,6 +48,8 @@ export default function Configurator() {
   const [contact, setContact] = useState({company: '', name: '', email: '', phone: '', note: ''});
 
   const price = useMemo(() => priceOf(model, sel, service), [model, sel, service]);
+  const markup = model.markup ?? MARKUP;
+  const gaming = model.theme === 'gaming';
   const show = (net: number) => (mode === 'net' ? net : net * (1 + VAT_RATE));
   const other = (net: number) => (mode === 'net' ? net * (1 + VAT_RATE) : net);
   const taxNote = mode === 'net' ? 'netto zzgl. MwSt.' : 'inkl. 19 % MwSt.';
@@ -65,7 +69,7 @@ export default function Configurator() {
     '',
     configText,
     '',
-    `Richtpreis laut Konfigurator: ${eur(price.total)} netto je Gerät`,
+    `Richtpreis laut Konfigurator: ${eur(price.total)} netto / ${eur(price.total * (1 + VAT_RATE))} brutto je Gerät`,
     '',
     contact.company ? `Firma: ${contact.company}` : null,
     contact.name ? `Ansprechpartner: ${contact.name}` : null,
@@ -81,19 +85,23 @@ export default function Configurator() {
   const canSend = /\S+@\S+\.\S+/.test(contact.email);
 
   return (
-    <div className="configurator">
+    <div className={gaming ? 'configurator configurator-gaming' : 'configurator'}>
       <div className="container">
         <nav className="breadcrumb" aria-label="Brotkrümel">
           <Link to="/">Startseite</Link>
           <span aria-hidden>›</span>
-          <Link to="/collections/desktop-pcs">Desktop-PCs</Link>
+          {gaming ? (
+            <Link to="/themen/terra-gaming-pc">TERRA Gaming PC</Link>
+          ) : (
+            <Link to="/collections/desktop-pcs">Desktop-PCs</Link>
+          )}
           <span aria-hidden>›</span>
           <span>Konfigurator</span>
         </nav>
 
         <header className="cfg-head">
           <div>
-            <span className="eyebrow">PC-Konfigurator · Bauen nach Auftrag</span>
+            <span className="eyebrow">{model.eyebrow ?? 'PC-Konfigurator · Bauen nach Auftrag'}</span>
             <h1>{model.name} individuell konfigurieren</h1>
             <p>{model.intro}</p>
             <ul className="cfg-standard">
@@ -104,7 +112,9 @@ export default function Configurator() {
               ))}
             </ul>
           </div>
-          {model.image ? <img src={model.image} alt="" width={480} height={270} /> : null}
+          {model.image ? (
+            <img {...siteImg(model.image, '(min-width: 64em) 480px, 100vw')} alt="" width={480} height={270} />
+          ) : null}
         </header>
 
         <div className="cfg-layout">
@@ -117,7 +127,7 @@ export default function Configurator() {
                   const checked = multi
                     ? ([] as string[]).concat(sel[g.id] ?? []).includes(o.id)
                     : sel[g.id] === o.id;
-                  const delta = o.fixedNet ?? (o.ek ?? 0) * 1.2;
+                  const delta = o.fixedNet ?? (o.ek ?? 0) * markup;
                   return (
                     <label key={o.id} className={checked ? 'cfg-opt checked' : 'cfg-opt'}>
                       <input
@@ -172,6 +182,11 @@ export default function Configurator() {
               <p className="cfg-promise">
                 <Icon name="invoice" size={18} /> Verbindliches Angebot innerhalb von <strong>1 Werktag</strong>
               </p>
+              {model.leadTime ? (
+                <p className="cfg-promise">
+                  <Icon name="truck" size={18} /> Lieferzeit nach Auftrag: <strong>{model.leadTime}</strong>
+                </p>
+              ) : null}
 
               <label className="cfg-field cfg-qty">
                 <span>Menge</span>

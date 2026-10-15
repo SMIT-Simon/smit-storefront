@@ -291,7 +291,16 @@ export default function Collection() {
               ))}
             </div>
           ) : null}
-          {collection.handle === 'desktop-pcs' ? (
+          {collection.handle === 'desktop-pcs' && sub?.slug === 'gamer' ? (
+            <Link to="/themen/terra-gaming-pc#konfigurator" className="cfg-cta cfg-cta-wide">
+              <Icon name="desktop" size={22} />
+              <span>
+                <strong>Gaming PC nach Wunsch? Zum Gaming-Konfigurator</strong>
+                <small>GAMER ELITE 1, 2 und 4 – Grafikkarte, Prozessor, RAM und Kühlung selbst wählen, bis RTX 5090</small>
+              </span>
+              <Icon name="chevron-right" size={18} />
+            </Link>
+          ) : collection.handle === 'desktop-pcs' ? (
             <Link to="/konfigurator/terra-pc-business-6000" className="cfg-cta cfg-cta-wide">
               <Icon name="desktop" size={22} />
               <span>
