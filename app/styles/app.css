@@ -3725,3 +3725,4 @@ html:has(.overlay.expanded) .chat-optin {
 .hyperv-banner { margin: 0 0 1.5rem; }
 .hyperv-banner img { border-radius: var(--radius); display: block; height: auto; width: 100%; }
 .hyperv-head { max-width: 780px; }
+.hyperv-guide .cloud-split p { line-height: 1.6; margin: 0 0 1rem; }
