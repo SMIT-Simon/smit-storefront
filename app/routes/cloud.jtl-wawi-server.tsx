@@ -349,7 +349,7 @@ export default function JtlCloudServer() {
               </span>
             </label>
           </div>
-          <aside className="jtl-summary">
+          <div className="jtl-summary">
             <h3>Ihre Auswahl</h3>
             <dl>
               <div>
@@ -395,7 +395,7 @@ export default function JtlCloudServer() {
               Mit der Bestellung zahlen Sie den ersten Monat. Die Folgemonate rechnen wir monatlich ab. Bereitstellung
               in 2–4 Werktagen – wir melden uns nach der Bestellung zur Einrichtung.
             </p>
-          </aside>
+          </div>
         </div>
       </section>
 
