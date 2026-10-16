@@ -45,7 +45,7 @@ const ORDERABLE: Exclude<TariffId, 'enterprise'>[] = ['start', 'advance', 'pro']
 const INCLUDED = [
   'Fest zugewiesene Ressourcen – CPU, RAM und Speicher werden nicht geteilt',
   'Windows Server inklusive Lizenz',
-  '1 RDP-Benutzer inklusive',
+  'Administrator-Zugang per RDP inklusive',
   'JTL-Worker läuft rund um die Uhr in der Cloud',
   'VPN-Zugang auf Wunsch inklusive',
   'Backup der SQL-Datenbank inklusive',
@@ -86,7 +86,7 @@ const FAQ = [
   {q: 'Was ist ein JTL-Wawi Cloud Server?', a: 'Ein eigener virtueller Windows-Server im Rechenzentrum, auf dem JTL-Wawi mit Datenbank (SQL Server) und JTL-Worker läuft. Sie greifen per Remote Desktop darauf zu und brauchen im Büro keinen eigenen Server mehr.'},
   {q: 'Teilt sich mein Server Ressourcen mit anderen?', a: 'Nein. Prozessorkerne, Arbeitsspeicher und Speicherplatz sind Ihrem Server fest zugewiesen. Die gebuchte Leistung steht Ihnen jederzeit vollständig zur Verfügung.'},
   {q: 'Wann brauche ich SQL Server Standard statt Express?', a: 'SQL Server Express ist kostenlos, aber auf 10 GB pro Datenbank begrenzt. Wächst Ihre JTL-Datenbank darüber hinaus – etwa durch viele Artikel, Aufträge und Bilder –, ist SQL Server Standard nötig: 19,90 € im Monat zzgl. 19,95 € je Benutzer (netto).'},
-  {q: 'Wie viele Benutzer sind enthalten?', a: 'In jedem Tarif ist ein RDP-Benutzer enthalten. Jeder weitere Benutzer mit eigenem Remote-Desktop-Zugang kostet 10,95 € im Monat (netto).'},
+  {q: 'Wie viele Benutzer sind enthalten?', a: 'In jedem Tarif ist ein Administrator-Zugang per Remote Desktop enthalten – für Einrichtung, Updates und Wartung. Für die tägliche Arbeit in der Wawi buchen Sie RDP-Benutzer dazu: 10,95 € je Benutzer und Monat (netto).'},
   {q: 'Wie schnell ist mein Server bereit?', a: 'Wir richten jeden Server persönlich ein. In der Regel ist Ihr JTL-Wawi Cloud Server nach 2 bis 4 Werktagen einsatzbereit – auf Wunsch inklusive Übernahme Ihrer bestehenden Datenbank.'},
   {q: 'Was wird gesichert?', a: 'Im Preis enthalten ist die Sicherung Ihrer SQL-Datenbank, also aller Daten Ihrer JTL-Wawi. Eine Sicherung des kompletten Servers inklusive System und Dateien bieten wir auf Anfrage zusätzlich an.'},
   {q: 'Habe ich Administratorrechte?', a: 'Ja. Sie erhalten volle Administratorrechte auf Ihrem Server und können zusätzliche Programme wie Druckertreiber, Versandsoftware oder Tools installieren. Auf Wunsch übernehmen wir die Betreuung.'},
@@ -141,7 +141,7 @@ export default function JtlCloudServer() {
 
   const info = [
     {key: 'Tarif', value: `JTL-Wawi Cloud Server – ${t.name}`},
-    {key: 'RDP-Benutzer gesamt', value: String(users)},
+    {key: 'RDP-Benutzer', value: `${extraUsers} + Admin-Zugang`},
     {key: 'Datenbank', value: sqlStandard ? 'SQL Server Standard' : 'SQL Server 2022 Express'},
     {key: 'Abrechnung', value: 'Erster Monat – Folgemonate monatlich'},
   ];
@@ -263,7 +263,7 @@ export default function JtlCloudServer() {
                     <li key={s}>{s}</li>
                   ))}
                   <li>Ressourcen fest zugewiesen</li>
-                  <li>1 RDP-Benutzer inkl., weitere {eur(PRICE.rdp)}/Monat</li>
+                  <li>Admin-Zugang inkl., RDP-Benutzer je {eur(PRICE.rdp)}/Monat</li>
                   <li>Windows Server inkl. Lizenz · VPN inklusive</li>
                   <li>Backup der SQL-Datenbank inklusive</li>
                   <li className="jtl-users">Empfohlen {x.users}</li>
@@ -318,10 +318,10 @@ export default function JtlCloudServer() {
             </fieldset>
             <div className="jtl-order-row">
               <span>
-                <strong>Weitere RDP-Benutzer</strong>
+                <strong>RDP-Benutzer</strong>
                 <small>je {eur(PRICE.rdp)} netto pro Monat</small>
               </span>
-              <div className="qty" aria-label="Weitere Benutzer">
+              <div className="qty" aria-label="RDP-Benutzer">
                 <button type="button" onClick={() => setExtraUsers((n) => Math.max(0, n - 1))} aria-label="Weniger Benutzer">
                   −
                 </button>
@@ -331,7 +331,7 @@ export default function JtlCloudServer() {
                   max={30}
                   value={extraUsers}
                   onChange={(e) => setExtraUsers(Math.min(30, Math.max(0, parseInt(e.target.value || '0', 10))))}
-                  aria-label="Weitere Benutzer"
+                  aria-label="RDP-Benutzer"
                 />
                 <button type="button" onClick={() => setExtraUsers((n) => Math.min(30, n + 1))} aria-label="Mehr Benutzer">
                   +
@@ -358,7 +358,7 @@ export default function JtlCloudServer() {
               </div>
               {extraUsers ? (
                 <div>
-                  <dt>{extraUsers} weitere RDP-Benutzer</dt>
+                  <dt>{extraUsers} RDP-Benutzer</dt>
                   <dd>{eur(extraUsers * PRICE.rdp)}</dd>
                 </div>
               ) : null}
