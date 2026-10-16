@@ -146,6 +146,9 @@ export function HeaderMenu({viewport}: {viewport: Viewport}) {
             TERRA CLOUD
           </NavLink>
           <div className="mobile-nav-subs">
+            <Link onClick={close} prefetch="intent" to="/cloud/jtl-wawi-server">
+              JTL-Wawi Cloud Server
+            </Link>
             {CLOUD_SERVICES.map((x) => (
               <Link key={x.slug} onClick={close} prefetch="intent" to={`/cloud/${x.slug}`}>
                 {x.name}
@@ -333,6 +336,9 @@ function DesktopNav() {
             <Icon name="chevron-right" size={14} className="nav-caret" />
           </NavLink>
           <div className="nav-dropdown">
+            <Link to="/cloud/jtl-wawi-server" prefetch="intent">
+              JTL-Wawi Cloud Server
+            </Link>
             {CLOUD_SERVICES.map((x) => (
               <Link key={x.slug} to={`/cloud/${x.slug}`} prefetch="intent">
                 {x.name}
