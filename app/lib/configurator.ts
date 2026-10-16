@@ -89,7 +89,7 @@ const GAMING_EXTRAS: ConfigGroup = {
 const GAMING_SETUP: ConfigGroup = {
   id: 'setup', title: 'Einrichtung', type: 'multi',
   options: [
-    {id: 'einrichtung', label: 'Einrichtungsservice SMIT', detail: 'Windows-Updates, Treiber, Benutzerkonto, Steam/Launcher – spielbereit geliefert', fixedNet: 49.9},
+    {id: 'einrichtung', label: 'Einrichtungsservice SMIT', detail: 'Windows-Updates, Treiber, Benutzerkonto, Steam/Launcher – spielbereit geliefert', fixedNet: 67.14},
   ],
 };
 const SATA_SSD = (): ConfigGroup => ({
@@ -243,7 +243,7 @@ export const CONFIG_MODELS: ConfigModel[] = [
       {
         id: 'setup', title: 'Einrichtung', type: 'multi',
         options: [
-          {id: 'einrichtung', label: 'Einrichtungsservice SMIT', detail: 'Updates, Treiber, Benutzer und Grundsoftware – startklar geliefert', fixedNet: 49.9},
+          {id: 'einrichtung', label: 'Einrichtungsservice SMIT', detail: 'Updates, Treiber, Benutzer und Grundsoftware – startklar geliefert', fixedNet: 67.14},
         ],
       },
     ],

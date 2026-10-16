@@ -24,6 +24,7 @@ export function ProductForm({
   productOptions,
   selectedVariant,
   addons = [],
+  deviceHasWindows = true,
   accessories = [],
   service = null,
   serviceTexts,
@@ -31,6 +32,8 @@ export function ProductForm({
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
   addons?: CardProductData[];
+  /** Gerät hat bereits Windows → Einrichtungsservice immer wählbar */
+  deviceHasWindows?: boolean;
   accessories?: CardProductData[];
   service?: ServiceProduct | null;
   serviceTexts?: ServiceTexts;
@@ -143,7 +146,12 @@ export function ProductForm({
       ) : null}
 
       {addons.length ? (
-        <AddonPicker addons={addons} picked={picked} setPicked={setPicked} />
+        <AddonPicker
+          addons={addons}
+          picked={picked}
+          setPicked={setPicked}
+          deviceHasWindows={deviceHasWindows}
+        />
       ) : null}
 
       <div className="buy-row">
@@ -221,11 +229,20 @@ function AddonPicker({
   addons,
   picked,
   setPicked,
+  deviceHasWindows,
 }: {
   addons: CardProductData[];
   picked: Partial<Record<AddonGroup, string>>;
   setPicked: (p: Partial<Record<AddonGroup, string>>) => void;
+  deviceHasWindows: boolean;
 }) {
+  // Einrichtungsservice nur mit Windows: Gerät hat Windows oder Windows wird mitbestellt
+  const windowsReady = deviceHasWindows || Boolean(picked.windows);
+  const toggle = (g: AddonGroup, handle: string, checked: boolean) => {
+    const next = {...picked, [g]: checked ? undefined : handle};
+    if (g === 'windows' && checked && !deviceHasWindows) next.service = undefined;
+    setPicked(next);
+  };
   const {mode} = usePriceMode();
   const byHandle = new Map(addons.map((a) => [a.handle, a]));
   const groups = (Object.keys(ADDON_GROUP_TITLES) as AddonGroup[])
@@ -243,18 +260,21 @@ function AddonPicker({
         const list = items.map((x) => {
             const p = byHandle.get(x.handle)!;
             const checked = picked[g] === x.handle;
+            const locked = g === 'service' && !windowsReady;
             return (
-              <label key={x.handle} className={checked ? 'addon checked' : 'addon'}>
+              <label
+                key={x.handle}
+                className={`addon${checked ? ' checked' : ''}${locked ? ' disabled' : ''}`}
+              >
                 <input
                   type="checkbox"
                   checked={checked}
-                  onChange={() =>
-                    setPicked({...picked, [g]: checked ? undefined : x.handle})
-                  }
+                  disabled={locked}
+                  onChange={() => toggle(g, x.handle, checked)}
                 />
                 <span className="addon-text">
                   <strong>{x.label}</strong>
-                  <small>{x.hint}</small>
+                  <small>{locked ? 'Nur zusammen mit Windows – bitte zuerst Windows 11 Pro dazubestellen' : x.hint}</small>
                 </span>
                 <span className="addon-price">
                   + <ModePrice data={p.priceRange.minVariantPrice} />

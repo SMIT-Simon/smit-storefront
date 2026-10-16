@@ -3726,3 +3726,5 @@ html:has(.overlay.expanded) .chat-optin {
 .hyperv-banner img { border-radius: var(--radius); display: block; height: auto; width: 100%; }
 .hyperv-head { max-width: 780px; }
 .hyperv-guide .cloud-split p { line-height: 1.6; margin: 0 0 1rem; }
+.addon.disabled { cursor: not-allowed; opacity: 0.55; }
+.cfg-opt.disabled { cursor: not-allowed; opacity: 0.55; }

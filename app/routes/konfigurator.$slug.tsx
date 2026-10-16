@@ -113,7 +113,8 @@ export default function Configurator() {
 
   const pick = (gid: string, oid: string, multi: boolean) =>
     setSel((s) => {
-      if (!multi) return {...s, [gid]: oid};
+      // Einrichtungsservice nur mit Windows: bei „Ohne Betriebssystem“ abwählen
+      if (!multi) return gid === 'os' && oid === 'none' ? {...s, [gid]: oid, setup: []} : {...s, [gid]: oid};
       const cur = ([] as string[]).concat(s[gid] ?? []);
       return {...s, [gid]: cur.includes(oid) ? cur.filter((x) => x !== oid) : [...cur, oid]};
     });
@@ -216,17 +217,26 @@ export default function Configurator() {
                   const delta = orderable
                     ? (vp(`${g.id}:${o.id}`) - (multi ? 0 : vp(`${g.id}:${g.default ?? g.options[0].id}`))) / vat
                     : (o.fixedNet ?? (o.ek ?? 0) * markup);
+                  const locked = g.id === 'setup' && sel.os === 'none';
                   return (
-                    <label key={o.id} className={checked ? 'cfg-opt checked' : 'cfg-opt'}>
+                    <label
+                      key={o.id}
+                      className={`cfg-opt${checked ? ' checked' : ''}${locked ? ' disabled' : ''}`}
+                    >
                       <input
                         type={multi ? 'checkbox' : 'radio'}
                         name={g.id}
                         checked={checked}
+                        disabled={locked}
                         onChange={() => pick(g.id, o.id, multi)}
                       />
                       <span className="cfg-opt-text">
                         <strong>{o.label}</strong>
-                        {o.detail ? <small>{o.detail}</small> : null}
+                        {locked ? (
+                          <small>Nur zusammen mit Windows – bitte oben ein Windows auswählen</small>
+                        ) : o.detail ? (
+                          <small>{o.detail}</small>
+                        ) : null}
                       </span>
                       <span className="cfg-opt-price">
                         {delta === 0 ? (checked ? 'inklusive' : '±0,00 €') : `${delta > 0 ? '+' : '−'} ${eur(Math.abs(show(delta)))}`}

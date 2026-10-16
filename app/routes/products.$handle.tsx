@@ -97,11 +97,13 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
 
   // Zusatzleistungen (Einrichtung, Windows, Office, Virenschutz) für Computer
   let addons: CardProductData[] = [];
+  let deviceHasWindows = true;
   if (ADDON_PRODUCT_TYPES.includes(product.productType)) {
     const osTag = osFromTags(product.tags);
     const os = (parseSpecs(splitDescription(product.descriptionHtml).specsHtml).find((s) => s.label === 'Betriebssystem')?.value ?? '')
       .replace(/WORTMANN AG empfiehlt Windows 11 Pro f\u00fcr Unternehmen/gi, '');
     const hasWindows = osTag ? osTag !== 'none' : /windows|\bW11/i.test(`${product.title} ${os}`);
+    deviceHasWindows = hasWindows;
     const map = await productsByHandle(storefront, addonHandlesFor(hasWindows)).catch(
       (e: Error) => {
         console.error(e);
@@ -151,6 +153,7 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
     wmFeatures: wm.features,
     wmAccessoryHandles: wm.accessoryHandles,
     addons,
+    deviceHasWindows,
   };
 }
 
@@ -180,6 +183,7 @@ export default function Product() {
     wmOverviewHtml,
     wmFeatures,
     addons,
+    deviceHasWindows,
     serviceProduct,
   } = useLoaderData<typeof loader>();
 
@@ -350,6 +354,7 @@ export default function Product() {
                 productOptions={productOptions}
                 selectedVariant={selectedVariant}
                 addons={addons}
+                deviceHasWindows={deviceHasWindows}
                 accessories={accessoryProducts}
                 service={serviceProduct}
                 serviceTexts={serviceTextsFor(productType)}

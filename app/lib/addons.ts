@@ -14,9 +14,10 @@ export const ADDONS: {handle: string; group: AddonGroup; label: string; hint: st
   {handle: 'eset-home-security-essential-6690088', group: 'security', label: 'ESET HOME Security Essential', hint: '1 Gerät, 1 Jahr'},
 ];
 
+/** Reihenfolge = Anzeige: Betriebssystem vor Einrichtung (Einrichtung setzt Windows voraus). */
 export const ADDON_GROUP_TITLES: Record<AddonGroup, string> = {
-  service: 'Einrichtung',
   windows: 'Betriebssystem',
+  service: 'Einrichtung',
   office: 'Office',
   security: 'Virenschutz',
 };
