@@ -66,7 +66,7 @@ export function links() {
     {rel: 'icon', href: '/favicon.ico', sizes: '48x48'},
     {rel: 'icon', type: 'image/png', sizes: '96x96', href: '/favicon-96.png'},
     {rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png'},
-    {rel: 'manifest', href: '/site.webmanifest'},
+    {rel: 'manifest', href: '/manifest.json'},
   ];
 }
 
