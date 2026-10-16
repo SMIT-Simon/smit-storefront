@@ -3767,3 +3767,11 @@ html:has(.overlay.expanded) .chat-optin {
 .jtl-total strong { color: var(--brand); font-size: 1.6rem; }
 .jtl-total small { color: var(--ink-mute); flex-basis: 100%; text-align: right; }
 .jtl-summary-note { color: var(--ink-mute); font-size: 0.82rem; line-height: 1.5; margin: 0.9rem 0 0; }
+.jtl-tariff { position: relative; }
+.jtl-badge { background: var(--brand); border-radius: 999px; color: #fff; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.65rem; position: absolute; right: 1rem; top: -0.7rem; }
+.jtl-pick { border: 0; margin: 0 0 1rem; padding: 0; }
+.jtl-pick legend { font-weight: 700; margin-bottom: 0.6rem; }
+.jtl-pick .addon { margin-bottom: 0.5rem; }
+.jtl-pick-hint { color: var(--ink-mute); font-size: 0.88rem; margin: 0.3rem 0 0; }
+.link-button { background: none; border: 0; color: var(--brand); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
+.link-arrow.link-button { text-decoration: none; }

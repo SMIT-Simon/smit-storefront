@@ -641,6 +641,20 @@ export type JtlCloudProductsQuery = {
       >;
     };
   }>;
+  advance?: StorefrontAPI.Maybe<{
+    variants: {
+      nodes: Array<
+        Pick<StorefrontAPI.ProductVariant, 'id' | 'availableForSale'>
+      >;
+    };
+  }>;
+  pro?: StorefrontAPI.Maybe<{
+    variants: {
+      nodes: Array<
+        Pick<StorefrontAPI.ProductVariant, 'id' | 'availableForSale'>
+      >;
+    };
+  }>;
   rdp?: StorefrontAPI.Maybe<{
     variants: {
       nodes: Array<
@@ -1834,7 +1848,7 @@ interface GeneratedQueryTypes {
     return: BlogsQuery;
     variables: BlogsQueryVariables;
   };
-  '#graphql\n  query JtlCloudProducts($country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    start: product(handle: "jtl-cloud-start") { ...JtlCloudVariant }\n    rdp: product(handle: "jtl-cloud-rdp-benutzer") { ...JtlCloudVariant }\n    sqlUpgrade: product(handle: "jtl-cloud-sql-standard") { ...JtlCloudVariant }\n    sqlUser: product(handle: "jtl-cloud-sql-benutzer") { ...JtlCloudVariant }\n  }\n  fragment JtlCloudVariant on Product {\n    variants(first: 1) { nodes { id availableForSale } }\n  }\n': {
+  '#graphql\n  query JtlCloudProducts($country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    start: product(handle: "jtl-cloud-start") { ...JtlCloudVariant }\n    advance: product(handle: "jtl-cloud-advance") { ...JtlCloudVariant }\n    pro: product(handle: "jtl-cloud-pro") { ...JtlCloudVariant }\n    rdp: product(handle: "jtl-cloud-rdp-benutzer") { ...JtlCloudVariant }\n    sqlUpgrade: product(handle: "jtl-cloud-sql-standard") { ...JtlCloudVariant }\n    sqlUser: product(handle: "jtl-cloud-sql-benutzer") { ...JtlCloudVariant }\n  }\n  fragment JtlCloudVariant on Product {\n    variants(first: 1) { nodes { id availableForSale } }\n  }\n': {
     return: JtlCloudProductsQuery;
     variables: JtlCloudProductsQueryVariables;
   };
