@@ -11,6 +11,7 @@ const HIDDEN_HANDLES = [
   /^terra-lcd-vor-ort-service$/,
   /^windows-11-pro-oem-vorinstalliert-/,
   /^konfiguration-/,
+  /^jtl-cloud-/,
 ];
 
 export async function loader({

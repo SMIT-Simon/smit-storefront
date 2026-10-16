@@ -123,6 +123,14 @@ export default function CloudIndex() {
               </Link>
             ))}
           </div>
+          <p className="solution-notice">
+            <Icon name="server" size={20} />
+            <span>
+              <strong>Für JTL-Händler:</strong> Ihre JTL-Wawi mit Datenbank und Worker auf einem eigenen Cloud Server –
+              ab 57,60 € netto im Monat, VPN inklusive.{' '}
+              <Link to="/cloud/jtl-wawi-server" prefetch="intent">JTL-Wawi Cloud Server ansehen</Link>
+            </span>
+          </p>
         </div>
       </section>
 
