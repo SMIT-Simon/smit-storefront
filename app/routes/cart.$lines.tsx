@@ -24,9 +24,11 @@ export async function loader({request, context, params}: Route.LoaderArgs) {
   const {lines} = params;
   if (!lines) return redirect('/cart');
   const linesMap = lines.split(',').map((line) => {
-    const lineDetails = line.split(':');
-    const variantId = lineDetails[0];
-    const quantity = parseInt(lineDetails[1], 10);
+    const lineDetails = decodeURIComponent(line).split(':');
+    // Akzeptiert auch Google-Merchant-IDs (shopify_ZZ_<productId>_<variantId>)
+    // für den Checkout-Link im Merchant Center: letzte Zahlengruppe = Variante.
+    const variantId = /(\d+)\s*$/.exec(lineDetails[0])?.[1] ?? lineDetails[0];
+    const quantity = Math.max(1, parseInt(lineDetails[1], 10) || 1);
 
     return {
       merchandiseId: `gid://shopify/ProductVariant/${variantId}`,
