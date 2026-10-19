@@ -22,3 +22,11 @@ Use the [Shopify AI Toolkit](https://shopify.dev/docs/apps/build/ai-toolkit) for
   (Spalten `id,link`, ID-Format `shopify_ZZ_<productId>_<variantId>`). NICHT löschen/umbenennen.
 - Im Merchant Center als „ergänzende Datenquelle“ (SUPPLEMENTAL SOURCE 1 = DE, 2 = EU) hinterlegt, täglicher Abruf 00:00.
 - Produktseiten müssen unter `/products/<handle>` erreichbar bleiben.
+
+## Onlineshop-Kanal (Horizon-Theme auf ahkvdq-fn.myshopify.com)
+
+- Kanal „Onlineshop“ NICHT entfernen und NICHT mit Passwort sperren: Die Google-&-YouTube-App braucht ihn für die Produktsynchronisierung.
+- Stattdessen leitet `layout/theme.liquid` (direkt nach `<head>`) jeden Aufruf der myshopify-Domain auf dieselbe Seite unter www.terra-computershop.de um
+  (JS `location.replace`, ausgenommen `request.design_mode`). Kein zusätzlicher canonical-Tag (macht schon `meta-tags`).
+- Die Kasse und `/cart/<variante>:<menge>` laufen unabhängig vom Theme weiter.
+- Über die Admin-API (MCP) darf das LIVE-Theme nicht beschrieben werden → Theme-Änderungen gibt der Nutzer selbst im Code-Editor ein; danach mit Playwright prüfen.
