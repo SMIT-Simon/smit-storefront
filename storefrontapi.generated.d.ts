@@ -906,6 +906,21 @@ export type CatalogQuery = {
   };
 };
 
+export type GoogleLinkFeedQueryVariables = StorefrontAPI.Exact<{
+  after?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
+}>;
+
+export type GoogleLinkFeedQuery = {
+  products: {
+    pageInfo: Pick<StorefrontAPI.PageInfo, 'hasNextPage' | 'endCursor'>;
+    nodes: Array<
+      Pick<StorefrontAPI.Product, 'id' | 'handle'> & {
+        variants: {nodes: Array<Pick<StorefrontAPI.ProductVariant, 'id'>>};
+      }
+    >;
+  };
+};
+
 export type ConfigProductQueryVariables = StorefrontAPI.Exact<{
   handle: StorefrontAPI.Scalars['String']['input'];
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
@@ -1871,6 +1886,10 @@ interface GeneratedQueryTypes {
   "#graphql\n  query Catalog(\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n    $sortKey: ProductSortKeys\n    $reverse: Boolean\n  ) @inContext(country: $country, language: $language) {\n    products(\n      first: $first\n      last: $last\n      before: $startCursor\n      after: $endCursor\n      sortKey: $sortKey\n      reverse: $reverse\n      query: \"-product_type:'Service-Option' -product_type:'Software-Option' -tag:'ausblenden'\"\n    ) {\n      nodes {\n        ...CollectionItem\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n  #graphql\n  fragment MoneyCollectionItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment CollectionItem on Product {\n    tags\n    productType\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyCollectionItem\n      }\n      maxVariantPrice {\n        ...MoneyCollectionItem\n      }\n    }\n  }\n\n": {
     return: CatalogQuery;
     variables: CatalogQueryVariables;
+  };
+  '#graphql\n  query GoogleLinkFeed($after: String) {\n    products(first: 250, after: $after) {\n      pageInfo { hasNextPage endCursor }\n      nodes { id handle variants(first: 100) { nodes { id } } }\n    }\n  }\n': {
+    return: GoogleLinkFeedQuery;
+    variables: GoogleLinkFeedQueryVariables;
   };
   '#graphql\n  query ConfigProduct($handle: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      id\n      variants(first: 100) {\n        nodes {\n          id\n          sku\n          availableForSale\n          price {\n            amount\n          }\n        }\n      }\n    }\n  }\n': {
     return: ConfigProductQuery;
