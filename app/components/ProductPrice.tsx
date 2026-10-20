@@ -1,6 +1,7 @@
 import type {MoneyV2} from '@shopify/hydrogen/storefront-api-types';
 import {Price, type MoneyLike} from '~/components/Price';
 import {AltPrice, ModePrice, usePriceMode} from '~/components/PriceMode';
+import {ShippingInfoLink} from '~/components/ShippingInfo';
 
 /** Zweitpreis (netto bzw. brutto – je nach gewähltem Modus). */
 export function NetPrice({price}: {price?: MoneyLike | null}) {
@@ -28,11 +29,19 @@ export function ProductPrice({
         ) : null}
       </div>
       <div className="price-meta">
-        <span>
-          {mode === 'net'
-            ? 'netto, zzgl. 19\u00a0% MwSt. und Versand'
-            : 'inkl. 19\u00a0% MwSt., zzgl. Versand'}
-        </span>
+        {size === 'large' ? (
+          // Nur auf der Produktseite verlinkt \u2013 kleine Preise stehen in Produktkarten (bereits ein Link)
+          <span>
+            {mode === 'net' ? 'netto, zzgl. 19\u00a0% MwSt. und ' : 'inkl. 19\u00a0% MwSt., zzgl. '}
+            <ShippingInfoLink>Versand</ShippingInfoLink>
+          </span>
+        ) : (
+          <span>
+            {mode === 'net'
+              ? 'netto, zzgl. 19\u00a0% MwSt. und Versand'
+              : 'inkl. 19\u00a0% MwSt., zzgl. Versand'}
+          </span>
+        )}
         {price ? <AltPrice price={price} /> : null}
       </div>
     </div>

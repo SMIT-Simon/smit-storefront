@@ -3,6 +3,7 @@ import {Price} from '~/components/Price';
 import {netOf, usePriceMode} from '~/components/PriceMode';
 import {QuoteButton} from '~/components/QuoteDialog';
 import {LegalGuaranteeNotice} from '~/components/LegalGuaranteeNotice';
+import {ShippingInfoLink} from '~/components/ShippingInfo';
 import type {CartLayout} from '~/components/CartMain';
 import {CartForm, type OptimisticCart} from '@shopify/hydrogen';
 import {useEffect, useId, useRef, useState} from 'react';
@@ -329,7 +330,9 @@ function CartTotals({amount}: {amount?: {amount?: string | null; currencyCode?: 
         <dt>Gesamt brutto</dt>
         <dd><Price data={amount} /></dd>
       </dl>
-      <p className="cart-tax-note">zzgl. Versandkosten</p>
+      <p className="cart-tax-note">
+        zzgl. <ShippingInfoLink>Versandkosten</ShippingInfoLink>
+      </p>
     </div>
   );
 }

@@ -3775,3 +3775,13 @@ html:has(.overlay.expanded) .chat-optin {
 .jtl-pick-hint { color: var(--ink-mute); font-size: 0.88rem; margin: 0.3rem 0 0; }
 .link-button { background: none; border: 0; color: var(--brand); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
 .link-arrow.link-button { text-decoration: none; }
+
+/* Versandkosten-Modal */
+.shipping-info-link { color: inherit; cursor: pointer; text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 2px; }
+.shipping-info-link:hover { color: var(--brand, #0b4f9c); text-decoration-style: solid; }
+.shipping-dialog { max-width: min(520px, 94vw); text-align: left; }
+.shipping-table { border-collapse: collapse; font-size: 0.95rem; margin: 0.25rem 0 0.5rem; width: 100%; }
+.shipping-table th { border-bottom: 2px solid var(--line, #e3e7ee); color: var(--ink-soft); font-size: 0.8rem; font-weight: 600; padding: 0.4rem 0.25rem; text-align: left; }
+.shipping-table th:last-child, .shipping-table td:last-child { text-align: right; white-space: nowrap; }
+.shipping-table td { border-bottom: 1px solid var(--line, #e3e7ee); padding: 0.6rem 0.25rem; vertical-align: top; }
+.shipping-table td small { color: var(--ink-soft); display: block; font-size: 0.8rem; margin-top: 0.15rem; }
