@@ -330,10 +330,10 @@ function CartTotals({amount}: {amount?: {amount?: string | null; currencyCode?: 
         <dt>Gesamt brutto</dt>
         <dd><Price data={amount} /></dd>
       </dl>
-      <p className="cart-tax-note cart-shipping-note">
+      <div className="cart-tax-note cart-shipping-note">
         zzgl. <strong>{SHIPPING_RATES[0].price}</strong> Versand innerhalb Deutschlands ·{' '}
         <ShippingInfoLink>andere Länder</ShippingInfoLink>
-      </p>
+      </div>
     </div>
   );
 }
