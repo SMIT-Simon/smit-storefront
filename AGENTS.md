@@ -30,3 +30,8 @@ Use the [Shopify AI Toolkit](https://shopify.dev/docs/apps/build/ai-toolkit) for
   (JS `location.replace`, ausgenommen `request.design_mode`). Kein zusätzlicher canonical-Tag (macht schon `meta-tags`).
 - Die Kasse und `/cart/<variante>:<menge>` laufen unabhängig vom Theme weiter.
 - Über die Admin-API (MCP) darf das LIVE-Theme nicht beschrieben werden → Theme-Änderungen gibt der Nutzer selbst im Code-Editor ein; danach mit Playwright prüfen.
+
+## Ländersperre (server.ts)
+
+- `BLOCKED_COUNTRIES` (IN, BR, SA) bekommen per `oxygen-buyer-country` eine 403-Seite „liefert nur innerhalb der EU“ – reiner Bot-Traffic, keine Lieferländer.
+- USA und EU NIEMALS sperren (Google-Shopping-Prüfer, Kunden).
