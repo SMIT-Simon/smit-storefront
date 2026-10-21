@@ -3795,3 +3795,4 @@ html:has(.overlay.expanded) .chat-optin {
 .monitor-picker-state::after { content: ' ▾'; }
 .monitor-picker[open] .monitor-picker-state::after { content: ' ▴'; }
 .monitor-picker .acc-picker { margin: 0 0 0.75rem; }
+.acc-hint { color: var(--brand); display: block; font-size: 0.78rem; font-weight: 600; margin: 0.1rem 0 0.35rem; }

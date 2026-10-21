@@ -340,9 +340,19 @@ function MonitorPicker({
           )}
         </span>
       </summary>
-      <AccessoryPicker items={items} qty={qty} setQty={setQty} title={null} />
+      <AccessoryPicker items={items} qty={qty} setQty={setQty} title={null} hint={monitorHint} />
     </details>
   );
+}
+
+/** Kurzinfo aus den Filter-Tags, z. B. „24″ · Full HD · höhenverstellbar“. */
+function monitorHint(p: CardProductData): string {
+  const t = new Set(p.tags);
+  const size = p.tags.find((x) => x.startsWith('f:size-'))?.slice(7);
+  const res = t.has('f:res-4k') ? '4K' : t.has('f:res-wqhd') ? 'WQHD' : 'Full HD';
+  return [size ? `${size}″` : null, res, t.has('f:hv') ? 'höhenverstellbar' : null]
+    .filter(Boolean)
+    .join(' · ');
 }
 
 function AccessoryPicker({
@@ -350,11 +360,13 @@ function AccessoryPicker({
   qty,
   setQty,
   title = 'Passendes Zubehör',
+  hint,
 }: {
   items: CardProductData[];
   qty: Record<string, number>;
   setQty: (q: Record<string, number>) => void;
   title?: string | null;
+  hint?: (p: CardProductData) => string;
 }) {
   const {mode} = usePriceMode();
   const set = (h: string, n: number) => setQty({...qty, [h]: Math.max(0, Math.min(99, n))});
@@ -373,6 +385,7 @@ function AccessoryPicker({
               <Link to={`/products/${p.handle}`} className="acc-title" prefetch="intent">
                 {p.title}
               </Link>
+              {hint ? <small className="acc-hint">{hint(p)}</small> : null}
               <div className="acc-qty-row">
                 <div className="qty qty-small acc-qty" aria-label={`Menge ${p.title}`}>
                   <button type="button" onClick={() => set(p.handle, n - 1)} aria-label="weniger">−</button>
