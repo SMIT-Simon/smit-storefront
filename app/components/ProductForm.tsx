@@ -26,6 +26,7 @@ export function ProductForm({
   addons = [],
   deviceHasWindows = true,
   accessories = [],
+  monitors = [],
   service = null,
   serviceTexts,
 }: {
@@ -35,6 +36,8 @@ export function ProductForm({
   /** Gerät hat bereits Windows → Einrichtungsservice immer wählbar */
   deviceHasWindows?: boolean;
   accessories?: CardProductData[];
+  /** Monitor-Empfehlung (Desktop-PCs), eingeklappt */
+  monitors?: CardProductData[];
   service?: ServiceProduct | null;
   serviceTexts?: ServiceTexts;
 }) {
@@ -52,7 +55,7 @@ export function ProductForm({
       .map((h) => addons.find((a) => a.handle === h))
       .filter((a): a is CardProductData => Boolean(a?.selectedOrFirstAvailableVariant?.id))
       .map((a) => ({merchandiseId: a.selectedOrFirstAvailableVariant!.id, quantity})),
-    ...accessories
+    ...[...accessories, ...monitors]
       .filter((a) => (accQty[a.handle] ?? 0) > 0 && a.selectedOrFirstAvailableVariant?.id)
       .map((a) => ({merchandiseId: a.selectedOrFirstAvailableVariant!.id, quantity: accQty[a.handle]})),
   ];
@@ -134,6 +137,10 @@ export function ProductForm({
 
       {accessories.length ? (
         <AccessoryPicker items={accessories} qty={accQty} setQty={setAccQty} />
+      ) : null}
+
+      {monitors.length ? (
+        <MonitorPicker items={monitors} qty={accQty} setQty={setAccQty} />
       ) : null}
 
       {service?.variants.nodes.length ? (
@@ -305,7 +312,8 @@ function AddonPicker({
   );
 }
 
-function AccessoryPicker({
+/** Eingeklappte Monitor-Empfehlung – nutzt dieselben Zeilen wie das Zubehör. */
+function MonitorPicker({
   items,
   qty,
   setQty,
@@ -314,11 +322,45 @@ function AccessoryPicker({
   qty: Record<string, number>;
   setQty: (q: Record<string, number>) => void;
 }) {
+  const chosen = items.reduce((n, p) => n + (qty[p.handle] ?? 0), 0);
+  const cheapest = [...items].sort(
+    (a, b) => Number(a.priceRange.minVariantPrice.amount) - Number(b.priceRange.minVariantPrice.amount),
+  )[0];
+  return (
+    <details className="monitor-picker">
+      <summary>
+        <span className="monitor-picker-title">Passenden Monitor dazu?</span>
+        <span className="monitor-picker-state">
+          {chosen > 0 ? (
+            `${chosen} gewählt`
+          ) : (
+            <>
+              ab <ModePrice data={cheapest.priceRange.minVariantPrice} />
+            </>
+          )}
+        </span>
+      </summary>
+      <AccessoryPicker items={items} qty={qty} setQty={setQty} title={null} />
+    </details>
+  );
+}
+
+function AccessoryPicker({
+  items,
+  qty,
+  setQty,
+  title = 'Passendes Zubehör',
+}: {
+  items: CardProductData[];
+  qty: Record<string, number>;
+  setQty: (q: Record<string, number>) => void;
+  title?: string | null;
+}) {
   const {mode} = usePriceMode();
   const set = (h: string, n: number) => setQty({...qty, [h]: Math.max(0, Math.min(99, n))});
   return (
     <div className="acc-picker">
-      <h3>Passendes Zubehör</h3>
+      {title ? <h3>{title}</h3> : null}
       {items.map((p) => {
         const n = qty[p.handle] ?? 0;
         const img = p.featuredImage;

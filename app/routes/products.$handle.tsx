@@ -35,6 +35,13 @@ import {
   type IncludedService,
 } from '~/lib/addons';
 import {productsByHandle, type CardProductData} from '~/lib/products-by-handle.server';
+
+/** Monitor-Empfehlung auf Desktop-PC-Seiten (Reihenfolge = Anzeige). */
+const PC_MONITOR_HANDLES = [
+  'terra-lcd-led-2427w-v3-ips-black-hdmi-dp-usb-c-3030256', // 24" günstigster
+  'terra-lcd-led-2427w-ha-v3-ips-black-hdmi-dp-usb-c-3030257', // 24" höhenverstellbar
+  'terra-lcd-led-2727w-v3-ips-black-hdmi-dp-usb-c-3030258', // 27" günstigster
+];
 import {manufacturerFor, type Manufacturer} from '~/lib/manufacturers';
 
 export const meta: Route.MetaFunction = ({data}) => {
@@ -145,9 +152,25 @@ async function loadCriticalData({context, params, request}: Route.LoaderArgs) {
     .map((h) => accMap[h])
     .filter((x): x is CardProductData => Boolean(x?.selectedOrFirstAvailableVariant?.id));
 
+  // Monitor-Empfehlung für Desktop-PCs (günstigster 24", höhenverstellbarer 24", günstigster 27")
+  const monitorProducts =
+    product.productType === 'Desktop-PC'
+      ? await productsByHandle(storefront, PC_MONITOR_HANDLES)
+          .then((m) =>
+            PC_MONITOR_HANDLES.map((h) => m[h]).filter(
+              (x): x is CardProductData => Boolean(x?.selectedOrFirstAvailableVariant?.availableForSale),
+            ),
+          )
+          .catch((e: Error) => {
+            console.error(e);
+            return [] as CardProductData[];
+          })
+      : [];
+
   return {
     product,
     accessoryProducts,
+    monitorProducts,
     serviceProduct,
     wmOverviewHtml: wm.overviewHtml,
     wmFeatures: wm.features,
@@ -180,6 +203,7 @@ export default function Product() {
     product,
     recommendations,
     accessoryProducts,
+    monitorProducts,
     wmOverviewHtml,
     wmFeatures,
     addons,
@@ -356,6 +380,7 @@ export default function Product() {
                 addons={addons}
                 deviceHasWindows={deviceHasWindows}
                 accessories={accessoryProducts}
+                monitors={monitorProducts}
                 service={serviceProduct}
                 serviceTexts={serviceTextsFor(productType)}
               />

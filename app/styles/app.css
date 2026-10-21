@@ -3785,3 +3785,13 @@ html:has(.overlay.expanded) .chat-optin {
 .shipping-table th:last-child, .shipping-table td:last-child { text-align: right; white-space: nowrap; }
 .shipping-table td { border-bottom: 1px solid var(--line, #e3e7ee); padding: 0.6rem 0.25rem; vertical-align: top; }
 .shipping-table td small { color: var(--ink-soft); display: block; font-size: 0.8rem; margin-top: 0.15rem; }
+
+/* Monitor-Empfehlung auf Desktop-PC-Seiten (eingeklappt) */
+.monitor-picker { border: 1px solid var(--line); border-radius: var(--radius); margin: 0 0 1rem; padding: 0 0.85rem; }
+.monitor-picker summary { align-items: center; cursor: pointer; display: flex; gap: 0.5rem; justify-content: space-between; list-style: none; padding: 0.7rem 0; }
+.monitor-picker summary::-webkit-details-marker { display: none; }
+.monitor-picker-title { color: var(--brand-ink); font-weight: 700; }
+.monitor-picker-state { color: var(--brand); font-size: 0.9rem; font-weight: 600; white-space: nowrap; }
+.monitor-picker-state::after { content: ' ▾'; }
+.monitor-picker[open] .monitor-picker-state::after { content: ' ▴'; }
+.monitor-picker .acc-picker { margin: 0 0 0.75rem; }
