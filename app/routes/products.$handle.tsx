@@ -35,6 +35,7 @@ import {
   type IncludedService,
 } from '~/lib/addons';
 import {productsByHandle, type CardProductData} from '~/lib/products-by-handle.server';
+import {CustomConfigCard} from '~/components/CustomConfigCard';
 
 /** Monitor-Empfehlung auf Desktop-PC-Seiten (Reihenfolge = Anzeige). */
 const PC_MONITOR_HANDLES = [
@@ -384,6 +385,9 @@ export default function Product() {
                 service={serviceProduct}
                 serviceTexts={serviceTextsFor(productType)}
               />
+              {productType === 'Desktop-PC' ? (
+                <CustomConfigCard title={title} sku={selectedVariant?.sku} />
+              ) : null}
               <ul className="buy-usps">
                 <li>
                   <Icon name="shield" size={18} />{' '}

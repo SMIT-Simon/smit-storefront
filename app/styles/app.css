@@ -3796,3 +3796,13 @@ html:has(.overlay.expanded) .chat-optin {
 .monitor-picker[open] .monitor-picker-state::after { content: ' ▴'; }
 .monitor-picker .acc-picker { margin: 0 0 0.75rem; }
 .acc-hint { color: var(--brand); display: block; font-size: 0.78rem; font-weight: 600; margin: 0.1rem 0 0.35rem; }
+
+/* Wunschkonfiguration (Desktop-PCs) */
+.config-card { background: #f3f7fc; border: 1px solid #cfe0f3; border-radius: var(--radius); margin: 1rem 0; padding: 0.9rem 1rem; }
+.config-card-head { align-items: center; color: var(--brand-ink); display: flex; gap: 0.5rem; }
+.config-card-head svg { color: var(--brand); flex-shrink: 0; }
+.config-card p { color: var(--ink-soft); font-size: 0.88rem; margin: 0.4rem 0 0.6rem; }
+.config-card-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; list-style: none; margin: 0 0 0.75rem; padding: 0; }
+.config-card-chips li { background: #fff; border: 1px solid #cfe0f3; border-radius: 999px; color: var(--brand-ink); font-size: 0.78rem; padding: 0.2rem 0.6rem; }
+.config-card-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+.config-card-phone { color: var(--brand); font-size: 0.88rem; font-weight: 600; }
