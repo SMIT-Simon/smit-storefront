@@ -52,13 +52,16 @@ export function ProductForm({
   const [stickyVisible, setStickyVisible] = useState(false);
   useEffect(() => {
     const el = buyRowRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
+    if (!el) return;
     // Nur einblenden, wenn der Button nach OBEN aus dem Bild gescrollt ist
-    const io = new IntersectionObserver(([e]) =>
-      setStickyVisible(!e.isIntersecting && e.boundingClientRect.top < 0),
-    );
-    io.observe(el);
-    return () => io.disconnect();
+    const check = () => setStickyVisible(el.getBoundingClientRect().bottom < 0);
+    check();
+    window.addEventListener('scroll', check, {passive: true});
+    window.addEventListener('resize', check);
+    return () => {
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+    };
   }, []);
   const available = Boolean(selectedVariant?.availableForSale);
 
