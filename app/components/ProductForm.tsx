@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import {Link, useNavigate} from 'react-router';
 import {type MappedProductOptions} from '@shopify/hydrogen';
 import type {
@@ -45,8 +45,20 @@ export function ProductForm({
   const [picked, setPicked] = useState<Partial<Record<AddonGroup, string>>>({});
   const [accQty, setAccQty] = useState<Record<string, number>>({});
   const navigate = useNavigate();
-  const {open} = useAside();
+  const {open, type: asideType} = useAside();
   const [quantity, setQuantity] = useState(1);
+  const buyRowRef = useRef<HTMLDivElement>(null);
+  const [stickyVisible, setStickyVisible] = useState(false);
+  useEffect(() => {
+    const el = buyRowRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    // Nur einblenden, wenn der Button nach OBEN aus dem Bild gescrollt ist
+    const io = new IntersectionObserver(([e]) =>
+      setStickyVisible(!e.isIntersecting && e.boundingClientRect.top < 0),
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const available = Boolean(selectedVariant?.availableForSale);
 
   const extraLines = [
@@ -161,7 +173,7 @@ export function ProductForm({
         />
       ) : null}
 
-      <div className="buy-row">
+      <div className="buy-row" ref={buyRowRef}>
         <div className="qty" aria-label="Menge">
           <button
             type="button"
@@ -202,6 +214,62 @@ export function ProductForm({
         </a>
       ) : null}
       {available ? <LegalGuaranteeNotice compact /> : null}
+      {available && selectedVariant ? (
+        <StickyBuyBar
+          visible={stickyVisible && asideType === 'closed'}
+          title={selectedVariant.product?.title ?? ''}
+          image={selectedVariant.image?.url}
+          price={selectedVariant.price}
+          quantity={quantity}
+          lines={lines}
+          onAdd={() => open('cart')}
+        />
+      ) : null}
+    </div>
+  );
+}
+
+/** Untere Kaufleiste – erscheint, sobald der eigentliche „In den Warenkorb“-Button aus dem Bild gescrollt ist. */
+function StickyBuyBar({
+  visible,
+  title,
+  image,
+  price,
+  quantity,
+  lines,
+  onAdd,
+}: {
+  visible: boolean;
+  title: string;
+  image?: string;
+  price: {amount: string; currencyCode: CurrencyCode};
+  quantity: number;
+  lines: React.ComponentProps<typeof AddToCartButton>['lines'];
+  onAdd: () => void;
+}) {
+  useEffect(() => {
+    document.body.classList.toggle('has-sticky-buy', visible);
+    return () => document.body.classList.remove('has-sticky-buy');
+  }, [visible]);
+  return (
+    <div className={`sticky-buy${visible ? ' is-visible' : ''}`} aria-hidden={!visible}>
+      <div className="sticky-buy-inner">
+        {image ? (
+          <img src={`${image}${image.includes('?') ? '&' : '?'}width=96`} alt="" width={48} height={48} />
+        ) : null}
+        <div className="sticky-buy-info">
+          <span className="sticky-buy-title">{title}</span>
+          <span className="sticky-buy-price">
+            {quantity > 1 ? `${quantity} × ` : ''}
+            <ModePrice data={price} />
+          </span>
+        </div>
+        <div className="sticky-buy-action">
+          <AddToCartButton lines={lines} onClick={onAdd}>
+            In den Warenkorb
+          </AddToCartButton>
+        </div>
+      </div>
     </div>
   );
 }
