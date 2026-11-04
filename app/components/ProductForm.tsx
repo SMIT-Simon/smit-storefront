@@ -274,7 +274,8 @@ function StickyBuyBar({
         </div>
         <div className="sticky-buy-action">
           <AddToCartButton lines={lines} onClick={onAdd}>
-            In den Warenkorb
+            <span className="sticky-buy-long">In den Warenkorb</span>
+            <span className="sticky-buy-short">In den Korb</span>
           </AddToCartButton>
         </div>
       </div>
