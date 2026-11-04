@@ -1,4 +1,5 @@
 import {useEffect, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 import {Link, useNavigate} from 'react-router';
 import {type MappedProductOptions} from '@shopify/hydrogen';
 import type {
@@ -251,7 +252,11 @@ function StickyBuyBar({
     document.body.classList.toggle('has-sticky-buy', visible);
     return () => document.body.classList.remove('has-sticky-buy');
   }, [visible]);
-  return (
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) return null;
+  // Portal an <body>: Vorfahren mit transform/contain würden position:fixed sonst aushebeln
+  return createPortal(
     <div className={`sticky-buy${visible ? ' is-visible' : ''}`} aria-hidden={!visible}>
       <div className="sticky-buy-inner">
         {image ? (
@@ -270,7 +275,8 @@ function StickyBuyBar({
           </AddToCartButton>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
