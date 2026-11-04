@@ -3806,3 +3806,23 @@ html:has(.overlay.expanded) .chat-optin {
 .config-card-chips li { background: #fff; border: 1px solid #cfe0f3; border-radius: 999px; color: var(--brand-ink); font-size: 0.78rem; padding: 0.2rem 0.6rem; }
 .config-card-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
 .config-card-phone { color: var(--brand); font-size: 0.88rem; font-weight: 600; }
+
+/* Schwebender Warenkorb (über dem KI-Chat-Button) */
+.floating-cart {
+  align-items: center; background: var(--brand); border: 0; border-radius: 999px;
+  bottom: 84px; box-shadow: 0 10px 28px rgba(11, 79, 156, 0.35); color: #fff; cursor: pointer;
+  display: inline-flex; font: inherit; font-weight: 700; gap: 0.6rem; opacity: 0;
+  padding: 0.55rem 1rem 0.55rem 0.7rem; pointer-events: none; position: fixed; right: 20px;
+  transform: translateY(12px); transition: opacity .2s ease, transform .2s ease; z-index: 61;
+}
+.floating-cart.is-visible { opacity: 1; pointer-events: auto; transform: none; }
+.floating-cart:hover { filter: brightness(1.1); }
+.floating-cart-icon { position: relative; display: inline-flex; }
+.floating-cart-count {
+  align-items: center; background: #fff; border-radius: 999px; color: var(--brand); display: inline-flex;
+  font-size: 0.7rem; height: 18px; justify-content: center; min-width: 18px; padding: 0 4px;
+  position: absolute; right: -10px; top: -8px;
+}
+.floating-cart-total { font-size: 0.95rem; white-space: nowrap; }
+@media (max-width: 480px) { .floating-cart { bottom: 76px; right: 14px; } }
+@media print { .floating-cart { display: none; } }

@@ -10,7 +10,7 @@ import {useAside} from '~/components/Aside';
 import {Icon} from '~/components/Icon';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {CATEGORIES} from '~/lib/categories';
-import {PriceModeToggle} from '~/components/PriceMode';
+import {ModePrice, PriceModeToggle} from '~/components/PriceMode';
 import {siteImg} from '~/lib/site-images';
 import {CLOUD_SERVICES} from '~/lib/cloud';
 
@@ -83,6 +83,7 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
       </div>
 
     </header>
+    <FloatingCart cart={cart} />
     <HeaderMenu viewport="desktop" />
     </>
   );
@@ -443,4 +444,49 @@ function CartBanner() {
   const originalCart = useAsyncValue() as CartApiQueryFragment | null;
   const cart = useOptimisticCart(originalCart);
   return <CartBadge count={cart?.totalQuantity ?? 0} />;
+}
+
+/** Schwebender Warenkorb-Button (unten rechts), sobald etwas im Warenkorb liegt. */
+function FloatingCart({cart}: Pick<HeaderProps, 'cart'>) {
+  return (
+    <Suspense fallback={null}>
+      <Await resolve={cart}>
+        <FloatingCartButton />
+      </Await>
+    </Suspense>
+  );
+}
+
+function FloatingCartButton() {
+  const originalCart = useAsyncValue() as CartApiQueryFragment | null;
+  const cart = useOptimisticCart(originalCart);
+  const {open, type} = useAside();
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 160);
+    onScroll();
+    window.addEventListener('scroll', onScroll, {passive: true});
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+  const count = cart?.totalQuantity ?? 0;
+  const total = cart?.cost?.subtotalAmount;
+  if (!count || type !== 'closed') return null;
+  return (
+    <button
+      type="button"
+      className={`floating-cart${scrolled ? ' is-visible' : ''}`}
+      onClick={() => open('cart')}
+      aria-label={`Warenkorb öffnen, ${count} Artikel`}
+    >
+      <span className="floating-cart-icon">
+        <Icon name="cart" size={22} />
+        <span className="floating-cart-count">{count}</span>
+      </span>
+      {total ? (
+        <span className="floating-cart-total">
+          <ModePrice data={total} />
+        </span>
+      ) : null}
+    </button>
+  );
 }
