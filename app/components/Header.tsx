@@ -54,9 +54,9 @@ export function Header({isLoggedIn, cart}: HeaderProps) {
         <HeaderMenuMobileToggle />
         <Link prefetch="intent" to="/" className="logo" aria-label="Startseite">
           <img
-            src="/images/logo-terra-computershop.webp"
+            src="/images/logo-terra-computershop.svg"
             alt="terra-computershop.de – powered by SMIT Digital Services"
-            width={264}
+            width={316}
             height={52}
             className="logo-img"
           />
