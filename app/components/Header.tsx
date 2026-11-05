@@ -25,8 +25,7 @@ interface HeaderProps {
 
 type Viewport = 'desktop' | 'mobile';
 
-export function Header({header, isLoggedIn, cart}: HeaderProps) {
-  const {shop} = header;
+export function Header({isLoggedIn, cart}: HeaderProps) {
   return (
     <>
     <header className="site-header">
@@ -55,10 +54,10 @@ export function Header({header, isLoggedIn, cart}: HeaderProps) {
         <HeaderMenuMobileToggle />
         <Link prefetch="intent" to="/" className="logo" aria-label="Startseite">
           <img
-            {...siteImg('/images/logo-smit.webp', '160px')}
-            alt={shop.name}
-            width={160}
-            height={51}
+            src="/images/logo-terra-computershop.webp"
+            alt="terra-computershop.de – powered by SMIT Digital Services"
+            width={264}
+            height={52}
             className="logo-img"
           />
         </Link>

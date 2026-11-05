@@ -354,7 +354,7 @@ select {
 .header-search {
   display: none;
   flex: 1;
-  max-width: 640px;
+  max-width: 460px;
   position: relative;
 }
 
@@ -2762,8 +2762,8 @@ aside .cart-details > div:first-of-type {
 }
 
 /* ---------- Logo & Systemhaus ---------- */
-.logo-img { display: block; height: 44px; width: auto; }
-@media (max-width: 30em) { .logo-img { height: 34px; } }
+.logo-img { display: block; height: 52px; width: auto; }
+@media (max-width: 30em) { .logo-img { height: 32px; } }
 .topbar a { color: #fff; text-decoration: underline; text-underline-offset: 2px; }
 .footer-logo-img { display: block; height: 52px; margin-bottom: 0.9rem; width: auto; }
 .footer-contact { color: inherit; font-size: 0.85rem; font-style: normal; line-height: 1.6; margin: 0.75rem 0; opacity: 0.85; }
