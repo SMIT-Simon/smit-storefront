@@ -386,7 +386,7 @@ export default function Product() {
                 serviceTexts={serviceTextsFor(productType)}
               />
               {productType === 'Desktop-PC' ? (
-                <CustomConfigCard title={title} sku={selectedVariant?.sku} />
+                <CustomConfigCard title={title} sku={selectedVariant?.sku} configSlug={configModel?.slug} />
               ) : null}
               <ul className="buy-usps">
                 <li>
