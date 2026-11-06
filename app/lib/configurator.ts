@@ -261,7 +261,7 @@ export const CONFIG_MODELS: ConfigModel[] = [
     ean: '4039407087648',
     baseEk: 2201.57,
     markup: 1.15,
-    serviceMarkup: 1.18,
+    serviceMarkup: 1.25,
     serviceEk: {
       'vo-24': {pct: 0.02, min: 10},
       'vo-36': {pct: 0.04, min: 15},
