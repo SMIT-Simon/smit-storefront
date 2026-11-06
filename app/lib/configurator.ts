@@ -30,6 +30,12 @@ export type ConfigModel = {
   productHandle?: string;
   /** Aufschlag auf den EK (Standard: MARKUP) */
   markup?: number;
+  /**
+   * Vor-Ort-Service nach WORTMANN-Preisliste: EK = Anteil am System-EK (min. Betrag),
+   * Verkauf = EK × serviceMarkup. Ohne Angabe gelten die pauschalen SERVICE_TIERS.
+   */
+  serviceEk?: Record<string, {pct: number; min: number}>;
+  serviceMarkup?: number;
   /** Lieferzeit-Hinweis, z. B. „2–3 Wochen“ */
   leadTime?: string;
   /** Darstellung (Gaming = dunkles Design, eigene Brotkrümel) */
@@ -236,6 +242,122 @@ export const CONFIG_MODELS: ConfigModel[] = [
           {id: '100', label: 'Eine Partition (100 %)', ek: 0},
           {id: '50', label: 'Zwei Partitionen 50/50 %', ek: 0},
           {id: '40', label: 'Zwei Partitionen 40/60 %', ek: 0},
+          {id: '30', label: 'Zwei Partitionen 30/70 %', ek: 0},
+          {id: '20', label: 'Zwei Partitionen 20/80 %', ek: 0},
+        ],
+      },
+      {
+        id: 'setup', title: 'Einrichtung', type: 'multi',
+        options: [
+          {id: 'einrichtung', label: 'Einrichtungsservice SMIT', detail: 'Updates, Treiber, Benutzer und Grundsoftware – startklar geliefert', fixedNet: 67.14},
+        ],
+      },
+    ],
+  },
+  {
+    slug: 'terra-pc-business-7690',
+    name: 'TERRA PC-BUSINESS 7690',
+    baseArt: '1000123',
+    ean: '4039407087648',
+    baseEk: 2201.57,
+    markup: 1.15,
+    serviceMarkup: 1.18,
+    serviceEk: {
+      'vo-24': {pct: 0.02, min: 10},
+      'vo-36': {pct: 0.04, min: 15},
+      'vo-48': {pct: 0.08, min: 20},
+      'vo-60': {pct: 0.12, min: 25},
+    },
+    image: 'https://cdn.shopify.com/s/files/1/1089/3439/8286/files/item2000016168750.jpg',
+    productHandle: 'terra-pc-business-7690-core-ultra-9-285k-64-gb-1-tb-w11-pro-1000123',
+    intro:
+      'Das Kraftpaket der TERRA Business-Reihe – gebaut nach Ihren Vorgaben in Hüllhorst. Wählen Sie Prozessor, Arbeitsspeicher, SSD, Grafikkarte und Netzteil – wir senden Ihnen innerhalb von einem Werktag ein verbindliches Angebot.',
+    standard: [
+      'Gehäuse be quiet! Pure Base 600 (besonders leise)',
+      'Mainboard ASUS PRIME Z890-P WIFI (LGA1851, DDR5, 4× M.2, Wi-Fi 7, 2,5-GbE-LAN, Thunderbolt 4)',
+      'CPU-Kühler Noctua NH-U9S',
+      'Windows 11 Pro 64 Bit – vorinstalliert',
+    ],
+    groups: [
+      {
+        id: 'cpu', title: 'Prozessor', type: 'single', default: 'u9-285k',
+        options: rel(479, [
+          ['u5-250k', 'Intel Core Ultra 5 250K Plus', 214.3, '2180864', 'bis 5,3 GHz, 13 TOPS NPU'],
+          ['u7-270k', 'Intel Core Ultra 7 270K Plus', 275, '2180866', 'bis 5,5 GHz, 13 TOPS NPU'],
+          ['u9-285k', 'Intel Core Ultra 9 285K', 479, '2180767', '24 Kerne, bis 5,7 GHz, 13 TOPS NPU'],
+        ]),
+      },
+      {
+        id: 'ram', title: 'Arbeitsspeicher (DDR5-5600)', type: 'single', default: '2x32',
+        options: rel(969.8, [
+          ['1x16', '16 GB (1 × 16 GB)', 276.9, '2690115'],
+          ['2x16', '32 GB (2 × 16 GB, Dual-Channel)', 553.8, '2690115'],
+          ['1x32', '32 GB (1 × 32 GB)', 484.9, '2690116'],
+          ['2x32', '64 GB (2 × 32 GB, Dual-Channel)', 969.8, '2690116'],
+        ]),
+      },
+      {
+        id: 'ssd', title: 'SSD (M.2 NVMe)', type: 'single', default: '1tb-pm9e1',
+        options: rel(349, [
+          ['500', '500 GB PCIe 4.0 (SanDisk Optimus 5100)', 92, '2473545', 'bis 6.600 MB/s'],
+          ['1tb', '1 TB PCIe 4.0 (SanDisk Optimus 5100)', 175.5, '2473544', 'bis 7.100 MB/s'],
+          ['1tb-pm9e1', '1 TB PCIe 5.0 (Samsung PM9E1)', 349, '2191205', 'bis 14.000 MB/s'],
+          ['2tb', '2 TB Samsung 990 EVO Plus', 399, '2191044', 'bis 7.250 MB/s'],
+        ]),
+      },
+      {
+        id: 'gpu', title: 'Grafikkarte', type: 'single', default: 'igpu',
+        options: rel(0, [
+          ['igpu', 'Integrierte Intel-Grafik', 0, undefined, 'HDMI 2.1, DisplayPort 1.4, Thunderbolt 4'],
+          ['rtx3050', 'NVIDIA GeForce RTX 3050 6 GB (ASUS Dual OC)', 261.97, '2510475'],
+          ['rtx5060', 'NVIDIA GeForce RTX 5060 8 GB (ASUS Dual OC)', 455.81, '2510542'],
+          ['rtx5060ti8', 'NVIDIA GeForce RTX 5060 Ti 8 GB (MSI Ventus 2X OC)', 464.91, '2500319'],
+          ['rtx5060ti16', 'NVIDIA GeForce RTX 5060 Ti 16 GB (ASUS Dual OC)', 708.27, '2510514'],
+          ['rtx5070', 'NVIDIA GeForce RTX 5070 12 GB (ASUS Dual OC)', 770.47, '2510522'],
+          ['rtx5070ti', 'NVIDIA GeForce RTX 5070 Ti 16 GB (Gigabyte Windforce SFF)', 1268.45, '2130545'],
+          ['rtx5080', 'NVIDIA GeForce RTX 5080 16 GB (Gigabyte Windforce SFF)', 1851.71, '2130589'],
+          ['a400', 'NVIDIA RTX A400 4 GB (4× mDP)', 180, '2590662', 'Profi-Grafik für CAD'],
+          ['a1000', 'NVIDIA RTX A1000 8 GB (4× mDP)', 470, '2590593', 'Profi-Grafik für CAD'],
+          ['rtx2000ada', 'NVIDIA RTX 2000 Ada 16 GB (4× mDP)', 940, '2590586', 'Profi-Grafik für CAD/3D'],
+          ['rtx4000ada-sff', 'NVIDIA RTX 4000 Ada SFF 20 GB (4× mDP)', 1330, '2590554', 'Profi-Grafik, ECC'],
+          ['rtx4000ada', 'NVIDIA RTX 4000 Ada 20 GB (4× DP)', 1380, '2590567', 'Profi-Grafik, ECC, Single-Slot'],
+          ['arcb70', 'Intel Arc Pro B70 32 GB (ASUS)', 1597.9, '2510544', 'Profi-Grafik, KI'],
+          ['rtx5000ada', 'NVIDIA RTX 5000 Ada 32 GB (4× DP)', 3750, '2590569', 'Profi-Grafik für Rendering/KI'],
+        ]),
+      },
+      {
+        id: 'psu', title: 'Netzteil', type: 'single', default: '850',
+        options: rel(60.01, [
+          ['850', '850 W be quiet! System Power 11M, 80 PLUS Gold', 60.01, '2090384', 'geeignet für 24/7-Betrieb'],
+          ['850m', '850 W be quiet! System Power 11M, 80 PLUS Gold, modular', 67.38, '2090382'],
+          ['1000', '1000 W be quiet! Pure Power 13M, 80 PLUS Gold, modular', 104.9, '2090393', 'für leistungsstarke Grafikkarten'],
+          ['1250', '1250 W Cooler Master MWE Gold V2, voll modular, 24/7', 125, '2090374'],
+        ]),
+      },
+      {
+        id: 'mouse', title: 'Maus', type: 'single', default: 'm1500',
+        options: rel(4.65, [
+          ['m1500', 'TERRA Mouse 1500 (kabelgebunden)', 4.65, '2920513'],
+          ['m4000', 'TERRA Mouse 4000 Wireless Silent', 8.03, '2920558'],
+          ['cherry', 'CHERRY GENTIX SILENT', 12.9, '2810070'],
+          ['none', 'Ohne Maus', 0],
+        ]),
+      },
+      {
+        id: 'kb', title: 'Tastatur', type: 'single', default: 'none',
+        options: rel(0, [
+          ['none', 'Ohne Tastatur', 0],
+          ['k1500', 'TERRA Keyboard 1500 [DE] (kabelgebunden, Copilot-Taste)', 7.9, '2810714'],
+          ['k4000', 'TERRA Keyboard 4000 [DE] (kabelgebunden, Copilot-Taste)', 16.74, '2810756'],
+          ['mk270', 'Logitech MK270 Wireless Desktop [DE]', 14.9, '2920400', 'Tastatur + Maus'],
+          ['d4000', 'TERRA Desktop 4000 Wireless AES [DE]', 27.99, '2810757', 'Tastatur + Maus, verschlüsselt'],
+        ]),
+      },
+      {
+        id: 'part', title: 'Partitionierung', type: 'single', default: '100',
+        options: [
+          {id: '100', label: 'Eine Partition (100 %)', ek: 0},
+          {id: '50', label: 'Zwei Partitionen 50/50 %', ek: 0},
           {id: '30', label: 'Zwei Partitionen 30/70 %', ek: 0},
           {id: '20', label: 'Zwei Partitionen 20/80 %', ek: 0},
         ],
@@ -677,8 +799,21 @@ export function priceOf(m: ConfigModel, sel: Selection, serviceId: string) {
   }
   const system = round2(ek * (m.markup ?? MARKUP));
   const tier = SERVICE_TIERS.find((t) => t.id === serviceId) ?? SERVICE_TIERS[0];
-  const service = tier.pct ? round2(Math.max(system * tier.pct, tier.minNet)) : 0;
-  return {system, fixed, service, total: round2(system + fixed + service)};
+  const service = serviceNet(m, ek, system, tier);
+  return {ek: round2(ek), system, fixed, service, total: round2(system + fixed + service)};
+}
+
+/** Netto-Verkaufspreis einer Service-Stufe für ein System (EK und VK des Systems). */
+export function serviceNet(
+  m: ConfigModel,
+  ek: number,
+  system: number,
+  tier: (typeof SERVICE_TIERS)[number],
+) {
+  if (!tier.pct) return 0;
+  const own = m.serviceEk?.[tier.id];
+  if (own) return round2(Math.max(ek * own.pct, own.min) * (m.serviceMarkup ?? 1));
+  return round2(Math.max(system * tier.pct, tier.minNet));
 }
 
 function round2(n: number) {

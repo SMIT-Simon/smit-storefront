@@ -15,6 +15,7 @@ import {
   findModel,
   MARKUP,
   priceOf,
+  serviceNet,
   SERVICE_TIERS,
   type Selection,
 } from '~/lib/configurator';
@@ -252,8 +253,8 @@ export default function Configurator() {
               {SERVICE_TIERS.map((t) => {
                 const net = orderable
                   ? vp(`service:${t.id}`) / vat
-                  : t.pct
-                    ? Math.max(price.system * t.pct, t.minNet)
+                  : 'ek' in price
+                    ? serviceNet(model, price.ek, price.system, t)
                     : 0;
                 return (
                   <label key={t.id} className={service === t.id ? 'cfg-opt checked' : 'cfg-opt'}>
