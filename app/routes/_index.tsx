@@ -22,6 +22,7 @@ import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
 import {SolutionTiles} from '~/components/SolutionTiles';
 import {siteImg} from '~/lib/site-images';
 import {CLOUD_SERVICES} from '~/lib/cloud';
+import {PC_OF_MONTH, promoActive} from '~/lib/promo';
 
 /** Erstes Slider-Bild (LCP) vorladen. */
 export const links: Route.LinksFunction = () => {
@@ -52,6 +53,7 @@ export async function loader(args: Route.LoaderArgs) {
   const deferredData = loadDeferredData(args);
   return {
     ...deferredData,
+    promo: promoActive(),
     isShopLinked: Boolean(args.context.env.PUBLIC_STORE_DOMAIN),
   };
 }
@@ -96,22 +98,17 @@ function loadDeferredData({context}: Route.LoaderArgs) {
  * (Angelehnt an den WORTMANN-Newsletter "LCD des Monats".)
  */
 const MONTH_HIGHLIGHT = {
-  label: 'Oktober',
+  label: 'November',
   pc: {
-    handle: 'terra-pc-business-6000-core-ultra-5-225-16-gb-500-gb-w11-pro-art-nr-1000133-1000133',
+    handle: PC_OF_MONTH.handle,
     eyebrow: 'PC des Monats',
-    title: 'TERRA PC BUSINESS 6000',
-    image: '/images/home/pc-des-monats.png',
-    bullets: [
-      'Intel® Core™ Ultra 5 Prozessor 225 (20 MB Cache, bis zu 4,90 GHz)',
-      'Windows 11 Pro',
-      'Intel® Grafik',
-      '2× DisplayPort, 1× HDMI',
-    ],
+    title: PC_OF_MONTH.name,
+    image: undefined as string | undefined,
+    bullets: PC_OF_MONTH.bullets.slice(0, 4),
   },
   monitor: {
     handle: 'terra-lcd-led-2427w-v3-ips-black-hdmi-dp-usb-c-3030256',
-    eyebrow: 'LCD des Monats',
+    eyebrow: 'Monitor-Tipp',
     title: 'TERRA LCD/LED 2427W',
     bullets: [
       '60,5 cm (23,8") IPS-LED-Technologie',
@@ -183,6 +180,7 @@ export default function Homepage() {
           <MockShopNotice />
         </div>
       )}
+      {data.promo ? <PromoStrip /> : null}
       <HeroSlider slides={SLIDES} />
       <TrustBar />
       <CategoryGrid />
@@ -198,6 +196,23 @@ export default function Homepage() {
       <SystemhausSection />
       <BusinessBanner />
     </div>
+  );
+}
+
+/** Temporärer Aktionsstreifen „PC des Monats“ (blendet sich nach Aktionsende automatisch aus). */
+function PromoStrip() {
+  return (
+    <Link to={PC_OF_MONTH.path} className="promo-strip" prefetch="intent">
+      <span className="container promo-strip-inner">
+        <span className="promo-strip-badge">PC des Monats · {PC_OF_MONTH.month}</span>
+        <span className="promo-strip-text">
+          <strong>{PC_OF_MONTH.name}</strong> mit Windows 11 Pro – nur bis {PC_OF_MONTH.endLabel} zum Aktionspreis
+        </span>
+        <span className="promo-strip-cta">
+          Zum Angebot <Icon name="arrow-right" size={16} />
+        </span>
+      </span>
+    </Link>
   );
 }
 
@@ -399,7 +414,7 @@ function MonthHighlights({data}: {data: Promise<HighlightsQuery | null>}) {
                   image={m.pc.image}
                 />
                 <HighlightCard
-                  eyebrow={`${m.monitor.eyebrow} – ${m.label}`}
+                  eyebrow={m.monitor.eyebrow}
                   title={m.monitor.title}
                   bullets={m.monitor.bullets}
                   product={res?.monitor ?? null}

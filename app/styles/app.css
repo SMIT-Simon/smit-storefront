@@ -3866,3 +3866,52 @@ html:has(.overlay.expanded) .chat-optin {
 body.has-sticky-buy .floating-cart { display: none; }
 @media (max-width: 1100px) and (min-width: 641px) { .sticky-buy { right: 340px; } .sticky-buy-inner img { display: none; } }
 @media print { .sticky-buy { display: none; } }
+
+/* ---------- Aktion „PC des Monats“ ---------- */
+.promo-strip { background: linear-gradient(90deg, #0b4f9c, #1565c0); color: #fff; display: block; text-decoration: none; }
+.promo-strip:hover { background: linear-gradient(90deg, #0a4688, #125bb0); }
+.promo-strip-inner { align-items: center; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; justify-content: center; padding: 0.6rem 1rem; }
+.promo-strip-badge { background: #ffcc00; border-radius: 999px; color: #0b1f3a; font-size: 0.78rem; font-weight: 800; letter-spacing: .02em; padding: 0.2rem 0.65rem; text-transform: uppercase; }
+.promo-strip-text { font-size: 0.95rem; }
+.promo-strip-cta { align-items: center; display: inline-flex; font-weight: 700; gap: 0.3rem; text-decoration: underline; text-underline-offset: 3px; }
+@media (max-width: 640px) { .promo-strip-text { font-size: 0.85rem; text-align: center; } }
+
+.promo-hero { background: linear-gradient(135deg, #eef4fc 0%, #ffffff 60%); border-bottom: 1px solid #dbe6f3; padding: 2.2rem 0 2.6rem; }
+.promo-hero-inner { align-items: center; display: grid; gap: 2.2rem; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); }
+.promo-hero-media { position: relative; }
+.promo-hero-media img { background: #fff; border-radius: 18px; box-shadow: 0 20px 50px rgba(11, 31, 58, 0.12); height: auto; width: 100%; }
+.promo-burst { align-items: center; background: #ffcc00; border-radius: 50%; box-shadow: 0 8px 20px rgba(0,0,0,.15); color: #0b1f3a; display: flex; flex-direction: column; font-size: 1.25rem; font-weight: 800; height: 104px; justify-content: center; position: absolute; right: -10px; top: -14px; transform: rotate(8deg); width: 104px; }
+.promo-burst small { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+.promo-badge { align-items: center; background: #0b4f9c; border-radius: 999px; color: #fff; display: inline-flex; font-size: 0.8rem; font-weight: 700; gap: 0.35rem; letter-spacing: .03em; padding: 0.3rem 0.8rem; text-transform: uppercase; }
+.promo-hero h1 { font-size: clamp(1.8rem, 3.6vw, 2.6rem); line-height: 1.15; margin: 0.7rem 0 0.4rem; }
+.promo-claim { color: var(--ink-soft); font-size: 1.08rem; margin: 0 0 1rem; }
+.promo-bullets { display: grid; gap: 0.45rem; list-style: none; margin: 0 0 1.4rem; padding: 0; }
+.promo-bullets li { align-items: flex-start; display: flex; gap: 0.5rem; }
+.promo-bullets svg { color: #1a7f37; flex-shrink: 0; margin-top: 3px; }
+.promo-buy { background: #fff; border: 1px solid #cfe0f3; border-radius: 14px; box-shadow: 0 8px 24px rgba(11, 79, 156, 0.08); padding: 1.1rem 1.2rem; }
+.promo-price { align-items: baseline; display: flex; flex-wrap: wrap; gap: 0.3rem 0.8rem; }
+.promo-price strong { color: #c62828; font-size: 2.2rem; font-weight: 800; line-height: 1; }
+.promo-was { color: var(--ink-soft); font-size: 1rem; }
+.promo-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 0.9rem 0 0.6rem; }
+.promo-actions > * { flex: 1 1 200px; }
+.promo-actions .btn { margin: 0; }
+.promo-note { color: var(--ink-soft); font-size: 0.8rem; margin: 0; }
+.promo-uses { display: grid; gap: 1rem; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.promo-use { background: #fff; border: 1px solid #dbe6f3; border-radius: 14px; padding: 1.2rem; }
+.promo-use h3 { font-size: 1.05rem; margin: 0.6rem 0 0.3rem; }
+.promo-use p { color: var(--ink-soft); font-size: 0.92rem; margin: 0; }
+.promo-use-icon { align-items: center; background: #e3eefb; border-radius: 10px; color: #0b4f9c; display: inline-flex; height: 42px; justify-content: center; width: 42px; }
+.promo-b2b { align-items: center; display: grid; gap: 1.5rem; grid-template-columns: 1.4fr 1fr; }
+.promo-b2b h2 { margin: 0.3rem 0 0.5rem; }
+.promo-b2b p { color: var(--ink-soft); margin: 0; }
+.promo-b2b-actions { display: grid; gap: 0.6rem; }
+.promo-b2b-actions .btn { align-items: center; display: inline-flex; gap: 0.45rem; justify-content: center; margin: 0; }
+.promo-faq { max-width: 820px; }
+.promo-faq details { border-bottom: 1px solid #dbe6f3; padding: 0.8rem 0; }
+.promo-faq summary { cursor: pointer; font-weight: 600; }
+.promo-faq p { color: var(--ink-soft); margin: 0.5rem 0 0; }
+@media (max-width: 860px) {
+  .promo-hero-inner, .promo-b2b { grid-template-columns: 1fr; }
+  .promo-uses { grid-template-columns: 1fr; }
+  .promo-burst { height: 84px; right: 4px; top: -8px; width: 84px; font-size: 1.05rem; }
+}
