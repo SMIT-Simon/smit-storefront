@@ -2,8 +2,9 @@ import {isListable} from '~/lib/addons';
 import {useLoaderData} from 'react-router';
 import type {Route} from './+types/search';
 import {getPaginationVariables, Analytics} from '@shopify/hydrogen';
-import {SearchForm} from '~/components/SearchForm';
-import {SearchResults} from '~/components/SearchResults';
+import {SmitSuche} from '~/components/SmitSuche';
+import {runSmitSuche, smitSucheParamsFromUrl} from '~/lib/smit-suche.server';
+import {emptySmitSucheResult, type SmitSucheResult, type SmitSucheSort} from '~/lib/smit-suche';
 import {
   type RegularSearchReturn,
   type PredictiveSearchReturn,
@@ -14,68 +15,85 @@ import type {
   PredictiveSearchQuery,
 } from 'storefrontapi.generated';
 
-export const meta: Route.MetaFunction = () => {
-  return [{title: `Suche`}];
+export const meta: Route.MetaFunction = ({data}) => {
+  const term = data && 'term' in data ? String(data.term || '') : '';
+  return [
+    {title: term ? `Suche: ${term} | terra-computershop.de` : 'Produktsuche | terra-computershop.de'},
+    // Suchergebnisseiten nicht in den Google-Index, Links darauf aber verfolgen
+    {name: 'robots', content: 'noindex, follow'},
+  ];
 };
 
-export async function loader({request, context}: Route.LoaderArgs) {
+type SmitSuchePage = {type: 'smit'; term: string; sort: SmitSucheSort; result: SmitSucheResult};
+
+export async function loader({request, context}: Route.LoaderArgs): Promise<PredictiveSearchReturn | SmitSuchePage> {
   const url = new URL(request.url);
-  const isPredictive = url.searchParams.has('predictive');
-  const searchPromise: Promise<PredictiveSearchReturn | RegularSearchReturn> =
-    isPredictive
-      ? predictiveSearch({request, context})
-      : regularSearch({request, context});
+  // Vorschau-Suche (Hydrogen-Standard, ?predictive) bleibt unverändert
+  if (url.searchParams.has('predictive')) return predictiveSearch({request, context});
 
-  searchPromise.catch((error: Error) => {
+  const params = smitSucheParamsFromUrl(url);
+  const sortParam = url.searchParams.get('sort');
+  const sort: SmitSucheSort = sortParam === 'price-asc' || sortParam === 'price-desc' ? sortParam : 'relevance';
+  try {
+    const result = await runSmitSuche(context.storefront, {...params, sort});
+    return {type: 'smit', term: params.term, sort, result};
+  } catch (error) {
+    // Rückfall: Standard-Suche von Hydrogen, damit die Seite immer Treffer zeigt
     console.error(error);
-    return {term: '', result: null, error: error.message};
-  });
-
-  return await searchPromise;
+    const regular = await regularSearch({request, context}).catch(() => null);
+    return {type: 'smit', term: params.term, sort, result: regularToSmit(params.term, regular)};
+  }
 }
 
 /**
- * Renders the /search route
+ * Ergebnisseite /search – gleiche Oberfläche wie das SMIT-Such-Fenster:
+ * Filter, Sortierung, Kategorie-Chips, Karten mit Preis (brutto/netto) und Warenkorb, „Weitere laden“.
+ * Treffer kommen vom Server mit (sofort sichtbar, ohne JavaScript nutzbar).
  */
 export default function SearchPage() {
-  const {type, term, result, error} = useLoaderData<typeof loader>();
-  if (type === 'predictive') return null;
+  const data = useLoaderData<typeof loader>();
+  if (data.type === 'predictive') return null;
+  const {term, sort, result} = data;
 
   return (
-    <div className="search">
-      <h1 className="page-title">Suche</h1>
-      <SearchForm>
-        {({inputRef}) => (
-          <>
-            <input
-              defaultValue={term}
-              name="q"
-              placeholder="Search…"
-              ref={inputRef}
-              type="search"
-            />
-            &nbsp;
-            <button type="submit" className="btn btn-primary">Suchen</button>
-          </>
-        )}
-      </SearchForm>
-      {error && <p style={{color: 'red'}}>{error}</p>}
-      {!term || !result?.total ? (
-        <SearchResults.Empty />
-      ) : (
-        <SearchResults result={result} term={term}>
-          {({articles, pages, products, term}) => (
-            <div>
-              <SearchResults.Products products={products} term={term} />
-              <SearchResults.Pages pages={pages} term={term} />
-              <SearchResults.Articles articles={articles} term={term} />
-            </div>
-          )}
-        </SearchResults>
-      )}
-      <Analytics.SearchView data={{searchTerm: term, searchResults: result}} />
+    <div className="container smit-su-pagewrap">
+      <SmitSuche
+        variant="page"
+        open
+        initialTerm={term}
+        initialData={result}
+        initialSort={sort}
+        onClose={noop}
+      />
+      <Analytics.SearchView data={{searchTerm: term}} />
     </div>
   );
+}
+
+function noop() {}
+
+/** Ergebnis der Hydrogen-Standardsuche in das SMIT-Format übertragen (nur für den Rückfall). */
+function regularToSmit(term: string, regular: RegularSearchReturn | null): SmitSucheResult {
+  const res = emptySmitSucheResult(term);
+  const nodes = regular?.result?.items?.products?.nodes ?? [];
+  res.products = nodes.map((p) => {
+    const v = p.selectedOrFirstAvailableVariant;
+    const price = v?.price ?? {amount: '0', currencyCode: 'EUR'};
+    return {
+      handle: p.handle,
+      title: p.title,
+      vendor: p.vendor,
+      image: v?.image?.url ?? null,
+      price: {amount: String(price.amount), currencyCode: String(price.currencyCode)},
+      priceVaries: false,
+      compareAt: v?.compareAtPrice ? {amount: String(v.compareAtPrice.amount), currencyCode: String(v.compareAtPrice.currencyCode)} : null,
+      available: true,
+      variantId: null,
+      sku: '',
+    };
+  });
+  res.count = res.products.length;
+  return res;
 }
 
 /**

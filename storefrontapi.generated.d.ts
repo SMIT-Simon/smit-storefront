@@ -395,146 +395,6 @@ export type ProductItemFragment = Pick<
   };
 };
 
-export type HighlightProductFragment = Pick<
-  StorefrontAPI.Product,
-  'tags' | 'id' | 'handle' | 'title'
-> & {
-  featuredImage?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
-  >;
-  priceRange: {
-    minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-  };
-  selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.ProductVariant, 'sku'>
-  >;
-};
-
-export type HighlightsQueryVariables = StorefrontAPI.Exact<{
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-  pc: StorefrontAPI.Scalars['String']['input'];
-  monitor: StorefrontAPI.Scalars['String']['input'];
-  notebook: StorefrontAPI.Scalars['String']['input'];
-}>;
-
-export type HighlightsQuery = {
-  pc?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
-      featuredImage?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
-      >;
-      priceRange: {
-        minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-      };
-      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.ProductVariant, 'sku'>
-      >;
-    }
-  >;
-  monitor?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
-      featuredImage?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
-      >;
-      priceRange: {
-        minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-      };
-      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.ProductVariant, 'sku'>
-      >;
-    }
-  >;
-  notebook?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
-      featuredImage?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
-      >;
-      priceRange: {
-        minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-      };
-      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.ProductVariant, 'sku'>
-      >;
-    }
-  >;
-};
-
-export type RecommendedProductFragment = Pick<
-  StorefrontAPI.Product,
-  'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
-> & {
-  priceRange: {
-    minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-  };
-  featuredImage?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
-  >;
-};
-
-export type RecommendedProductsQueryVariables = StorefrontAPI.Exact<{
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-}>;
-
-export type RecommendedProductsQuery = {
-  products: {
-    nodes: Array<
-      Pick<
-        StorefrontAPI.Product,
-        'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
-      > & {
-        priceRange: {
-          minVariantPrice: Pick<
-            StorefrontAPI.MoneyV2,
-            'amount' | 'currencyCode'
-          >;
-        };
-        featuredImage?: StorefrontAPI.Maybe<
-          Pick<
-            StorefrontAPI.Image,
-            'id' | 'url' | 'altText' | 'width' | 'height'
-          >
-        >;
-      }
-    >;
-  };
-};
-
-export type PromoProductQueryVariables = StorefrontAPI.Exact<{
-  handle: StorefrontAPI.Scalars['String']['input'];
-  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
-  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
-}>;
-
-export type PromoProductQuery = {
-  product?: StorefrontAPI.Maybe<
-    Pick<StorefrontAPI.Product, 'id' | 'handle' | 'title'> & {
-      featuredImage?: StorefrontAPI.Maybe<
-        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
-      >;
-      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
-        Pick<
-          StorefrontAPI.ProductVariant,
-          'id' | 'sku' | 'availableForSale' | 'title'
-        > & {
-          price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-          compareAtPrice?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
-          >;
-          image?: StorefrontAPI.Maybe<
-            Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
-          >;
-          product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
-          selectedOptions: Array<
-            Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
-          >;
-        }
-      >;
-    }
-  >;
-};
-
 export type SmitSucheProductFragment = {__typename: 'Product'} & Pick<
   StorefrontAPI.Product,
   | 'id'
@@ -681,6 +541,146 @@ export type SmitSucheFallbackQuery = {
         }
     >;
   }>;
+};
+
+export type HighlightProductFragment = Pick<
+  StorefrontAPI.Product,
+  'tags' | 'id' | 'handle' | 'title'
+> & {
+  featuredImage?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+  >;
+  priceRange: {
+    minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+  };
+  selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.ProductVariant, 'sku'>
+  >;
+};
+
+export type HighlightsQueryVariables = StorefrontAPI.Exact<{
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+  pc: StorefrontAPI.Scalars['String']['input'];
+  monitor: StorefrontAPI.Scalars['String']['input'];
+  notebook: StorefrontAPI.Scalars['String']['input'];
+}>;
+
+export type HighlightsQuery = {
+  pc?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
+      featuredImage?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+      >;
+      priceRange: {
+        minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      };
+      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.ProductVariant, 'sku'>
+      >;
+    }
+  >;
+  monitor?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
+      featuredImage?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+      >;
+      priceRange: {
+        minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      };
+      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.ProductVariant, 'sku'>
+      >;
+    }
+  >;
+  notebook?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
+      featuredImage?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+      >;
+      priceRange: {
+        minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      };
+      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.ProductVariant, 'sku'>
+      >;
+    }
+  >;
+};
+
+export type RecommendedProductFragment = Pick<
+  StorefrontAPI.Product,
+  'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
+> & {
+  priceRange: {
+    minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+  };
+  featuredImage?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
+  >;
+};
+
+export type RecommendedProductsQueryVariables = StorefrontAPI.Exact<{
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type RecommendedProductsQuery = {
+  products: {
+    nodes: Array<
+      Pick<
+        StorefrontAPI.Product,
+        'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
+      > & {
+        priceRange: {
+          minVariantPrice: Pick<
+            StorefrontAPI.MoneyV2,
+            'amount' | 'currencyCode'
+          >;
+        };
+        featuredImage?: StorefrontAPI.Maybe<
+          Pick<
+            StorefrontAPI.Image,
+            'id' | 'url' | 'altText' | 'width' | 'height'
+          >
+        >;
+      }
+    >;
+  };
+};
+
+export type PromoProductQueryVariables = StorefrontAPI.Exact<{
+  handle: StorefrontAPI.Scalars['String']['input'];
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type PromoProductQuery = {
+  product?: StorefrontAPI.Maybe<
+    Pick<StorefrontAPI.Product, 'id' | 'handle' | 'title'> & {
+      featuredImage?: StorefrontAPI.Maybe<
+        Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+      >;
+      selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
+        Pick<
+          StorefrontAPI.ProductVariant,
+          'id' | 'sku' | 'availableForSale' | 'title'
+        > & {
+          price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+          compareAtPrice?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>
+          >;
+          image?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
+          >;
+          product: Pick<StorefrontAPI.Product, 'title' | 'handle'>;
+          selectedOptions: Array<
+            Pick<StorefrontAPI.SelectedOption, 'name' | 'value'>
+          >;
+        }
+      >;
+    }
+  >;
 };
 
 export type ArticleQueryVariables = StorefrontAPI.Exact<{
@@ -2021,6 +2021,14 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
+  '#graphql\n  query SmitSuche(\n    $term: String!\n    $first: Int!\n    $after: String\n    $sortKey: SearchSortKeys\n    $reverse: Boolean\n    $filters: [ProductFilter!]\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    search(\n      query: $term\n      first: $first\n      after: $after\n      sortKey: $sortKey\n      reverse: $reverse\n      types: [PRODUCT]\n      productFilters: $filters\n      prefix: LAST\n      unavailableProducts: LAST\n    ) {\n      totalCount\n      pageInfo { hasNextPage endCursor }\n      productFilters { id label type values { id label count input } }\n      nodes { ... on Product { ...SmitSucheProduct } }\n    }\n    predictiveSearch(query: $term, limit: 6, limitScope: EACH, types: [COLLECTION, QUERY]) {\n      collections { title handle }\n      queries { text }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
+    return: SmitSucheQuery;
+    variables: SmitSucheQueryVariables;
+  };
+  '#graphql\n  query SmitSucheFallback($term: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    predictiveSearch(query: $term, limit: 10, limitScope: EACH, types: [PRODUCT]) {\n      products { ...SmitSucheProduct }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
+    return: SmitSucheFallbackQuery;
+    variables: SmitSucheFallbackQueryVariables;
+  };
   '#graphql\n  fragment HighlightProduct on Product {\n    tags\n    id\n    handle\n    title\n    featuredImage { url altText width height }\n    priceRange { minVariantPrice { amount currencyCode } }\n    selectedOrFirstAvailableVariant { sku }\n  }\n  query Highlights($country: CountryCode, $language: LanguageCode, $pc: String!, $monitor: String!, $notebook: String!)\n  @inContext(country: $country, language: $language) {\n    pc: product(handle: $pc) { ...HighlightProduct }\n    monitor: product(handle: $monitor) { ...HighlightProduct }\n    notebook: product(handle: $notebook) { ...HighlightProduct }\n  }\n': {
     return: HighlightsQuery;
     variables: HighlightsQueryVariables;
@@ -2032,14 +2040,6 @@ interface GeneratedQueryTypes {
   '#graphql\n  query PromoProduct($handle: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      id\n      handle\n      title\n      featuredImage { url altText width height }\n      selectedOrFirstAvailableVariant {\n        id\n        sku\n        availableForSale\n        title\n        price { amount currencyCode }\n        compareAtPrice { amount currencyCode }\n        image { url altText width height }\n        product { title handle }\n        selectedOptions { name value }\n      }\n    }\n  }\n': {
     return: PromoProductQuery;
     variables: PromoProductQueryVariables;
-  };
-  '#graphql\n  query SmitSuche(\n    $term: String!\n    $first: Int!\n    $after: String\n    $sortKey: SearchSortKeys\n    $reverse: Boolean\n    $filters: [ProductFilter!]\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    search(\n      query: $term\n      first: $first\n      after: $after\n      sortKey: $sortKey\n      reverse: $reverse\n      types: [PRODUCT]\n      productFilters: $filters\n      prefix: LAST\n      unavailableProducts: LAST\n    ) {\n      totalCount\n      pageInfo { hasNextPage endCursor }\n      productFilters { id label type values { id label count input } }\n      nodes { ... on Product { ...SmitSucheProduct } }\n    }\n    predictiveSearch(query: $term, limit: 6, limitScope: EACH, types: [COLLECTION, QUERY]) {\n      collections { title handle }\n      queries { text }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
-    return: SmitSucheQuery;
-    variables: SmitSucheQueryVariables;
-  };
-  '#graphql\n  query SmitSucheFallback($term: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    predictiveSearch(query: $term, limit: 10, limitScope: EACH, types: [PRODUCT]) {\n      products { ...SmitSucheProduct }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
-    return: SmitSucheFallbackQuery;
-    variables: SmitSucheFallbackQueryVariables;
   };
   '#graphql\n  query Article(\n    $articleHandle: String!\n    $blogHandle: String!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    blog(handle: $blogHandle) {\n      handle\n      articleByHandle(handle: $articleHandle) {\n        handle\n        title\n        contentHtml\n        publishedAt\n        author: authorV2 {\n          name\n        }\n        image {\n          id\n          altText\n          url\n          width\n          height\n        }\n        seo {\n          description\n          title\n        }\n      }\n    }\n  }\n': {
     return: ArticleQuery;

@@ -4574,3 +4574,77 @@ html.smit-su-open {
   padding: 0 10px;
   width: 100%;
 }
+
+/* SMIT Suche – Ergebnisseite /search (gleiche Bausteine, ohne Overlay) */
+.smit-su-pagewrap {
+  padding-bottom: 48px;
+  padding-top: 20px;
+}
+.smit-su.smit-su--page {
+  inset: auto;
+  position: static;
+  z-index: auto;
+}
+.smit-su--page .smit-su-panel {
+  animation: none;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 0;
+  max-height: none;
+  overflow: visible;
+  width: 100%;
+}
+.smit-su-pagetitle {
+  font-size: clamp(1.4rem, 2.6vw, 2rem);
+  line-height: 1.2;
+  margin: 0 0 14px;
+  text-wrap: balance;
+}
+.smit-su--page .smit-su-head {
+  border-bottom: 0;
+  padding: 0 0 18px;
+}
+.smit-su--page .smit-su-body {
+  align-items: flex-start;
+  border-top: 1px solid var(--line);
+  gap: 28px;
+  padding-top: 20px;
+}
+.smit-su--page .smit-su-filters {
+  border-right: 0;
+  flex-basis: 250px;
+  overflow: visible;
+  padding: 0;
+  position: sticky;
+  top: calc(var(--header-height, 64px) + 16px);
+}
+.smit-su--page .smit-su-main {
+  overflow: visible;
+  padding: 0;
+}
+.smit-su--page .smit-su-grid {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+@media (max-width: 56em) {
+  .smit-su--page .smit-su-panel {
+    height: auto;
+  }
+  .smit-su--page .smit-su-head {
+    padding: 0 0 14px;
+  }
+  .smit-su--page .smit-su-body {
+    padding-top: 14px;
+  }
+  .smit-su--page .smit-su-filters {
+    bottom: 0;
+    left: 0;
+    overflow: auto;
+    padding: 16px 18px 24px;
+    position: fixed;
+    top: 0;
+    z-index: 1001;
+  }
+  .smit-su--page .smit-su-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

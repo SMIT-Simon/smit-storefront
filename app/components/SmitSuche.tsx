@@ -7,7 +7,7 @@ import {ModePrice} from '~/components/PriceMode';
 import {Price} from '~/components/Price';
 import {useAside} from '~/components/Aside';
 import {CATEGORIES} from '~/lib/categories';
-import type {SmitSucheProduct, SmitSucheResult} from '~/routes/api.smit-suche';
+import {emptySmitSucheResult, type SmitSucheProduct, type SmitSucheResult} from '~/lib/smit-suche';
 
 /**
  * SMIT Suche – Such-Fenster für den Terrashop (Vorbild: SMIT Suche der JTL-Shops).
@@ -42,19 +42,29 @@ export function SmitSuche({
   open,
   initialTerm,
   onClose,
+  variant = 'overlay',
+  initialData = null,
+  initialSort = 'relevance',
 }: {
   open: boolean;
   initialTerm: string;
   onClose: () => void;
+  /** overlay = Such-Fenster über der Seite, page = Ergebnisseite /search */
+  variant?: 'overlay' | 'page';
+  /** Ergebnisseite: auf dem Server geladene Treffer (sofort sichtbar, ohne JavaScript nutzbar) */
+  initialData?: SmitSucheResult | null;
+  initialSort?: Sort;
 }) {
+  const isPage = variant === 'page';
   const [mounted, setMounted] = useState(false);
   const [term, setTerm] = useState(initialTerm);
-  const [sort, setSort] = useState<Sort>('relevance');
+  const [sort, setSort] = useState<Sort>(initialSort);
   const [filters, setFilters] = useState<string[]>([]); // ProductFilter-JSON-Strings (value.input)
   const [price, setPrice] = useState<{min: string; max: string}>({min: '', max: ''});
-  const [data, setData] = useState<SmitSucheResult | null>(null);
+  const [data, setData] = useState<SmitSucheResult | null>(initialData);
   const [extra, setExtra] = useState<SmitSucheProduct[]>([]);
-  const [cursor, setCursor] = useState<string | null>(null);
+  const [cursor, setCursor] = useState<string | null>(initialData?.hasNextPage ? initialData.endCursor : null);
+  const skipFirstLoad = useRef(Boolean(initialData));
   const [loading, setLoading] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [listening, setListening] = useState(false);
@@ -64,9 +74,19 @@ export function SmitSuche({
 
   useEffect(() => setMounted(true), []);
 
+  // Ergebnisseite: neuer Suchbegriff aus der Adresse (z. B. Zurück-Taste) übernehmen
+  useEffect(() => {
+    if (!isPage) return;
+    setTerm(initialTerm);
+    setData(initialData);
+    setExtra([]);
+    setCursor(initialData?.hasNextPage ? initialData.endCursor : null);
+    skipFirstLoad.current = Boolean(initialData);
+  }, [isPage, initialTerm, initialData]);
+
   // Beim Öffnen: Begriff übernehmen, Fokus setzen, Seite nicht scrollen
   useEffect(() => {
-    if (!open) return;
+    if (!open || isPage) return;
     setTerm(initialTerm);
     document.documentElement.classList.add('smit-su-open');
     const t = window.setTimeout(() => inputRef.current?.focus(), 30);
@@ -79,7 +99,7 @@ export function SmitSuche({
       window.removeEventListener('keydown', onKey);
       document.documentElement.classList.remove('smit-su-open');
     };
-  }, [open, initialTerm, onClose]);
+  }, [open, isPage, initialTerm, onClose]);
 
   const load = useCallback(
     async (opts: {append?: boolean; after?: string | null} = {}) => {
@@ -110,20 +130,30 @@ export function SmitSuche({
         } else {
           setData(json);
           setExtra([]);
+          // Ergebnisseite: Adresse mitführen, damit Neuladen/Teilen dieselbe Suche zeigt
+          if (isPage) {
+            const u = new URLSearchParams({q});
+            if (sort !== 'relevance') u.set('sort', sort);
+            window.history.replaceState(window.history.state, '', `/search?${u.toString()}`);
+          }
         }
         setCursor(json.hasNextPage ? json.endCursor : null);
       } catch (err) {
-        if ((err as Error).name !== 'AbortError') setData(emptyResult(q));
+        if ((err as Error).name !== 'AbortError') setData(emptySmitSucheResult(q));
       } finally {
         if (abortRef.current === ctl) setLoading(false);
       }
     },
-    [term, sort, filters, price],
+    [term, sort, filters, price, isPage],
   );
 
   // Suchen mit kurzer Verzögerung beim Tippen
   useEffect(() => {
     if (!open) return;
+    if (skipFirstLoad.current) {
+      skipFirstLoad.current = false;
+      return;
+    }
     const t = window.setTimeout(() => void load(), 220);
     return () => window.clearTimeout(t);
   }, [open, load]);
@@ -163,12 +193,13 @@ export function SmitSuche({
   const showFilterPanel = filterGroups.length > 0 || hasPrice;
   const categoryChips = useMemo(() => matchCategories(q), [q]);
 
-  if (!mounted || !open) return null;
+  if (!isPage && (!mounted || !open)) return null;
 
-  return createPortal(
-    <div className={`smit-su${loading ? ' is-loading' : ''}${showFilters ? ' show-filters' : ''}`}>
-      <button type="button" className="smit-su-backdrop" aria-label="Suche schließen" onClick={onClose} />
-      <div className="smit-su-panel" role="dialog" aria-modal="true" aria-label="Produktsuche">
+  const ui = (
+    <div className={`smit-su${isPage ? ' smit-su--page' : ''}${loading ? ' is-loading' : ''}${showFilters ? ' show-filters' : ''}`}>
+      {!isPage && <button type="button" className="smit-su-backdrop" aria-label="Suche schließen" onClick={onClose} />}
+      <div className="smit-su-panel" {...(isPage ? {} : {role: 'dialog', 'aria-modal': true})} aria-label="Produktsuche">
+        {isPage && <h1 className="smit-su-pagetitle">{q ? <>Suchergebnisse für „{q}“</> : 'Produktsuche'}</h1>}
         <div className="smit-su-head">
           <form
             className="smit-su-form"
@@ -176,6 +207,11 @@ export function SmitSuche({
             onSubmit={(e) => {
               e.preventDefault();
               if (!q) return;
+              if (isPage) {
+                inputRef.current?.blur();
+                void load();
+                return;
+              }
               onClose();
               void navigate(`/search?q=${encodeURIComponent(q)}`);
             }}
@@ -212,9 +248,11 @@ export function SmitSuche({
               </button>
             )}
           </form>
-          <button type="button" className="smit-su-icon smit-su-close" aria-label="Suche schließen" onClick={onClose}>
-            <XIcon />
-          </button>
+          {!isPage && (
+            <button type="button" className="smit-su-icon smit-su-close" aria-label="Suche schließen" onClick={onClose}>
+              <XIcon />
+            </button>
+          )}
         </div>
 
         <div className="smit-su-body">
@@ -324,9 +362,11 @@ export function SmitSuche({
                             ))}
                           </select>
                         </label>
-                        <Link className="smit-su-all" to={`/search?q=${encodeURIComponent(q)}`} onClick={onClose}>
-                          Ergebnisseite
-                        </Link>
+                        {!isPage && (
+                          <Link className="smit-su-all" to={`/search?q=${encodeURIComponent(q)}`} onClick={onClose}>
+                            Ergebnisseite
+                          </Link>
+                        )}
                       </div>
                     )}
                   </div>
@@ -357,9 +397,10 @@ export function SmitSuche({
           </div>
         </div>
       </div>
-    </div>,
-    document.body,
+    </div>
   );
+
+  return isPage ? ui : createPortal(ui, document.body);
 }
 
 function ProductCard({p, term, onNavigate}: {p: SmitSucheProduct; term: string; onNavigate: () => void}) {
@@ -497,10 +538,6 @@ function Mark({text, term}: {text: string; term: string}) {
       {parts.map((part, i) => (i % 2 === 1 ? <mark key={i}>{part}</mark> : <span key={i}>{part}</span>))}
     </>
   );
-}
-
-function emptyResult(term: string): SmitSucheResult {
-  return {term, count: 0, products: [], filters: [], hasNextPage: false, endCursor: null, collections: [], queries: [], fallback: false};
 }
 
 function XIcon() {
