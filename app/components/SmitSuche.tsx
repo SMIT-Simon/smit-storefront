@@ -219,7 +219,7 @@ export function SmitSuche({
 
         <div className="smit-su-body">
           {q && showFilterPanel && (
-            <aside className="smit-su-filters" aria-label="Filter">
+            <div className="smit-su-filters" role="region" aria-label="Filter">
               <div className="smit-su-fhead">
                 <strong>Filter</strong>
                 {(filters.length > 0 || priceActive) && (
@@ -262,7 +262,7 @@ export function SmitSuche({
                   })}
                 </fieldset>
               ))}
-            </aside>
+            </div>
           )}
 
           <div className="smit-su-main">
