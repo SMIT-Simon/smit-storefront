@@ -3915,3 +3915,638 @@ body.has-sticky-buy .floating-cart { display: none; }
   .promo-uses { grid-template-columns: 1fr; }
   .promo-burst { height: 84px; right: 4px; top: -8px; width: 84px; font-size: 1.05rem; }
 }
+
+/* =========================================================
+   SMIT Suche – Such-Fenster (components/SmitSuche.tsx)
+   ========================================================= */
+.header-search-mobile {
+  align-items: center;
+  background: var(--bg-muted);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  margin-left: auto;
+  width: 40px;
+}
+@media (min-width: 48em) {
+  .header-search-mobile {
+    display: none;
+  }
+}
+html.smit-su-open {
+  overflow: hidden;
+}
+.smit-su {
+  inset: 0;
+  position: fixed;
+  z-index: 1000;
+}
+.smit-su-backdrop {
+  backdrop-filter: blur(3px);
+  background: rgba(11, 31, 58, 0.45);
+  border: 0;
+  cursor: default;
+  inset: 0;
+  padding: 0;
+  position: absolute;
+}
+.smit-su-panel {
+  animation: smit-su-in 0.18s ease-out;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 30px 80px -20px rgba(11, 31, 58, 0.45);
+  display: flex;
+  flex-direction: column;
+  margin: 24px auto;
+  max-height: calc(100dvh - 48px);
+  overflow: hidden;
+  position: relative;
+  width: min(1240px, calc(100vw - 32px));
+}
+@keyframes smit-su-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+.smit-su-head {
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  gap: 12px;
+  padding: 16px 20px;
+}
+.smit-su-form {
+  align-items: center;
+  border: 2px solid var(--brand);
+  border-radius: 999px;
+  color: var(--ink-mute);
+  display: flex;
+  flex: 1;
+  gap: 10px;
+  height: 52px;
+  margin: 0;
+  max-width: none;
+  padding: 0 8px 0 18px;
+}
+.smit-su-form input {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  color: var(--ink);
+  flex: 1;
+  font: inherit;
+  font-size: 17px;
+  height: 100%;
+  margin: 0;
+  min-width: 0;
+  outline: none;
+  padding: 0;
+}
+.smit-su-form input::-webkit-search-cancel-button {
+  display: none;
+}
+.smit-su-icon {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: 50%;
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  flex: none;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+.smit-su-icon:hover {
+  background: var(--bg-muted);
+}
+.smit-su-icon.is-on {
+  background: #fde8e8;
+  color: var(--danger);
+}
+.smit-su-close {
+  border: 1px solid var(--line);
+  height: 46px;
+  width: 46px;
+}
+.smit-su-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+.smit-su-filters {
+  border-right: 1px solid var(--line);
+  flex: 0 0 260px;
+  overflow: auto;
+  padding: 16px 18px 24px 20px;
+}
+.smit-su-main {
+  flex: 1;
+  min-width: 0;
+  overflow: auto;
+  padding: 16px 20px 26px;
+}
+.smit-su.is-loading .smit-su-grid {
+  opacity: 0.45;
+  transition: opacity 0.15s;
+}
+.smit-su mark {
+  background: #ffe9a8;
+  border-radius: 2px;
+  color: inherit;
+  padding: 0 1px;
+}
+
+/* Chips */
+.smit-su-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.smit-su-chip {
+  align-items: center;
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-size: 14px;
+  gap: 8px;
+  height: 36px;
+  padding: 0 14px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.smit-su-chip:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+.smit-su-chip.is-cat {
+  background: var(--brand-tint);
+  border-color: transparent;
+}
+.smit-su-chip small {
+  color: var(--ink-mute);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Leiste */
+.smit-su-bar {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  margin-bottom: 16px;
+}
+.smit-su-count {
+  color: var(--ink-mute);
+  flex: 1;
+  font-size: 15px;
+  margin: 0;
+}
+.smit-su-count strong {
+  color: var(--ink);
+  font-size: 18px;
+}
+.smit-su-bar-right {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+.smit-su-sort {
+  align-items: center;
+  color: var(--ink-mute);
+  display: flex;
+  font-size: 13px;
+  gap: 8px;
+}
+.smit-su-sort select {
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 14px;
+  height: 40px;
+  margin: 0;
+  padding: 0 28px 0 10px;
+}
+.smit-su-all {
+  align-items: center;
+  border: 1px solid var(--brand);
+  border-radius: 999px;
+  color: var(--brand);
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 600;
+  height: 40px;
+  padding: 0 16px;
+  text-decoration: none;
+}
+.smit-su-all:hover {
+  background: var(--brand);
+  color: #fff;
+}
+.smit-su-filterbtn {
+  background: #fff;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: none;
+  font: inherit;
+  font-size: 14px;
+  height: 40px;
+  padding: 0 14px;
+}
+
+/* Raster + Karten */
+.smit-su-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+}
+.smit-su-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.smit-su-card:hover {
+  border-color: var(--brand);
+  box-shadow: var(--shadow);
+}
+.smit-su-img {
+  align-items: center;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+}
+.smit-su-img img {
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+.smit-su-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+.smit-su-sku {
+  color: var(--ink-mute);
+  font-size: 12px;
+}
+.smit-su-title {
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  color: var(--ink);
+  display: -webkit-box;
+  font-size: 14.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  overflow: hidden;
+  text-decoration: none;
+}
+.smit-su-title:hover {
+  color: var(--brand);
+}
+.smit-su-price {
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.smit-su-price s {
+  color: var(--ink-mute);
+  font-size: 13px;
+  font-weight: 400;
+  margin-left: 6px;
+}
+.smit-su-stock {
+  align-items: center;
+  display: flex;
+  font-size: 12.5px;
+  gap: 6px;
+}
+.smit-su-stock::before {
+  background: currentColor;
+  border-radius: 50%;
+  content: '';
+  height: 8px;
+  width: 8px;
+}
+.smit-su-stock.is-ok {
+  color: var(--success);
+}
+.smit-su-stock.is-out {
+  color: var(--danger);
+}
+.smit-su-add {
+  align-items: center;
+  background: var(--brand);
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  gap: 8px;
+  height: 42px;
+  justify-content: center;
+  text-decoration: none;
+}
+.smit-su-add:hover {
+  background: var(--brand-dark);
+  color: #fff;
+}
+.smit-su-add:disabled {
+  cursor: progress;
+  opacity: 0.65;
+}
+.smit-su-add.is-link {
+  background: #fff;
+  border: 1px solid var(--brand);
+  color: var(--brand);
+}
+.smit-su-add.is-link:hover {
+  background: var(--brand);
+  color: #fff;
+}
+.smit-su-add.is-done {
+  background: var(--success);
+}
+.smit-su-more {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+.smit-su-more button {
+  background: #fff;
+  border: 1px solid var(--brand);
+  border-radius: 999px;
+  color: var(--brand);
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  height: 46px;
+  padding: 0 26px;
+}
+.smit-su-more button:hover {
+  background: var(--brand);
+  color: #fff;
+}
+
+/* Filter */
+.smit-su-fhead {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+.smit-su-fhead strong {
+  flex: 1;
+  font-size: 17px;
+}
+.smit-su-fhead button {
+  background: none;
+  border: 0;
+  color: var(--ink-mute);
+  cursor: pointer;
+  font: inherit;
+  font-size: 13px;
+  text-decoration: underline;
+}
+.smit-su-fhead .smit-su-fclose {
+  display: none;
+  text-decoration: none;
+}
+.smit-su-fgroup {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 0;
+  min-width: 0;
+  padding: 14px 0 10px;
+}
+.smit-su-fgroup legend {
+  float: left;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  padding: 0;
+  width: 100%;
+}
+.smit-su-check {
+  align-items: center;
+  clear: both;
+  cursor: pointer;
+  display: flex;
+  font-size: 14px;
+  gap: 10px;
+  padding: 5px 0;
+}
+.smit-su-check input {
+  accent-color: var(--brand);
+  flex: none;
+  height: 18px;
+  margin: 0;
+  width: 18px;
+}
+.smit-su-check span {
+  flex: 1;
+  min-width: 0;
+}
+.smit-su-check small {
+  background: var(--bg-muted);
+  border-radius: 999px;
+  color: var(--ink-mute);
+  font-size: 12px;
+  padding: 1px 8px;
+}
+.smit-su-check.is-empty {
+  cursor: default;
+  opacity: 0.45;
+}
+
+/* Start + leer */
+.smit-su-label {
+  color: var(--ink-mute);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  margin: 2px 0 12px;
+  text-transform: uppercase;
+}
+.smit-su-cats {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+.smit-su-cat {
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  color: var(--ink);
+  display: flex;
+  gap: 12px;
+  padding: 10px 12px;
+  text-decoration: none;
+}
+.smit-su-cat:hover {
+  border-color: var(--brand);
+}
+.smit-su-cat-ico {
+  align-items: center;
+  background: var(--brand-tint);
+  border-radius: var(--radius-sm);
+  color: var(--brand);
+  display: flex;
+  flex: none;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+.smit-su-cat > span:last-child {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.smit-su-cat strong {
+  font-size: 14.5px;
+}
+.smit-su-cat small {
+  color: var(--ink-mute);
+  font-size: 12.5px;
+}
+.smit-su-tip {
+  color: var(--ink-mute);
+  font-size: 13px;
+  margin: 18px 0 0;
+}
+.smit-su-none {
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  gap: 6px;
+  padding: 10px 0 16px;
+}
+.smit-su-none span {
+  color: var(--ink-mute);
+}
+
+/* Handy */
+@media (max-width: 56em) {
+  .smit-su-panel {
+    border-radius: 0;
+    height: 100dvh;
+    margin: 0;
+    max-height: 100dvh;
+    width: 100vw;
+  }
+  .smit-su-head {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .smit-su-form {
+    height: 48px;
+    padding-left: 14px;
+  }
+  .smit-su-form input {
+    font-size: 16px;
+  }
+  .smit-su-main {
+    padding: 14px 12px 24px;
+  }
+  .smit-su-filterbtn {
+    display: inline-flex;
+    align-items: center;
+  }
+  .smit-su-filters {
+    background: #fff;
+    border-right: 0;
+    bottom: 0;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.3);
+    left: 0;
+    position: absolute;
+    top: 0;
+    transform: translateX(-102%);
+    transition: transform 0.2s;
+    width: min(86vw, 340px);
+    z-index: 3;
+  }
+  .smit-su.show-filters .smit-su-filters {
+    transform: none;
+  }
+  .smit-su-fhead .smit-su-fclose {
+    display: inline-flex;
+  }
+  .smit-su-count {
+    flex: 1 1 100%;
+    order: -1;
+  }
+  .smit-su-bar-right {
+    flex: 1;
+    justify-content: flex-end;
+  }
+  .smit-su-sort span {
+    display: none;
+  }
+  .smit-su-grid {
+    gap: 10px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .smit-su-card {
+    gap: 8px;
+    padding: 8px;
+  }
+  .smit-su-title {
+    font-size: 13.5px;
+  }
+  .smit-su-price {
+    font-size: 15.5px;
+  }
+  .smit-su-add {
+    font-size: 13px;
+    height: 40px;
+  }
+  .smit-su-add span {
+    display: none;
+  }
+  .smit-su-add.is-link {
+    font-size: 12.5px;
+  }
+  .smit-su-cats {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .smit-su-panel {
+    animation: none;
+  }
+  .smit-su-filters {
+    transition: none;
+  }
+}
+.smit-su-form {
+  min-width: 0;
+  width: auto;
+}
+.smit-su-close {
+  flex: none;
+}

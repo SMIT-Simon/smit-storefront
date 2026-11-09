@@ -535,6 +535,154 @@ export type PromoProductQuery = {
   >;
 };
 
+export type SmitSucheProductFragment = {__typename: 'Product'} & Pick<
+  StorefrontAPI.Product,
+  | 'id'
+  | 'handle'
+  | 'title'
+  | 'vendor'
+  | 'productType'
+  | 'tags'
+  | 'availableForSale'
+> & {
+    featuredImage?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Image, 'url' | 'altText'>
+    >;
+    priceRange: {
+      minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      maxVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+    };
+    compareAtPriceRange: {
+      maxVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+    };
+    variants: {
+      nodes: Array<
+        Pick<StorefrontAPI.ProductVariant, 'id' | 'sku' | 'availableForSale'>
+      >;
+    };
+  };
+
+export type SmitSucheQueryVariables = StorefrontAPI.Exact<{
+  term: StorefrontAPI.Scalars['String']['input'];
+  first: StorefrontAPI.Scalars['Int']['input'];
+  after?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['String']['input']>;
+  sortKey?: StorefrontAPI.InputMaybe<StorefrontAPI.SearchSortKeys>;
+  reverse?: StorefrontAPI.InputMaybe<StorefrontAPI.Scalars['Boolean']['input']>;
+  filters?: StorefrontAPI.InputMaybe<
+    Array<StorefrontAPI.ProductFilter> | StorefrontAPI.ProductFilter
+  >;
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type SmitSucheQuery = {
+  search: Pick<StorefrontAPI.SearchResultItemConnection, 'totalCount'> & {
+    pageInfo: Pick<StorefrontAPI.PageInfo, 'hasNextPage' | 'endCursor'>;
+    productFilters: Array<
+      Pick<StorefrontAPI.Filter, 'id' | 'label' | 'type'> & {
+        values: Array<
+          Pick<StorefrontAPI.FilterValue, 'id' | 'label' | 'count' | 'input'>
+        >;
+      }
+    >;
+    nodes: Array<
+      {__typename: 'Product'} & Pick<
+        StorefrontAPI.Product,
+        | 'id'
+        | 'handle'
+        | 'title'
+        | 'vendor'
+        | 'productType'
+        | 'tags'
+        | 'availableForSale'
+      > & {
+          featuredImage?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.Image, 'url' | 'altText'>
+          >;
+          priceRange: {
+            minVariantPrice: Pick<
+              StorefrontAPI.MoneyV2,
+              'amount' | 'currencyCode'
+            >;
+            maxVariantPrice: Pick<
+              StorefrontAPI.MoneyV2,
+              'amount' | 'currencyCode'
+            >;
+          };
+          compareAtPriceRange: {
+            maxVariantPrice: Pick<
+              StorefrontAPI.MoneyV2,
+              'amount' | 'currencyCode'
+            >;
+          };
+          variants: {
+            nodes: Array<
+              Pick<
+                StorefrontAPI.ProductVariant,
+                'id' | 'sku' | 'availableForSale'
+              >
+            >;
+          };
+        }
+    >;
+  };
+  predictiveSearch?: StorefrontAPI.Maybe<{
+    collections: Array<Pick<StorefrontAPI.Collection, 'title' | 'handle'>>;
+    queries: Array<Pick<StorefrontAPI.SearchQuerySuggestion, 'text'>>;
+  }>;
+};
+
+export type SmitSucheFallbackQueryVariables = StorefrontAPI.Exact<{
+  term: StorefrontAPI.Scalars['String']['input'];
+  country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
+  language?: StorefrontAPI.InputMaybe<StorefrontAPI.LanguageCode>;
+}>;
+
+export type SmitSucheFallbackQuery = {
+  predictiveSearch?: StorefrontAPI.Maybe<{
+    products: Array<
+      {__typename: 'Product'} & Pick<
+        StorefrontAPI.Product,
+        | 'id'
+        | 'handle'
+        | 'title'
+        | 'vendor'
+        | 'productType'
+        | 'tags'
+        | 'availableForSale'
+      > & {
+          featuredImage?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.Image, 'url' | 'altText'>
+          >;
+          priceRange: {
+            minVariantPrice: Pick<
+              StorefrontAPI.MoneyV2,
+              'amount' | 'currencyCode'
+            >;
+            maxVariantPrice: Pick<
+              StorefrontAPI.MoneyV2,
+              'amount' | 'currencyCode'
+            >;
+          };
+          compareAtPriceRange: {
+            maxVariantPrice: Pick<
+              StorefrontAPI.MoneyV2,
+              'amount' | 'currencyCode'
+            >;
+          };
+          variants: {
+            nodes: Array<
+              Pick<
+                StorefrontAPI.ProductVariant,
+                'id' | 'sku' | 'availableForSale'
+              >
+            >;
+          };
+        }
+    >;
+  }>;
+};
+
 export type ArticleQueryVariables = StorefrontAPI.Exact<{
   articleHandle: StorefrontAPI.Scalars['String']['input'];
   blogHandle: StorefrontAPI.Scalars['String']['input'];
@@ -1884,6 +2032,14 @@ interface GeneratedQueryTypes {
   '#graphql\n  query PromoProduct($handle: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      id\n      handle\n      title\n      featuredImage { url altText width height }\n      selectedOrFirstAvailableVariant {\n        id\n        sku\n        availableForSale\n        title\n        price { amount currencyCode }\n        compareAtPrice { amount currencyCode }\n        image { url altText width height }\n        product { title handle }\n        selectedOptions { name value }\n      }\n    }\n  }\n': {
     return: PromoProductQuery;
     variables: PromoProductQueryVariables;
+  };
+  '#graphql\n  query SmitSuche(\n    $term: String!\n    $first: Int!\n    $after: String\n    $sortKey: SearchSortKeys\n    $reverse: Boolean\n    $filters: [ProductFilter!]\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    search(\n      query: $term\n      first: $first\n      after: $after\n      sortKey: $sortKey\n      reverse: $reverse\n      types: [PRODUCT]\n      productFilters: $filters\n      prefix: LAST\n      unavailableProducts: LAST\n    ) {\n      totalCount\n      pageInfo { hasNextPage endCursor }\n      productFilters { id label type values { id label count input } }\n      nodes { ... on Product { ...SmitSucheProduct } }\n    }\n    predictiveSearch(query: $term, limit: 6, limitScope: EACH, types: [COLLECTION, QUERY]) {\n      collections { title handle }\n      queries { text }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
+    return: SmitSucheQuery;
+    variables: SmitSucheQueryVariables;
+  };
+  '#graphql\n  query SmitSucheFallback($term: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    predictiveSearch(query: $term, limit: 10, limitScope: EACH, types: [PRODUCT]) {\n      products { ...SmitSucheProduct }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
+    return: SmitSucheFallbackQuery;
+    variables: SmitSucheFallbackQueryVariables;
   };
   '#graphql\n  query Article(\n    $articleHandle: String!\n    $blogHandle: String!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(language: $language, country: $country) {\n    blog(handle: $blogHandle) {\n      handle\n      articleByHandle(handle: $articleHandle) {\n        handle\n        title\n        contentHtml\n        publishedAt\n        author: authorV2 {\n          name\n        }\n        image {\n          id\n          altText\n          url\n          width\n          height\n        }\n        seo {\n          description\n          title\n        }\n      }\n    }\n  }\n': {
     return: ArticleQuery;

@@ -13,6 +13,7 @@ import {CATEGORIES} from '~/lib/categories';
 import {ModePrice, PriceModeToggle} from '~/components/PriceMode';
 import {siteImg} from '~/lib/site-images';
 import {CLOUD_SERVICES} from '~/lib/cloud';
+import {SmitSuche} from '~/components/SmitSuche';
 
 const FLYER_LABEL = 'III-26';
 
@@ -62,21 +63,7 @@ export function Header({isLoggedIn, cart}: HeaderProps) {
           />
         </Link>
 
-        <Form method="get" action="/search" className="header-search" role="search">
-          <label htmlFor="header-search-input" className="sr-only">
-            Produkte durchsuchen
-          </label>
-          <input
-            id="header-search-input"
-            name="q"
-            type="search"
-            placeholder="Suche nach Modell, Artikelnummer, Prozessor …"
-            autoComplete="off"
-          />
-          <button type="submit" aria-label="Suchen">
-            <Icon name="search" />
-          </button>
-        </Form>
+        <HeaderSearch />
 
         <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
       </div>
@@ -88,6 +75,62 @@ export function Header({isLoggedIn, cart}: HeaderProps) {
   );
 }
 
+/**
+ * Suchfeld im Header: öffnet die SMIT Suche (Such-Fenster mit Live-Treffern, Filtern, Warenkorb).
+ * Ohne JavaScript schickt das Formular weiterhin an /search.
+ */
+function HeaderSearch() {
+  const [open, setOpen] = useState(false);
+  const [initial, setInitial] = useState('');
+  const close = useCallback(() => setOpen(false), []);
+  const openWith = (value: string) => {
+    setInitial(value);
+    setOpen(true);
+  };
+  return (
+    <>
+      <Form
+        method="get"
+        action="/search"
+        className="header-search"
+        role="search"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const v = new FormData(e.currentTarget).get('q');
+          openWith(typeof v === 'string' ? v : '');
+        }}
+      >
+        <label htmlFor="header-search-input" className="sr-only">
+          Produkte durchsuchen
+        </label>
+        <input
+          id="header-search-input"
+          name="q"
+          type="search"
+          placeholder="Suche nach Modell, Artikelnummer, Prozessor …"
+          autoComplete="off"
+          onFocus={(e) => {
+            openWith(e.currentTarget.value);
+            e.currentTarget.blur();
+          }}
+          onKeyDown={(e) => {
+            if (e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+              e.preventDefault();
+              openWith(e.currentTarget.value + e.key);
+            }
+          }}
+        />
+        <button type="submit" aria-label="Suchen">
+          <Icon name="search" />
+        </button>
+      </Form>
+      <button type="button" className="header-search-mobile" aria-label="Produkte durchsuchen" onClick={() => openWith('')}>
+        <Icon name="search" />
+      </button>
+      <SmitSuche open={open} initialTerm={initial} onClose={close} />
+    </>
+  );
+}
 
 /**
  * Kategorie-Navigation. Die Kategorien sind fest hinterlegt (siehe
