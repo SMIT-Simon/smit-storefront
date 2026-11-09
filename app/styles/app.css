@@ -4648,3 +4648,11 @@ html.smit-su-open {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+/* ---------- Hinweisbox in Produkt-Übersichten (descriptionHtml: <div class="smit-callout">) ---------- */
+.overview-rich .smit-callout { background: linear-gradient(135deg, #f5f0ff 0%, #ffffff 70%); border: 2px solid #7c3aed; border-radius: 14px; box-shadow: 0 8px 24px rgba(124, 58, 237, 0.12); margin: 1.6rem 0 0.4rem; padding: 1.2rem 1.4rem; position: relative; }
+.overview-rich .smit-callout h3 { color: #5b21b6; font-size: 1.15rem; margin: 0 0 0.5rem; }
+.overview-rich .smit-callout ul { list-style: none; margin: 0.6rem 0 0.8rem; padding: 0; }
+.overview-rich .smit-callout li { margin: 0.35rem 0; padding-left: 1.7rem; position: relative; }
+.overview-rich .smit-callout li::before { background: #7c3aed; border-radius: 50%; color: #fff; content: '✓'; font-size: 0.75rem; font-weight: 700; height: 1.15rem; left: 0; line-height: 1.15rem; position: absolute; text-align: center; top: 0.2rem; width: 1.15rem; }
+.overview-rich .smit-callout p:last-child { margin-bottom: 0; }
+.overview-rich .smit-callout a { color: #6d28d9; font-weight: 700; }
