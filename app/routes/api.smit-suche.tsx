@@ -1,5 +1,6 @@
 import type {Route} from './+types/api.smit-suche';
 import {isListable} from '~/lib/addons';
+import type {ProductFilter} from '@shopify/hydrogen/storefront-api-types';
 
 /**
  * SMIT Suche – Datenquelle für das Such-Fenster (components/SmitSuche.tsx).
@@ -61,11 +62,11 @@ export async function loader({request, context}: Route.LoaderArgs) {
   const term = String(url.searchParams.get('q') || '').trim().slice(0, 120);
   const sort = SORTS[url.searchParams.get('sort') || 'relevance'] ?? SORTS.relevance;
   const after = url.searchParams.get('after') || null;
-  let filters: unknown[] = [];
+  let filters: ProductFilter[] = [];
   try {
     const raw = url.searchParams.get('f');
     const parsed: unknown = raw ? JSON.parse(raw) : [];
-    if (Array.isArray(parsed)) filters = parsed.slice(0, 20);
+    if (Array.isArray(parsed)) filters = parsed.slice(0, 20) as ProductFilter[];
   } catch {
     filters = [];
   }

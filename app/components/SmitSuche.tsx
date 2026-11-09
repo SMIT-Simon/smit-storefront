@@ -51,6 +51,7 @@ export function SmitSuche({
   const [term, setTerm] = useState(initialTerm);
   const [sort, setSort] = useState<Sort>('relevance');
   const [filters, setFilters] = useState<string[]>([]); // ProductFilter-JSON-Strings (value.input)
+  const [price, setPrice] = useState<{min: string; max: string}>({min: '', max: ''});
   const [data, setData] = useState<SmitSucheResult | null>(null);
   const [extra, setExtra] = useState<SmitSucheProduct[]>([]);
   const [cursor, setCursor] = useState<string | null>(null);
@@ -92,7 +93,13 @@ export function SmitSuche({
       const ctl = new AbortController();
       abortRef.current = ctl;
       const p = new URLSearchParams({q, sort});
-      if (filters.length) p.set('f', JSON.stringify(filters.map((f) => JSON.parse(f) as unknown)));
+      const all: unknown[] = filters.map((f) => JSON.parse(f) as unknown);
+      const min = parseFloat(price.min.replace(',', '.'));
+      const max = parseFloat(price.max.replace(',', '.'));
+      if (!Number.isNaN(min) || !Number.isNaN(max)) {
+        all.push({price: {...(Number.isNaN(min) ? {} : {min}), ...(Number.isNaN(max) ? {} : {max})}});
+      }
+      if (all.length) p.set('f', JSON.stringify(all));
       if (opts.after) p.set('after', opts.after);
       setLoading(true);
       try {
@@ -111,7 +118,7 @@ export function SmitSuche({
         if (abortRef.current === ctl) setLoading(false);
       }
     },
-    [term, sort, filters],
+    [term, sort, filters, price],
   );
 
   // Suchen mit kurzer Verzögerung beim Tippen
@@ -125,6 +132,7 @@ export function SmitSuche({
   const onTermChange = (v: string) => {
     setTerm(v);
     setFilters([]);
+    setPrice({min: '', max: ''});
   };
 
   const toggleFilter = (input: string) =>
@@ -149,7 +157,10 @@ export function SmitSuche({
 
   const q = term.trim();
   const products = useMemo(() => [...(data?.products ?? []), ...extra], [data, extra]);
-  const filterGroups = (data?.filters ?? []).filter((f) => f.values?.length);
+  const filterGroups = (data?.filters ?? []).filter((f) => f.type !== 'PRICE_RANGE' && f.values?.length);
+  const hasPrice = (data?.filters ?? []).some((f) => f.type === 'PRICE_RANGE');
+  const priceActive = price.min !== '' || price.max !== '';
+  const showFilterPanel = filterGroups.length > 0 || hasPrice;
   const categoryChips = useMemo(() => matchCategories(q), [q]);
 
   if (!mounted || !open) return null;
@@ -207,17 +218,34 @@ export function SmitSuche({
         </div>
 
         <div className="smit-su-body">
-          {q && filterGroups.length > 0 && (
+          {q && showFilterPanel && (
             <aside className="smit-su-filters" aria-label="Filter">
               <div className="smit-su-fhead">
                 <strong>Filter</strong>
-                {filters.length > 0 && (
-                  <button type="button" onClick={() => setFilters([])}>Zurücksetzen</button>
+                {(filters.length > 0 || priceActive) && (
+                  <button type="button" onClick={() => { setFilters([]); setPrice({min: '', max: ''}); }}>Zurücksetzen</button>
                 )}
                 <button type="button" className="smit-su-fclose" aria-label="Filter schließen" onClick={() => setShowFilters(false)}>
                   <XIcon />
                 </button>
               </div>
+              {hasPrice && (
+                <fieldset className="smit-su-fgroup">
+                  <legend>Preis</legend>
+                  <div className="smit-su-price-row">
+                    <label>
+                      <span>von €</span>
+                      <input type="number" inputMode="decimal" min={0} value={price.min} placeholder="0"
+                        onChange={(e) => setPrice((p) => ({...p, min: e.target.value}))} />
+                    </label>
+                    <label>
+                      <span>bis €</span>
+                      <input type="number" inputMode="decimal" min={0} value={price.max} placeholder="beliebig"
+                        onChange={(e) => setPrice((p) => ({...p, max: e.target.value}))} />
+                    </label>
+                  </div>
+                </fieldset>
+              )}
               {filterGroups.map((g) => (
                 <fieldset key={g.id} className="smit-su-fgroup">
                   <legend>{g.label}</legend>
@@ -272,9 +300,9 @@ export function SmitSuche({
 
                 {data && (
                   <div className="smit-su-bar">
-                    {filterGroups.length > 0 && (
+                    {showFilterPanel && (
                       <button type="button" className="smit-su-filterbtn" onClick={() => setShowFilters(true)}>
-                        Filter{filters.length ? ` (${filters.length})` : ''}
+                        Filter{filters.length + (priceActive ? 1 : 0) ? ` (${filters.length + (priceActive ? 1 : 0)})` : ''}
                       </button>
                     )}
                     <p className="smit-su-count" aria-live="polite">

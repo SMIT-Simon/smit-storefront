@@ -4550,3 +4550,27 @@ html.smit-su-open {
 .smit-su-close {
   flex: none;
 }
+.smit-su-price-row {
+  clear: both;
+  display: flex;
+  gap: 8px;
+}
+.smit-su-price-row label {
+  color: var(--ink-mute);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  font-size: 12px;
+  gap: 4px;
+  min-width: 0;
+}
+.smit-su-price-row input {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: 14px;
+  height: 40px;
+  margin: 0;
+  padding: 0 10px;
+  width: 100%;
+}
