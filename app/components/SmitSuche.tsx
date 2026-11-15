@@ -7,6 +7,7 @@ import {ModePrice} from '~/components/PriceMode';
 import {Price} from '~/components/Price';
 import {useAside} from '~/components/Aside';
 import {CATEGORIES} from '~/lib/categories';
+import {EnergyLabel} from '~/components/EnergyLabel';
 import {emptySmitSucheResult, type SmitSucheProduct, type SmitSucheResult} from '~/lib/smit-suche';
 
 /**
@@ -457,6 +458,7 @@ function ProductCard({p, term, onNavigate}: {p: SmitSucheProduct; term: string; 
             </s>
           ) : null}
         </span>
+        {p.energyClass ? <EnergyLabel energyClass={p.energyClass} eprelId={p.eprelId} compact /> : null}
         <span className={`smit-su-stock ${p.available ? 'is-ok' : 'is-out'}`}>
           {p.available ? 'Lieferbar' : 'Derzeit nicht verfügbar'}
         </span>

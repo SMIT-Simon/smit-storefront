@@ -10,12 +10,19 @@ import {useVariantUrl} from '~/lib/variants';
 import {NetPrice} from '~/components/ProductPrice';
 import {ModePrice} from '~/components/PriceMode';
 import {ProductBadges} from '~/components/ProductBadges';
+import {EnergyLabel, energyData} from '~/components/EnergyLabel';
 
 type CardProduct = (
   | CollectionItemFragment
   | ProductItemFragment
   | RecommendedProductFragment
-) & {vendor?: string; productType?: string; tags?: string[]};
+) & {
+  vendor?: string;
+  productType?: string;
+  tags?: string[];
+  energyClass?: {value?: string | null} | null;
+  eprelId?: {value?: string | null} | null;
+};
 
 export function ProductItem({
   product,
@@ -27,6 +34,7 @@ export function ProductItem({
   const variantUrl = useVariantUrl(product.handle);
   const image = product.featuredImage;
   const min = product.priceRange.minVariantPrice;
+  const energy = energyData(product);
   const hasRange =
     'maxVariantPrice' in product.priceRange &&
     product.priceRange.maxVariantPrice.amount !== min.amount;
@@ -66,6 +74,7 @@ export function ProductItem({
           </strong>
           <NetPrice price={min} />
         </div>
+        {energy ? <EnergyLabel energyClass={energy.cls} eprelId={energy.id} compact inLink /> : null}
       </div>
     </Link>
   );

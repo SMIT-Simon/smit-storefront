@@ -5,6 +5,8 @@ export const PRODUCT_ITEM_FRAGMENT = `#graphql
     currencyCode
   }
   fragment ProductItem on Product {
+    energyClass: metafield(namespace: "custom", key: "energy_class") { value }
+    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }
     id
     handle
     title

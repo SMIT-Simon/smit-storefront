@@ -1,5 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 import {createPortal} from 'react-dom';
+import {EnergyLabel, energyData} from '~/components/EnergyLabel';
 import {Link, useNavigate} from 'react-router';
 import {type MappedProductOptions} from '@shopify/hydrogen';
 import type {
@@ -30,6 +31,7 @@ export function ProductForm({
   monitors = [],
   service = null,
   serviceTexts,
+  energy = null,
 }: {
   productOptions: MappedProductOptions[];
   selectedVariant: ProductFragment['selectedOrFirstAvailableVariant'];
@@ -41,6 +43,8 @@ export function ProductForm({
   monitors?: CardProductData[];
   service?: ServiceProduct | null;
   serviceTexts?: ServiceTexts;
+  /** EU-Energielabel (Displays) – auch in der schwebenden Kaufleiste nahe am Preis */
+  energy?: {cls: string; id: string | null} | null;
 }) {
   const [serviceVariant, setServiceVariant] = useState<string | null>(null);
   const [picked, setPicked] = useState<Partial<Record<AddonGroup, string>>>({});
@@ -226,6 +230,7 @@ export function ProductForm({
           price={selectedVariant.price}
           quantity={quantity}
           lines={lines}
+          energy={energy}
           onAdd={() => open('cart')}
         />
       ) : null}
@@ -241,8 +246,10 @@ function StickyBuyBar({
   price,
   quantity,
   lines,
+  energy,
   onAdd,
 }: {
+  energy?: {cls: string; id: string | null} | null;
   visible: boolean;
   title: string;
   image?: string;
@@ -270,6 +277,7 @@ function StickyBuyBar({
           <span className="sticky-buy-price">
             {quantity > 1 ? `${quantity} × ` : ''}
             <ModePrice data={price} />
+            {energy ? <EnergyLabel energyClass={energy.cls} eprelId={energy.id} compact /> : null}
           </span>
         </div>
         <div className="sticky-buy-action">
@@ -476,6 +484,9 @@ function AccessoryPicker({
             <div className="acc-price">
               <ModePrice data={p.priceRange.minVariantPrice} as="strong" />
               <small>{mode === 'net' ? 'netto' : 'inkl. MwSt.'}</small>
+              {energyData(p) ? (
+                <EnergyLabel energyClass={energyData(p)!.cls} eprelId={energyData(p)!.id} compact />
+              ) : null}
             </div>
           </div>
         );

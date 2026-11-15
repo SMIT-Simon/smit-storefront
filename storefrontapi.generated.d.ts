@@ -386,6 +386,8 @@ export type ProductItemFragment = Pick<
   StorefrontAPI.Product,
   'id' | 'handle' | 'title' | 'vendor' | 'productType' | 'tags'
 > & {
+  energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+  eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
   featuredImage?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Image, 'id' | 'altText' | 'url' | 'width' | 'height'>
   >;
@@ -405,6 +407,8 @@ export type SmitSucheProductFragment = {__typename: 'Product'} & Pick<
   | 'tags'
   | 'availableForSale'
 > & {
+    energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+    eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
     featuredImage?: StorefrontAPI.Maybe<
       Pick<StorefrontAPI.Image, 'url' | 'altText'>
     >;
@@ -456,6 +460,10 @@ export type SmitSucheQuery = {
         | 'tags'
         | 'availableForSale'
       > & {
+          energyClass?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.Metafield, 'value'>
+          >;
+          eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
           featuredImage?: StorefrontAPI.Maybe<
             Pick<StorefrontAPI.Image, 'url' | 'altText'>
           >;
@@ -511,6 +519,10 @@ export type SmitSucheFallbackQuery = {
         | 'tags'
         | 'availableForSale'
       > & {
+          energyClass?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.Metafield, 'value'>
+          >;
+          eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
           featuredImage?: StorefrontAPI.Maybe<
             Pick<StorefrontAPI.Image, 'url' | 'altText'>
           >;
@@ -547,6 +559,8 @@ export type HighlightProductFragment = Pick<
   StorefrontAPI.Product,
   'tags' | 'id' | 'handle' | 'title'
 > & {
+  energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+  eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
   featuredImage?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
   >;
@@ -569,6 +583,8 @@ export type HighlightsQueryVariables = StorefrontAPI.Exact<{
 export type HighlightsQuery = {
   pc?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
+      energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+      eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
       featuredImage?: StorefrontAPI.Maybe<
         Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
       >;
@@ -582,6 +598,8 @@ export type HighlightsQuery = {
   >;
   monitor?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
+      energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+      eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
       featuredImage?: StorefrontAPI.Maybe<
         Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
       >;
@@ -595,6 +613,8 @@ export type HighlightsQuery = {
   >;
   notebook?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Product, 'tags' | 'id' | 'handle' | 'title'> & {
+      energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+      eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
       featuredImage?: StorefrontAPI.Maybe<
         Pick<StorefrontAPI.Image, 'url' | 'altText' | 'width' | 'height'>
       >;
@@ -612,6 +632,8 @@ export type RecommendedProductFragment = Pick<
   StorefrontAPI.Product,
   'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
 > & {
+  energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+  eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
   priceRange: {
     minVariantPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
   };
@@ -632,6 +654,10 @@ export type RecommendedProductsQuery = {
         StorefrontAPI.Product,
         'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
       > & {
+        energyClass?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value'>
+        >;
+        eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
         priceRange: {
           minVariantPrice: Pick<
             StorefrontAPI.MoneyV2,
@@ -889,6 +915,10 @@ export type SubCategoryProductsQuery = {
         StorefrontAPI.Product,
         'id' | 'handle' | 'title' | 'vendor' | 'productType' | 'tags'
       > & {
+        energyClass?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value'>
+        >;
+        eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -945,6 +975,12 @@ export type CollectionQuery = {
             StorefrontAPI.Product,
             'id' | 'handle' | 'title' | 'vendor' | 'productType' | 'tags'
           > & {
+            energyClass?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Metafield, 'value'>
+            >;
+            eprelId?: StorefrontAPI.Maybe<
+              Pick<StorefrontAPI.Metafield, 'value'>
+            >;
             featuredImage?: StorefrontAPI.Maybe<
               Pick<
                 StorefrontAPI.Image,
@@ -1032,6 +1068,8 @@ export type CollectionItemFragment = Pick<
   StorefrontAPI.Product,
   'tags' | 'productType' | 'id' | 'handle' | 'title'
 > & {
+  energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+  eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
   featuredImage?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Image, 'id' | 'altText' | 'url' | 'width' | 'height'>
   >;
@@ -1063,6 +1101,10 @@ export type CatalogQuery = {
         StorefrontAPI.Product,
         'tags' | 'productType' | 'id' | 'handle' | 'title'
       > & {
+        energyClass?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value'>
+        >;
+        eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1138,6 +1180,10 @@ export type SolutionProductsQuery = {
         StorefrontAPI.Product,
         'id' | 'handle' | 'title' | 'vendor' | 'productType' | 'tags'
       > & {
+        energyClass?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value'>
+        >;
+        eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1244,6 +1290,8 @@ export type RelatedProductFragment = Pick<
   StorefrontAPI.Product,
   'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
 > & {
+  energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+  eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
   featuredImage?: StorefrontAPI.Maybe<
     Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
   >;
@@ -1286,6 +1334,8 @@ export type ProductFragment = Pick<
   | 'encodedVariantExistence'
   | 'encodedVariantAvailability'
 > & {
+  energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+  eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
   images: {
     nodes: Array<
       Pick<StorefrontAPI.Image, 'id' | 'url' | 'altText' | 'width' | 'height'>
@@ -1315,6 +1365,12 @@ export type ProductFragment = Pick<
             StorefrontAPI.Product,
             'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
           > & {
+              energyClass?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.Metafield, 'value'>
+              >;
+              eprelId?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.Metafield, 'value'>
+              >;
               featuredImage?: StorefrontAPI.Maybe<
                 Pick<
                   StorefrontAPI.Image,
@@ -1447,6 +1503,8 @@ export type ProductQuery = {
       | 'encodedVariantExistence'
       | 'encodedVariantAvailability'
     > & {
+      energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+      eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
       images: {
         nodes: Array<
           Pick<
@@ -1479,6 +1537,12 @@ export type ProductQuery = {
                 StorefrontAPI.Product,
                 'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
               > & {
+                  energyClass?: StorefrontAPI.Maybe<
+                    Pick<StorefrontAPI.Metafield, 'value'>
+                  >;
+                  eprelId?: StorefrontAPI.Maybe<
+                    Pick<StorefrontAPI.Metafield, 'value'>
+                  >;
                   featuredImage?: StorefrontAPI.Maybe<
                     Pick<
                       StorefrontAPI.Image,
@@ -1602,6 +1666,10 @@ export type ProductRecommendationsQuery = {
         StorefrontAPI.Product,
         'tags' | 'id' | 'title' | 'handle' | 'vendor' | 'productType'
       > & {
+        energyClass?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value'>
+        >;
+        eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1654,6 +1722,10 @@ export type HyperVGuideProductsQuery = {
         StorefrontAPI.Product,
         'id' | 'handle' | 'title' | 'vendor' | 'productType' | 'tags'
       > & {
+        energyClass?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value'>
+        >;
+        eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1689,6 +1761,10 @@ export type ServerGuideProductsQuery = {
         StorefrontAPI.Product,
         'id' | 'handle' | 'title' | 'vendor' | 'productType' | 'tags'
       > & {
+        energyClass?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value'>
+        >;
+        eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1721,6 +1797,8 @@ export type SearchProductFragment = {__typename: 'Product'} & Pick<
   | 'trackingParameters'
   | 'vendor'
 > & {
+    energyClass?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
+    eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
     selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
       Pick<StorefrontAPI.ProductVariant, 'id'> & {
         image?: StorefrontAPI.Maybe<
@@ -1797,6 +1875,10 @@ export type RegularSearchQuery = {
         | 'trackingParameters'
         | 'vendor'
       > & {
+          energyClass?: StorefrontAPI.Maybe<
+            Pick<StorefrontAPI.Metafield, 'value'>
+          >;
+          eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
           selectedOrFirstAvailableVariant?: StorefrontAPI.Maybe<
             Pick<StorefrontAPI.ProductVariant, 'id'> & {
               image?: StorefrontAPI.Maybe<
@@ -1956,6 +2038,10 @@ export type LandingProductsQuery = {
         StorefrontAPI.Product,
         'id' | 'handle' | 'title' | 'vendor' | 'productType' | 'tags'
       > & {
+        energyClass?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value'>
+        >;
+        eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -1991,6 +2077,10 @@ export type GamingProductsQuery = {
         StorefrontAPI.Product,
         'id' | 'handle' | 'title' | 'vendor' | 'productType' | 'tags'
       > & {
+        energyClass?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.Metafield, 'value'>
+        >;
+        eprelId?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Metafield, 'value'>>;
         featuredImage?: StorefrontAPI.Maybe<
           Pick<
             StorefrontAPI.Image,
@@ -2021,19 +2111,19 @@ interface GeneratedQueryTypes {
     return: FooterQuery;
     variables: FooterQueryVariables;
   };
-  '#graphql\n  query SmitSuche(\n    $term: String!\n    $first: Int!\n    $after: String\n    $sortKey: SearchSortKeys\n    $reverse: Boolean\n    $filters: [ProductFilter!]\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    search(\n      query: $term\n      first: $first\n      after: $after\n      sortKey: $sortKey\n      reverse: $reverse\n      types: [PRODUCT]\n      productFilters: $filters\n      prefix: LAST\n      unavailableProducts: LAST\n    ) {\n      totalCount\n      pageInfo { hasNextPage endCursor }\n      productFilters { id label type values { id label count input } }\n      nodes { ... on Product { ...SmitSucheProduct } }\n    }\n    predictiveSearch(query: $term, limit: 6, limitScope: EACH, types: [COLLECTION, QUERY]) {\n      collections { title handle }\n      queries { text }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
+  '#graphql\n  query SmitSuche(\n    $term: String!\n    $first: Int!\n    $after: String\n    $sortKey: SearchSortKeys\n    $reverse: Boolean\n    $filters: [ProductFilter!]\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    search(\n      query: $term\n      first: $first\n      after: $after\n      sortKey: $sortKey\n      reverse: $reverse\n      types: [PRODUCT]\n      productFilters: $filters\n      prefix: LAST\n      unavailableProducts: LAST\n    ) {\n      totalCount\n      pageInfo { hasNextPage endCursor }\n      productFilters { id label type values { id label count input } }\n      nodes { ... on Product { ...SmitSucheProduct } }\n    }\n    predictiveSearch(query: $term, limit: 6, limitScope: EACH, types: [COLLECTION, QUERY]) {\n      collections { title handle }\n      queries { text }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
     return: SmitSucheQuery;
     variables: SmitSucheQueryVariables;
   };
-  '#graphql\n  query SmitSucheFallback($term: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    predictiveSearch(query: $term, limit: 10, limitScope: EACH, types: [PRODUCT]) {\n      products { ...SmitSucheProduct }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
+  '#graphql\n  query SmitSucheFallback($term: String!, $country: CountryCode, $language: LanguageCode)\n  @inContext(country: $country, language: $language) {\n    predictiveSearch(query: $term, limit: 10, limitScope: EACH, types: [PRODUCT]) {\n      products { ...SmitSucheProduct }\n    }\n  }\n  #graphql\n  fragment SmitSucheProduct on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    __typename\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    availableForSale\n    featuredImage { url(transform: {maxWidth: 480, maxHeight: 480}) altText }\n    priceRange {\n      minVariantPrice { amount currencyCode }\n      maxVariantPrice { amount currencyCode }\n    }\n    compareAtPriceRange { maxVariantPrice { amount currencyCode } }\n    variants(first: 2) { nodes { id sku availableForSale } }\n  }\n\n': {
     return: SmitSucheFallbackQuery;
     variables: SmitSucheFallbackQueryVariables;
   };
-  '#graphql\n  fragment HighlightProduct on Product {\n    tags\n    id\n    handle\n    title\n    featuredImage { url altText width height }\n    priceRange { minVariantPrice { amount currencyCode } }\n    selectedOrFirstAvailableVariant { sku }\n  }\n  query Highlights($country: CountryCode, $language: LanguageCode, $pc: String!, $monitor: String!, $notebook: String!)\n  @inContext(country: $country, language: $language) {\n    pc: product(handle: $pc) { ...HighlightProduct }\n    monitor: product(handle: $monitor) { ...HighlightProduct }\n    notebook: product(handle: $notebook) { ...HighlightProduct }\n  }\n': {
+  '#graphql\n  fragment HighlightProduct on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    tags\n    id\n    handle\n    title\n    featuredImage { url altText width height }\n    priceRange { minVariantPrice { amount currencyCode } }\n    selectedOrFirstAvailableVariant { sku }\n  }\n  query Highlights($country: CountryCode, $language: LanguageCode, $pc: String!, $monitor: String!, $notebook: String!)\n  @inContext(country: $country, language: $language) {\n    pc: product(handle: $pc) { ...HighlightProduct }\n    monitor: product(handle: $monitor) { ...HighlightProduct }\n    notebook: product(handle: $notebook) { ...HighlightProduct }\n  }\n': {
     return: HighlightsQuery;
     variables: HighlightsQueryVariables;
   };
-  "#graphql\n  fragment RecommendedProduct on Product {\n    tags\n    id\n    title\n    handle\n    vendor\n    productType\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n  }\n  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    products(\n      first: 8\n      sortKey: CREATED_AT\n      reverse: true\n      query: \"-product_type:'Service-Option' -product_type:'Software-Option' -product_type:'Software' -product_type:'Dienstleistung' -tag:'ausblenden'\"\n    ) {\n      nodes {\n        ...RecommendedProduct\n      }\n    }\n  }\n": {
+  '#graphql\n  fragment RecommendedProduct on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    tags\n    id\n    title\n    handle\n    vendor\n    productType\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n  }\n  query RecommendedProducts ($country: CountryCode, $language: LanguageCode)\n    @inContext(country: $country, language: $language) {\n    products(\n      first: 8\n      sortKey: CREATED_AT\n      reverse: true\n      query: "-product_type:\'Service-Option\' -product_type:\'Software-Option\' -product_type:\'Software\' -product_type:\'Dienstleistung\' -tag:\'ausblenden\'"\n    ) {\n      nodes {\n        ...RecommendedProduct\n      }\n    }\n  }\n': {
     return: RecommendedProductsQuery;
     variables: RecommendedProductsQueryVariables;
   };
@@ -2061,11 +2151,11 @@ interface GeneratedQueryTypes {
     return: JtlCloudProductsQuery;
     variables: JtlCloudProductsQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query SubCategoryProducts(\n    $query: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n    $sortKey: ProductSortKeys\n    $reverse: Boolean\n  ) @inContext(country: $country, language: $language) {\n    products(\n      query: $query,\n      first: $first,\n      last: $last,\n      before: $startCursor,\n      after: $endCursor,\n      sortKey: $sortKey,\n      reverse: $reverse\n    ) {\n      nodes {\n        ...ProductItem\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        endCursor\n        startCursor\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query SubCategoryProducts(\n    $query: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n    $sortKey: ProductSortKeys\n    $reverse: Boolean\n  ) @inContext(country: $country, language: $language) {\n    products(\n      query: $query,\n      first: $first,\n      last: $last,\n      before: $startCursor,\n      after: $endCursor,\n      sortKey: $sortKey,\n      reverse: $reverse\n    ) {\n      nodes {\n        ...ProductItem\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        endCursor\n        startCursor\n      }\n    }\n  }\n': {
     return: SubCategoryProductsQuery;
     variables: SubCategoryProductsQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n    $sortKey: ProductCollectionSortKeys\n    $reverse: Boolean\n    $filters: [ProductFilter!]\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor,\n        sortKey: $sortKey,\n        reverse: $reverse,\n        filters: $filters\n      ) {\n        nodes {\n          ...ProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query Collection(\n    $handle: String!\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n    $sortKey: ProductCollectionSortKeys\n    $reverse: Boolean\n    $filters: [ProductFilter!]\n  ) @inContext(country: $country, language: $language) {\n    collection(handle: $handle) {\n      id\n      handle\n      title\n      description\n      products(\n        first: $first,\n        last: $last,\n        before: $startCursor,\n        after: $endCursor,\n        sortKey: $sortKey,\n        reverse: $reverse,\n        filters: $filters\n      ) {\n        nodes {\n          ...ProductItem\n        }\n        pageInfo {\n          hasPreviousPage\n          hasNextPage\n          endCursor\n          startCursor\n        }\n      }\n    }\n  }\n': {
     return: CollectionQuery;
     variables: CollectionQueryVariables;
   };
@@ -2077,7 +2167,7 @@ interface GeneratedQueryTypes {
     return: StoreCollectionsQuery;
     variables: StoreCollectionsQueryVariables;
   };
-  "#graphql\n  query Catalog(\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n    $sortKey: ProductSortKeys\n    $reverse: Boolean\n  ) @inContext(country: $country, language: $language) {\n    products(\n      first: $first\n      last: $last\n      before: $startCursor\n      after: $endCursor\n      sortKey: $sortKey\n      reverse: $reverse\n      query: \"-product_type:'Service-Option' -product_type:'Software-Option' -tag:'ausblenden'\"\n    ) {\n      nodes {\n        ...CollectionItem\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n  #graphql\n  fragment MoneyCollectionItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment CollectionItem on Product {\n    tags\n    productType\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyCollectionItem\n      }\n      maxVariantPrice {\n        ...MoneyCollectionItem\n      }\n    }\n  }\n\n": {
+  '#graphql\n  query Catalog(\n    $country: CountryCode\n    $language: LanguageCode\n    $first: Int\n    $last: Int\n    $startCursor: String\n    $endCursor: String\n    $sortKey: ProductSortKeys\n    $reverse: Boolean\n  ) @inContext(country: $country, language: $language) {\n    products(\n      first: $first\n      last: $last\n      before: $startCursor\n      after: $endCursor\n      sortKey: $sortKey\n      reverse: $reverse\n      query: "-product_type:\'Service-Option\' -product_type:\'Software-Option\' -tag:\'ausblenden\'"\n    ) {\n      nodes {\n        ...CollectionItem\n      }\n      pageInfo {\n        hasPreviousPage\n        hasNextPage\n        startCursor\n        endCursor\n      }\n    }\n  }\n  #graphql\n  fragment MoneyCollectionItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment CollectionItem on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    tags\n    productType\n    id\n    handle\n    title\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyCollectionItem\n      }\n      maxVariantPrice {\n        ...MoneyCollectionItem\n      }\n    }\n  }\n\n': {
     return: CatalogQuery;
     variables: CatalogQueryVariables;
   };
@@ -2089,7 +2179,7 @@ interface GeneratedQueryTypes {
     return: ConfigProductQuery;
     variables: ConfigProductQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query SolutionProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first, sortKey: CREATED_AT, reverse: true) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query SolutionProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first, sortKey: CREATED_AT, reverse: true) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
     return: SolutionProductsQuery;
     variables: SolutionProductsQueryVariables;
   };
@@ -2105,11 +2195,11 @@ interface GeneratedQueryTypes {
     return: PoliciesQuery;
     variables: PoliciesQueryVariables;
   };
-  '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...Product\n    }\n  }\n  #graphql\n  fragment Product on Product {\n    tags\n    id\n    title\n    vendor\n    productType\n    handle\n    descriptionHtml\n    images(first: 12) {\n      nodes {\n        id\n        url\n        altText\n        width\n        height\n      }\n    }\n    collections(first: 10) {\n      nodes {\n        handle\n        title\n      }\n    }\n    overview: metafield(namespace: "custom", key: "overview") {\n      value\n    }\n    service: metafield(namespace: "custom", key: "service") {\n      value\n    }\n    accessories: metafield(namespace: "custom", key: "accessories") {\n      references(first: 8) {\n        nodes {\n          __typename\n          ... on Product {\n            ...RelatedProduct\n          }\n        }\n      }\n    }\n    description\n    encodedVariantExistence\n    encodedVariantAvailability\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {\n      ...ProductVariant\n    }\n    adjacentVariants (selectedOptions: $selectedOptions) {\n      ...ProductVariant\n    }\n    seo {\n      description\n      title\n    }\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    barcode\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n  #graphql\n  fragment RelatedProduct on Product {\n    tags\n    id\n    title\n    handle\n    vendor\n    productType\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n  }\n\n\n': {
+  '#graphql\n  query Product(\n    $country: CountryCode\n    $handle: String!\n    $language: LanguageCode\n    $selectedOptions: [SelectedOptionInput!]!\n  ) @inContext(country: $country, language: $language) {\n    product(handle: $handle) {\n      ...Product\n    }\n  }\n  #graphql\n  fragment Product on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    tags\n    id\n    title\n    vendor\n    productType\n    handle\n    descriptionHtml\n    images(first: 12) {\n      nodes {\n        id\n        url\n        altText\n        width\n        height\n      }\n    }\n    collections(first: 10) {\n      nodes {\n        handle\n        title\n      }\n    }\n    overview: metafield(namespace: "custom", key: "overview") {\n      value\n    }\n    service: metafield(namespace: "custom", key: "service") {\n      value\n    }\n    accessories: metafield(namespace: "custom", key: "accessories") {\n      references(first: 8) {\n        nodes {\n          __typename\n          ... on Product {\n            ...RelatedProduct\n          }\n        }\n      }\n    }\n    description\n    encodedVariantExistence\n    encodedVariantAvailability\n    options {\n      name\n      optionValues {\n        name\n        firstSelectableVariant {\n          ...ProductVariant\n        }\n        swatch {\n          color\n          image {\n            previewImage {\n              url\n            }\n          }\n        }\n      }\n    }\n    selectedOrFirstAvailableVariant(selectedOptions: $selectedOptions, ignoreUnknownOptions: true, caseInsensitiveMatch: true) {\n      ...ProductVariant\n    }\n    adjacentVariants (selectedOptions: $selectedOptions) {\n      ...ProductVariant\n    }\n    seo {\n      description\n      title\n    }\n  }\n  #graphql\n  fragment ProductVariant on ProductVariant {\n    availableForSale\n    compareAtPrice {\n      amount\n      currencyCode\n    }\n    id\n    image {\n      __typename\n      id\n      url\n      altText\n      width\n      height\n    }\n    price {\n      amount\n      currencyCode\n    }\n    product {\n      title\n      handle\n    }\n    selectedOptions {\n      name\n      value\n    }\n    sku\n    barcode\n    title\n    unitPrice {\n      amount\n      currencyCode\n    }\n  }\n\n  #graphql\n  fragment RelatedProduct on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    tags\n    id\n    title\n    handle\n    vendor\n    productType\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n  }\n\n\n': {
     return: ProductQuery;
     variables: ProductQueryVariables;
   };
-  '#graphql\n  query ProductRecommendations(\n    $country: CountryCode\n    $language: LanguageCode\n    $handle: String!\n  ) @inContext(country: $country, language: $language) {\n    productRecommendations(productHandle: $handle, intent: RELATED) {\n      ...RelatedProduct\n    }\n  }\n  #graphql\n  fragment RelatedProduct on Product {\n    tags\n    id\n    title\n    handle\n    vendor\n    productType\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n  }\n\n': {
+  '#graphql\n  query ProductRecommendations(\n    $country: CountryCode\n    $language: LanguageCode\n    $handle: String!\n  ) @inContext(country: $country, language: $language) {\n    productRecommendations(productHandle: $handle, intent: RELATED) {\n      ...RelatedProduct\n    }\n  }\n  #graphql\n  fragment RelatedProduct on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    tags\n    id\n    title\n    handle\n    vendor\n    productType\n    featuredImage {\n      id\n      url\n      altText\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        amount\n        currencyCode\n      }\n    }\n  }\n\n': {
     return: ProductRecommendationsQuery;
     variables: ProductRecommendationsQueryVariables;
   };
@@ -2117,15 +2207,15 @@ interface GeneratedQueryTypes {
     return: ServiceOptionQuery;
     variables: ServiceOptionQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query HyperVGuideProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query HyperVGuideProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
     return: HyperVGuideProductsQuery;
     variables: HyperVGuideProductsQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query ServerGuideProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query ServerGuideProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
     return: ServerGuideProductsQuery;
     variables: ServerGuideProductsQueryVariables;
   };
-  '#graphql\n  query RegularSearch(\n    $country: CountryCode\n    $endCursor: String\n    $first: Int\n    $language: LanguageCode\n    $last: Int\n    $term: String!\n    $startCursor: String\n  ) @inContext(country: $country, language: $language) {\n    articles: search(\n      query: $term,\n      types: [ARTICLE],\n      first: $first,\n    ) {\n      nodes {\n        ...on Article {\n          ...SearchArticle\n        }\n      }\n    }\n    pages: search(\n      query: $term,\n      types: [PAGE],\n      first: $first,\n    ) {\n      nodes {\n        ...on Page {\n          ...SearchPage\n        }\n      }\n    }\n    products: search(\n      after: $endCursor,\n      before: $startCursor,\n      first: $first,\n      last: $last,\n      query: $term,\n      sortKey: RELEVANCE,\n      types: [PRODUCT],\n      unavailableProducts: HIDE,\n    ) {\n      nodes {\n        ...on Product {\n          ...SearchProduct\n        }\n      }\n      pageInfo {\n        ...PageInfoFragment\n      }\n    }\n  }\n  #graphql\n  fragment SearchProduct on Product {\n    __typename\n    productType\n    tags\n    handle\n    id\n    publishedAt\n    title\n    trackingParameters\n    vendor\n    selectedOrFirstAvailableVariant(\n      selectedOptions: []\n      ignoreUnknownOptions: true\n      caseInsensitiveMatch: true\n    ) {\n      id\n      image {\n        url\n        altText\n        width\n        height\n      }\n      price {\n        amount\n        currencyCode\n      }\n      compareAtPrice {\n        amount\n        currencyCode\n      }\n      selectedOptions {\n        name\n        value\n      }\n      product {\n        handle\n        title\n      }\n    }\n  }\n\n  #graphql\n  fragment SearchPage on Page {\n     __typename\n     handle\n    id\n    title\n    trackingParameters\n  }\n\n  #graphql\n  fragment SearchArticle on Article {\n    __typename\n    handle\n    id\n    title\n    trackingParameters\n  }\n\n  #graphql\n  fragment PageInfoFragment on PageInfo {\n    hasNextPage\n    hasPreviousPage\n    startCursor\n    endCursor\n  }\n\n': {
+  '#graphql\n  query RegularSearch(\n    $country: CountryCode\n    $endCursor: String\n    $first: Int\n    $language: LanguageCode\n    $last: Int\n    $term: String!\n    $startCursor: String\n  ) @inContext(country: $country, language: $language) {\n    articles: search(\n      query: $term,\n      types: [ARTICLE],\n      first: $first,\n    ) {\n      nodes {\n        ...on Article {\n          ...SearchArticle\n        }\n      }\n    }\n    pages: search(\n      query: $term,\n      types: [PAGE],\n      first: $first,\n    ) {\n      nodes {\n        ...on Page {\n          ...SearchPage\n        }\n      }\n    }\n    products: search(\n      after: $endCursor,\n      before: $startCursor,\n      first: $first,\n      last: $last,\n      query: $term,\n      sortKey: RELEVANCE,\n      types: [PRODUCT],\n      unavailableProducts: HIDE,\n    ) {\n      nodes {\n        ...on Product {\n          ...SearchProduct\n        }\n      }\n      pageInfo {\n        ...PageInfoFragment\n      }\n    }\n  }\n  #graphql\n  fragment SearchProduct on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    __typename\n    productType\n    tags\n    handle\n    id\n    publishedAt\n    title\n    trackingParameters\n    vendor\n    selectedOrFirstAvailableVariant(\n      selectedOptions: []\n      ignoreUnknownOptions: true\n      caseInsensitiveMatch: true\n    ) {\n      id\n      image {\n        url\n        altText\n        width\n        height\n      }\n      price {\n        amount\n        currencyCode\n      }\n      compareAtPrice {\n        amount\n        currencyCode\n      }\n      selectedOptions {\n        name\n        value\n      }\n      product {\n        handle\n        title\n      }\n    }\n  }\n\n  #graphql\n  fragment SearchPage on Page {\n     __typename\n     handle\n    id\n    title\n    trackingParameters\n  }\n\n  #graphql\n  fragment SearchArticle on Article {\n    __typename\n    handle\n    id\n    title\n    trackingParameters\n  }\n\n  #graphql\n  fragment PageInfoFragment on PageInfo {\n    hasNextPage\n    hasPreviousPage\n    startCursor\n    endCursor\n  }\n\n': {
     return: RegularSearchQuery;
     variables: RegularSearchQueryVariables;
   };
@@ -2133,11 +2223,11 @@ interface GeneratedQueryTypes {
     return: PredictiveSearchQuery;
     variables: PredictiveSearchQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query LandingProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query LandingProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
     return: LandingProductsQuery;
     variables: LandingProductsQueryVariables;
   };
-  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query GamingProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
+  '#graphql\n  #graphql\n  fragment MoneyProductItem on MoneyV2 {\n    amount\n    currencyCode\n  }\n  fragment ProductItem on Product {\n    energyClass: metafield(namespace: "custom", key: "energy_class") { value }\n    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }\n    id\n    handle\n    title\n    vendor\n    productType\n    tags\n    featuredImage {\n      id\n      altText\n      url\n      width\n      height\n    }\n    priceRange {\n      minVariantPrice {\n        ...MoneyProductItem\n      }\n      maxVariantPrice {\n        ...MoneyProductItem\n      }\n    }\n  }\n\n  query GamingProducts(\n    $query: String!\n    $first: Int\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    products(query: $query, first: $first) {\n      nodes {\n        ...ProductItem\n      }\n    }\n  }\n': {
     return: GamingProductsQuery;
     variables: GamingProductsQueryVariables;
   };

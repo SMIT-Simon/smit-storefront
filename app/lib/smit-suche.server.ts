@@ -28,6 +28,8 @@ type SearchNode = {
   priceRange: {minVariantPrice: Money; maxVariantPrice: Money};
   compareAtPriceRange: {maxVariantPrice: Money};
   variants: {nodes: Array<{id: string; sku: string | null; availableForSale: boolean}>};
+  energyClass?: {value?: string | null} | null;
+  eprelId?: {value?: string | null} | null;
 };
 const SORTS: Record<string, {sortKey: 'RELEVANCE' | 'PRICE'; reverse: boolean}> = {
   relevance: {sortKey: 'RELEVANCE', reverse: false},
@@ -117,11 +119,15 @@ function toProduct(n: SearchNode): SmitSucheProduct {
     // „In den Warenkorb“ direkt nur bei Artikeln ohne Auswahl (genau eine Variante)
     variantId: variants.length === 1 && firstAvailable?.availableForSale ? firstAvailable.id : null,
     sku: firstAvailable?.sku ?? '',
+    energyClass: n.energyClass?.value ?? null,
+    eprelId: n.eprelId?.value ?? null,
   };
 }
 
 const SMIT_SUCHE_PRODUCT_FRAGMENT = `#graphql
   fragment SmitSucheProduct on Product {
+    energyClass: metafield(namespace: "custom", key: "energy_class") { value }
+    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }
     __typename
     id
     handle

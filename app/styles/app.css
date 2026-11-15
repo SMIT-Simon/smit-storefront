@@ -4656,3 +4656,24 @@ html.smit-su-open {
 .overview-rich .smit-callout li::before { background: #7c3aed; border-radius: 50%; color: #fff; content: '✓'; font-size: 0.75rem; font-weight: 700; height: 1.15rem; left: 0; line-height: 1.15rem; position: absolute; text-align: center; top: 0.2rem; width: 1.15rem; }
 .overview-rich .smit-callout p:last-child { margin-bottom: 0; }
 .overview-rich .smit-callout a { color: #6d28d9; font-weight: 700; }
+
+/* ---------- EU-Energielabel (VO (EU) 2019/2013 Anh. VIII) ---------- */
+.energy-label { align-items: center; display: inline-flex; flex-wrap: wrap; gap: 0.25rem 0.6rem; vertical-align: middle; }
+.energy-label-btn { background: none; border: 0; cursor: pointer; display: inline-flex; line-height: 0; margin: 0; padding: 0; }
+.energy-label-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+.energy-arrow { display: block; }
+.energy-sheet { color: var(--ink-soft, #555); cursor: pointer; font-size: 0.8rem; text-decoration: underline; text-underline-offset: 2px; }
+.energy-sheet:hover { color: var(--brand); }
+.buy-box-energy { font-size: 2rem; margin: 0.15rem 0 0.4rem; }
+.buy-box-energy .energy-sheet { font-size: 0.85rem; }
+.product-card .energy-label { font-size: 1.15rem; margin-top: 0.35rem; }
+.smit-su-info .energy-label, .acc-price .energy-label { font-size: 1rem; }
+.acc-price .energy-label { justify-content: flex-end; margin-top: 0.2rem; }
+.sticky-buy-price .energy-label { font-size: 1rem; margin-left: 0.5rem; }
+.sticky-buy-price .energy-sheet { display: none; }
+.energy-overlay { align-items: center; display: flex; inset: 0; justify-content: center; padding: 1rem; position: fixed; z-index: 2000000005; }
+.energy-overlay-backdrop { background: rgba(11, 31, 58, 0.55); border: 0; cursor: pointer; inset: 0; position: absolute; }
+.energy-overlay-box { background: #fff; border-radius: 12px; box-shadow: 0 20px 60px rgba(0,0,0,.3); max-height: 92vh; max-width: min(420px, 92vw); overflow: auto; padding: 2.4rem 1rem 1rem; position: relative; text-align: center; }
+.energy-overlay-box img { display: block; height: auto; margin: 0 auto 0.6rem; max-height: 78vh; width: 100%; object-fit: contain; }
+.energy-overlay-box a { font-size: 0.9rem; font-weight: 600; }
+.energy-overlay-close { background: none; border: 0; cursor: pointer; font-size: 1.8rem; line-height: 1; position: absolute; right: 0.6rem; top: 0.4rem; }

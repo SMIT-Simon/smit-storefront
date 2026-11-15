@@ -11,6 +11,8 @@ export type CardProductData = {
   featuredImage?: {id?: string; url: string; altText?: string; width?: number; height?: number};
   priceRange: {minVariantPrice: {amount: string; currencyCode: CurrencyCode}};
   selectedOrFirstAvailableVariant?: {id: string; availableForSale: boolean} | null;
+  energyClass?: {value: string} | null;
+  eprelId?: {value: string} | null;
 };
 
 const FIELDS = `
@@ -18,6 +20,8 @@ const FIELDS = `
   featuredImage { id url altText width height }
   priceRange { minVariantPrice { amount currencyCode } }
   selectedOrFirstAvailableVariant { id availableForSale }
+  energyClass: metafield(namespace: "custom", key: "energy_class") { value }
+  eprelId: metafield(namespace: "custom", key: "eprel_id") { value }
 `;
 
 type Storefront = {

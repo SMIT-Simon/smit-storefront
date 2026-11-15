@@ -793,6 +793,8 @@ function BusinessBanner() {
 
 const HIGHLIGHTS_QUERY = `#graphql
   fragment HighlightProduct on Product {
+    energyClass: metafield(namespace: "custom", key: "energy_class") { value }
+    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }
     tags
     id
     handle
@@ -811,6 +813,8 @@ const HIGHLIGHTS_QUERY = `#graphql
 
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   fragment RecommendedProduct on Product {
+    energyClass: metafield(namespace: "custom", key: "energy_class") { value }
+    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }
     tags
     id
     title

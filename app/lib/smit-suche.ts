@@ -4,6 +4,8 @@ export type FilterValue = {id: string; label: string; count: number; input: stri
 export type SmitSucheFilter = {id: string; label: string; type: string; values: FilterValue[]};
 
 export type SmitSucheProduct = {
+  energyClass?: string | null;
+  eprelId?: string | null;
   handle: string;
   title: string;
   vendor: string;

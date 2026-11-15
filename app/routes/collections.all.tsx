@@ -149,6 +149,8 @@ const COLLECTION_ITEM_FRAGMENT = `#graphql
     currencyCode
   }
   fragment CollectionItem on Product {
+    energyClass: metafield(namespace: "custom", key: "energy_class") { value }
+    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }
     tags
     productType
     id

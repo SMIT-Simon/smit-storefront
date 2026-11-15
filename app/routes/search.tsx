@@ -102,6 +102,8 @@ function regularToSmit(term: string, regular: RegularSearchReturn | null): SmitS
  */
 const SEARCH_PRODUCT_FRAGMENT = `#graphql
   fragment SearchProduct on Product {
+    energyClass: metafield(namespace: "custom", key: "energy_class") { value }
+    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }
     __typename
     productType
     tags

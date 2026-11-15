@@ -11,6 +11,7 @@ import {
   useSelectedOptionInUrlParam,
 } from '@shopify/hydrogen';
 import {ProductPrice} from '~/components/ProductPrice';
+import {EnergyLabel, energyData} from '~/components/EnergyLabel';
 import {ProductGallery} from '~/components/ProductGallery';
 import {Icon} from '~/components/Icon';
 import {CATEGORIES} from '~/lib/categories';
@@ -248,6 +249,7 @@ export default function Product() {
   const included = includedServiceFor(productType);
 
   const price = selectedVariant?.price;
+  const energy = energyData(product);
   const productLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -363,6 +365,11 @@ export default function Product() {
                 price={selectedVariant?.price}
                 compareAtPrice={selectedVariant?.compareAtPrice}
               />
+              {energy ? (
+                <div className="buy-box-energy">
+                  <EnergyLabel energyClass={energy.cls} eprelId={energy.id} />
+                </div>
+              ) : null}
               <p
                 className={
                   selectedVariant?.availableForSale
@@ -384,6 +391,7 @@ export default function Product() {
                 monitors={monitorProducts}
                 service={serviceProduct}
                 serviceTexts={serviceTextsFor(productType)}
+                energy={energy}
               />
               {productType === 'Desktop-PC' ? (
                 <CustomConfigCard title={title} sku={selectedVariant?.sku} configSlug={configModel?.slug} />
@@ -752,6 +760,8 @@ function ProductTabs({
 
 const RELATED_PRODUCT_FRAGMENT = `#graphql
   fragment RelatedProduct on Product {
+    energyClass: metafield(namespace: "custom", key: "energy_class") { value }
+    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }
     tags
     id
     title
@@ -814,6 +824,8 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
 
 const PRODUCT_FRAGMENT = `#graphql
   fragment Product on Product {
+    energyClass: metafield(namespace: "custom", key: "energy_class") { value }
+    eprelId: metafield(namespace: "custom", key: "eprel_id") { value }
     tags
     id
     title

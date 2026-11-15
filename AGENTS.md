@@ -35,3 +35,9 @@ Use the [Shopify AI Toolkit](https://shopify.dev/docs/apps/build/ai-toolkit) for
 
 - `BLOCKED_COUNTRIES` (IN, BR, SA) bekommen per `oxygen-buyer-country` eine 403-Seite „liefert nur innerhalb der EU“ – reiner Bot-Traffic, keine Lieferländer.
 - USA und EU NIEMALS sperren (Google-Shopping-Prüfer, Kunden).
+
+## EU-Energielabel (Monitore/Displays, VO (EU) 2019/2013 Anhang VIII)
+
+- Jeder Monitor braucht in Shopify die Metafelder `custom.energy_class` (A–G) und `custom.eprel_id` (EPREL-Registriernummer).
+- `app/components/EnergyLabel.tsx` zeigt daraus den farbigen Pfeil + „Produktdatenblatt“ nahe am Preis (Produktseite, Kaufleiste, Produktkarten, Suche, Zubehör-/Monitor-Empfehlungen). Label-Bild und Datenblatt kommen live aus EPREL.
+- Neue Monitore: EPREL-Nummer über https://eprel.ec.europa.eu (Hersteller „WORTMANN/Terra“) suchen und eintragen – ohne Metafeld KEIN Label im Shop.
