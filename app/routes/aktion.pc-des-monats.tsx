@@ -1,3 +1,4 @@
+import {JsonLd} from '~/components/JsonLd';
 import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/aktion.pc-des-monats';
 import {Icon} from '~/components/Icon';
@@ -5,7 +6,7 @@ import {ModePrice} from '~/components/PriceMode';
 import {AddToCartButton} from '~/components/AddToCartButton';
 import {useAside} from '~/components/Aside';
 import {COMPANY} from '~/lib/company';
-import {SITE_URL, pageTitle} from '~/lib/seo';
+import {SITE_URL, pageTitle, breadcrumbLd, faqLd} from '~/lib/seo';
 import {PC_OF_MONTH, promoActive} from '~/lib/promo';
 
 const P = PC_OF_MONTH;
@@ -55,6 +56,8 @@ export default function PcOfMonth() {
 
   return (
     <div className="promo-page">
+      <JsonLd data={breadcrumbLd([{name: 'Startseite', path: '/'}, {name: `PC des Monats ${P.month}`, path: P.path}])} />
+      <JsonLd data={faqLd(FAQ)} />
       <section className="promo-hero">
         <div className="container promo-hero-inner">
           <div className="promo-hero-media">

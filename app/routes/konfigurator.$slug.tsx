@@ -1,7 +1,8 @@
+import {JsonLd} from '~/components/JsonLd';
 import {useMemo, useState} from 'react';
 import {AddToCartButton} from '~/components/AddToCartButton';
 import {useAside} from '~/components/Aside';
-import {pageTitle} from '~/lib/seo';
+import {pageTitle, breadcrumbLd} from '~/lib/seo';
 import {Link, useLoaderData} from 'react-router';
 import type {Route} from './+types/konfigurator.$slug';
 import {Icon} from '~/components/Icon';
@@ -174,6 +175,7 @@ export default function Configurator() {
 
   return (
     <div className={gaming ? 'configurator configurator-gaming' : 'configurator'}>
+      <JsonLd data={breadcrumbLd([{name: 'Startseite', path: '/'}, {name: 'PC-Konfigurator', path: '/konfigurator'}, {name: model.name, path: `/konfigurator/${model.slug}`}])} />
       <div className="container">
         <nav className="breadcrumb" aria-label="Brotkrümel">
           <Link to="/">Startseite</Link>

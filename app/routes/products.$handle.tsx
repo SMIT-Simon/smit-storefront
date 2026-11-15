@@ -22,7 +22,8 @@ import {CONFIG_MODELS} from '~/lib/configurator';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
 import {ProductItem} from '~/components/ProductItem';
 import {parseSpecs, keySpecs, splitDescription} from '~/lib/specs';
-import {SITE_NAME, pageTitle, metaDescription, SITE_URL, OFFER_SHIPPING_DETAILS, OFFER_RETURN_POLICY} from '~/lib/seo';
+import {SITE_NAME, pageTitle, metaDescription, SITE_URL, OFFER_SHIPPING_DETAILS, OFFER_RETURN_POLICY, breadcrumbLd, energyLd} from '~/lib/seo';
+import {JsonLd} from '~/components/JsonLd';
 import {getWortmannContent} from '~/lib/wortmann.server';
 import {
   ADDON_PRODUCT_TYPES,
@@ -261,7 +262,20 @@ export default function Product() {
     manufacturer: {'@type': 'Organization', name: 'WORTMANN AG'},
     category: productType || undefined,
     image: images.slice(0, 6).map((i) => i.url),
-    description: highlights.map((h) => `${h.label}: ${h.value}`).join(' · ') || title,
+    // Fließtext (Übersicht) + Kerndaten: KI-Assistenten und Google bekommen eine echte Produktbeschreibung
+    description:
+      [
+        (shopOverviewHtml || wmOverviewHtml || '')
+          .replace(/<[^>]+>/g, ' ')
+          .replace(/&nbsp;/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim()
+          .slice(0, 700),
+        highlights.map((h) => `${h.label}: ${h.value}`).join(' · '),
+      ]
+        .filter(Boolean)
+        .join(' – ') || title,
+    hasEnergyConsumptionDetails: energy ? energyLd(energy.cls) : undefined,
     url: `${SITE_URL}/products/${product.handle}`,
     additionalProperty: specs.slice(0, 20).map((x) => ({
       '@type': 'PropertyValue',
@@ -287,9 +301,13 @@ export default function Product() {
 
   return (
     <div className="product-page">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{__html: JSON.stringify(productLd)}}
+      <JsonLd data={productLd} />
+      <JsonLd
+        data={breadcrumbLd([
+          {name: 'Startseite', path: '/'},
+          ...(category ? [{name: category.title, path: `/collections/${category.handle}`}] : []),
+          {name: title, path: `/products/${product.handle}`},
+        ])}
       />
       <div className="container">
         <nav className="breadcrumb" aria-label="Brotkrumen">

@@ -1,5 +1,6 @@
+import {JsonLd} from '~/components/JsonLd';
 import {redirect, useLoaderData} from 'react-router';
-import {metaDescription, pageTitle} from '~/lib/seo';
+import {metaDescription, pageTitle, breadcrumbLd, SITE_URL} from '~/lib/seo';
 
 import type {Route} from './+types/pages.$handle';
 import {redirectIfHandleIsLocalized} from '~/lib/redirect';
@@ -78,6 +79,10 @@ export default function Page() {
 
   return (
     <div className="page">
+      <JsonLd data={breadcrumbLd([{name: 'Startseite', path: '/'}, {name: page.title, path: `/pages/${page.handle}`}])} />
+      {page.handle === 'kontakt' ? (
+        <JsonLd data={{'@context': 'https://schema.org', '@type': 'ContactPage', name: page.title, url: `${SITE_URL}/pages/kontakt`, about: {'@id': `${SITE_URL}/#store`}}} />
+      ) : null}
       <header>
         <h1>{page.title}</h1>
       </header>

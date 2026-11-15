@@ -1,5 +1,6 @@
+import {JsonLd} from '~/components/JsonLd';
 import type {Route} from './+types/collections.all';
-import {pageTitle} from '~/lib/seo';
+import {pageTitle, breadcrumbLd} from '~/lib/seo';
 import {Link, useLoaderData, useNavigate} from 'react-router';
 import {getPaginationVariables} from '@shopify/hydrogen';
 import type {ProductSortKeys} from '@shopify/hydrogen/storefront-api-types';
@@ -65,6 +66,7 @@ export default function Collection() {
 
   return (
     <div className="collection">
+      <JsonLd data={breadcrumbLd([{name: 'Startseite', path: '/'}, {name: 'Alle Produkte', path: '/collections/all'}])} />
       <div className="collection-hero">
         <div className="container">
           <nav className="breadcrumb" aria-label="Brotkrumen">

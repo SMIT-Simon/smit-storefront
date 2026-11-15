@@ -1,3 +1,5 @@
+import {JsonLd} from '~/components/JsonLd';
+import {breadcrumbLd} from '~/lib/seo';
 import {Link} from 'react-router';
 import type {Route} from './+types/loesungen._index';
 import {BRANCHEN, EINSATZBEREICHE} from '~/lib/solutions';
@@ -16,6 +18,7 @@ export const meta: Route.MetaFunction = () => [
 export default function Solutions() {
   return (
     <div className="solutions-index">
+      <JsonLd data={breadcrumbLd([{name: 'Startseite', path: '/'}, {name: 'IT-Lösungen nach Branche', path: '/loesungen'}])} />
       <div className="container">
         <nav className="breadcrumb" aria-label="Brotkrümel">
           <Link to="/">Startseite</Link>

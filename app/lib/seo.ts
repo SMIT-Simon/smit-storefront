@@ -108,8 +108,8 @@ export function siteJsonLd() {
 
 /**
  * Versand- und Rückgabeangaben für Google (Produkt-Snippets / Merchant Listings).
- * Muss zu Versandprofil und Widerrufsbelehrung passen: DE 8,90 € (3–5 Werktage),
- * AT/BE/DK 24,90 € (5–8 Werktage); 14 Tage Widerruf, Rücksendekosten trägt der Kunde.
+ * Muss zu Versandprofil, Märkten und Widerrufsbelehrung passen: nur Deutschland (EU-Markt seit 12.11.2026 deaktiviert),
+ * 8,90 € (3–5 Werktage); 14 Tage Widerruf, Rücksendekosten trägt der Kunde.
  */
 const shipping = (countries: string[], value: number, minDays: number, maxDays: number) =>
   countries.map((c) => ({
@@ -123,16 +123,65 @@ const shipping = (countries: string[], value: number, minDays: number, maxDays: 
     },
   }));
 
-export const OFFER_SHIPPING_DETAILS = [
-  ...shipping(['DE'], 8.9, 3, 5),
-  ...shipping(['AT', 'BE', 'DK'], 24.9, 5, 8),
-];
+export const OFFER_SHIPPING_DETAILS = [...shipping(['DE'], 8.9, 3, 5)];
 
 export const OFFER_RETURN_POLICY = {
   '@type': 'MerchantReturnPolicy',
-  applicableCountry: ['DE', 'AT', 'BE', 'DK'],
+  applicableCountry: 'DE',
   returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
   merchantReturnDays: 14,
   returnMethod: 'https://schema.org/ReturnByMail',
   returnFees: 'https://schema.org/ReturnFeesCustomerResponsibility',
 };
+
+/** Brotkrumen-Pfad für Google/KI (BreadcrumbList). Letzter Eintrag = aktuelle Seite. */
+export function breadcrumbLd(items: {name: string; path: string}[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((it, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: it.name,
+      item: absUrl(it.path),
+    })),
+  };
+}
+
+/** Produktliste einer Kategorie (ItemList mit URLs) – hilft Suchmaschinen und KI-Assistenten beim Zuordnen. */
+export function itemListLd(name: string, products: {handle: string; title: string}[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name,
+    numberOfItems: products.length,
+    itemListElement: products.slice(0, 30).map((p, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `${SITE_URL}/products/${p.handle}`,
+      name: p.title,
+    })),
+  };
+}
+
+export function faqLd(faq: {q: string; a: string}[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: {'@type': 'Answer', text: f.a},
+    })),
+  };
+}
+
+/** EU-Energielabel (Displays) als schema.org EnergyConsumptionDetails. */
+export function energyLd(cls: string) {
+  return {
+    '@type': 'EnergyConsumptionDetails',
+    hasEnergyEfficiencyCategory: `https://schema.org/EUEnergyEfficiencyCategory${cls}`,
+    energyEfficiencyScaleMin: 'https://schema.org/EUEnergyEfficiencyCategoryG',
+    energyEfficiencyScaleMax: 'https://schema.org/EUEnergyEfficiencyCategoryA',
+  };
+}

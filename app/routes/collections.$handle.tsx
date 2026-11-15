@@ -16,7 +16,8 @@ import {
   groupsFor,
   parseFilters,
 } from '~/lib/filters';
-import {metaDescription, pageTitle} from '~/lib/seo';
+import {metaDescription, pageTitle, breadcrumbLd, itemListLd} from '~/lib/seo';
+import {JsonLd} from '~/components/JsonLd';
 import {categoryIntro, categorySeoTitle} from '~/lib/category-texts';
 import {categoryBanner} from '~/lib/category-banners';
 import {siteImg} from '~/lib/site-images';
@@ -153,8 +154,18 @@ export default function Collection() {
   const navigate = useNavigate();
   const banner = categoryBanner(collection.handle, sub?.slug);
 
+  const basePath = `/collections/${collection.handle}`;
+  const pageName = sub ? sub.title : collection.title;
   return (
     <div className="collection">
+      <JsonLd
+        data={breadcrumbLd([
+          {name: 'Startseite', path: '/'},
+          {name: collection.title, path: basePath},
+          ...(sub ? [{name: sub.title, path: `${basePath}?sub=${sub.slug}`}] : []),
+        ])}
+      />
+      {selected.length === 0 ? <JsonLd data={itemListLd(pageName, products.nodes)} /> : null}
       <div
         className={
           banner?.theme === 'gaming'
