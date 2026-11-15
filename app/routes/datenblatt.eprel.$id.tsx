@@ -11,11 +11,17 @@ export async function loader({params, request}: Route.LoaderArgs) {
   if (!/^\d{3,10}$/.test(id)) throw new Response('Not found', {status: 404});
   const upstream = await fetch(
     `https://eprel.ec.europa.eu/api/products/electronicdisplays/${id}/fiches?language=DE&format=PDF`,
-    {cf: {cacheTtl: 86400, cacheEverything: true}} as RequestInit,
+    {headers: {Accept: 'application/pdf', 'User-Agent': 'Mozilla/5.0 (compatible; terra-computershop.de)'}},
   );
   if (!upstream.ok || !(upstream.headers.get('content-type') ?? '').includes('pdf')) {
     // Fallback: Datenblatt direkt bei EPREL
-    return Response.redirect(`https://eprel.ec.europa.eu/screen/product/electronicdisplays/${id}`, 302);
+    return new Response(null, {
+      status: 302,
+      headers: {
+        Location: `https://eprel.ec.europa.eu/screen/product/electronicdisplays/${id}`,
+        'X-Upstream-Status': String(upstream.status),
+      },
+    });
   }
   const download = new URL(request.url).searchParams.has('download');
   return new Response(upstream.body, {
