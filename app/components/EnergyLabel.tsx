@@ -1,4 +1,4 @@
-import {useEffect, useState, type MouseEvent} from 'react';
+import {useEffect, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent} from 'react';
 import {createPortal} from 'react-dom';
 
 /**
@@ -68,6 +68,12 @@ function Arrow({cls}: {cls: string}) {
   );
 }
 
+/** Datenblatt über die eigene Domain (Route /datenblatt/eprel/:id) – einbettbar im Modal und echt herunterladbar */
+export const sheetProxyUrl = (id: string, download = false) =>
+  `/datenblatt/eprel/${id}${download ? '?download=1' : ''}`;
+
+type View = 'label' | 'sheet';
+
 export function EnergyLabel({
   energyClass,
   eprelId,
@@ -80,29 +86,16 @@ export function EnergyLabel({
   /** true, wenn der Baustein in einem <a> (Produktkarte) steckt: keine verschachtelten Links */
   inLink?: boolean;
 }) {
-  const [open, setOpen] = useState(false);
-  const stop = (e: MouseEvent) => {
+  const [view, setView] = useState<View | null>(null);
+  const show = (v: View) => (e: MouseEvent | ReactKeyboardEvent) => {
     e.preventDefault();
     e.stopPropagation();
-  };
-  const openLabel = (e: MouseEvent) => {
-    stop(e);
-    setOpen(true);
-  };
-  const openSheet = (e: MouseEvent) => {
-    if (!eprelId) return;
-    stop(e);
-    window.open(eprelSheetUrl(eprelId), '_blank', 'noopener');
+    setView(v);
   };
 
   return (
     <span className={`energy-label${compact ? ' energy-label-compact' : ''}`}>
-      <button
-        type="button"
-        className="energy-label-btn"
-        onClick={openLabel}
-        title="Energielabel anzeigen"
-      >
+      <button type="button" className="energy-label-btn" onClick={show('label')} title="Energielabel anzeigen">
         <Arrow cls={energyClass} />
       </button>
       {eprelId ? (
@@ -111,35 +104,48 @@ export function EnergyLabel({
             role="link"
             tabIndex={0}
             className="energy-sheet"
-            onClick={openSheet}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                e.preventDefault();
-                e.stopPropagation();
-                window.open(eprelSheetUrl(eprelId), '_blank', 'noopener');
-              }
-            }}
+            onClick={show('sheet')}
+            onKeyDown={(e) => e.key === 'Enter' && show('sheet')(e)}
           >
             Produktdatenblatt
           </span>
         ) : (
-          <a className="energy-sheet" href={eprelSheetUrl(eprelId)} target="_blank" rel="noopener noreferrer">
+          <a className="energy-sheet" href={sheetProxyUrl(eprelId)} onClick={show('sheet')}>
             Produktdatenblatt
           </a>
         )
       ) : null}
-      {open ? <LabelOverlay cls={energyClass} eprelId={eprelId} onClose={() => setOpen(false)} /> : null}
+      {view ? (
+        <LabelOverlay cls={energyClass} eprelId={eprelId} view={view} setView={setView} onClose={() => setView(null)} />
+      ) : null}
     </span>
   );
 }
 
-function LabelOverlay({cls, eprelId, onClose}: {cls: string; eprelId?: string | null; onClose: () => void}) {
+function LabelOverlay({
+  cls,
+  eprelId,
+  view,
+  setView,
+  onClose,
+}: {
+  cls: string;
+  eprelId?: string | null;
+  view: View;
+  setView: (v: View) => void;
+  onClose: () => void;
+}) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    document.body.classList.add('energy-modal-open');
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      document.body.classList.remove('energy-modal-open');
+    };
   }, [onClose]);
   if (typeof document === 'undefined') return null;
+  const isSheet = view === 'sheet' && eprelId;
   return createPortal(
     // Portal-Klicks blubbern in React bis zur Produktkarte (<Link>) – hier abfangen, sonst navigiert die Karte
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-noninteractive-element-interactions
@@ -147,27 +153,48 @@ function LabelOverlay({cls, eprelId, onClose}: {cls: string; eprelId?: string | 
       className="energy-overlay"
       role="dialog"
       aria-modal="true"
-      aria-label={`EU-Energielabel, Klasse ${cls}`}
+      aria-label={isSheet ? 'Produktdatenblatt' : `EU-Energielabel, Klasse ${cls}`}
       onClick={(e) => {
         if (!(e.target as HTMLElement).closest('a')) e.preventDefault();
         e.stopPropagation();
       }}
     >
       <button type="button" className="energy-overlay-backdrop" aria-label="Schließen" onClick={onClose} />
-      <div className="energy-overlay-box">
-        <button type="button" className="energy-overlay-close" onClick={onClose} aria-label="Schließen">
-          ×
-        </button>
-        {eprelId ? (
+      <div className={`energy-overlay-box${isSheet ? ' is-sheet' : ''}`}>
+        <div className="energy-overlay-head">
+          {eprelId ? (
+            <div className="energy-tabs" role="tablist">
+              <button type="button" role="tab" aria-selected={!isSheet} onClick={() => setView('label')}>
+                Energielabel
+              </button>
+              <button type="button" role="tab" aria-selected={Boolean(isSheet)} onClick={() => setView('sheet')}>
+                Produktdatenblatt
+              </button>
+            </div>
+          ) : (
+            <strong>Energielabel</strong>
+          )}
+          <button type="button" className="energy-overlay-close" onClick={onClose} aria-label="Schließen">
+            ×
+          </button>
+        </div>
+        {isSheet ? (
+          <>
+            <iframe className="energy-sheet-frame" src={sheetProxyUrl(eprelId)} title="Produktdatenblatt (PDF)" />
+            <div className="energy-sheet-actions">
+              <a className="btn btn-secondary" href={sheetProxyUrl(eprelId)} target="_blank" rel="noopener noreferrer">
+                In neuem Fenster öffnen
+              </a>
+              <a className="btn btn-primary" href={sheetProxyUrl(eprelId, true)} download={`Produktdatenblatt_EPREL_${eprelId}.pdf`}>
+                Herunterladen (PDF)
+              </a>
+            </div>
+          </>
+        ) : eprelId ? (
           <img src={eprelLabelUrl(eprelId)} alt={`EU-Energielabel: Energieeffizienzklasse ${cls}`} />
         ) : (
           <p>Energieeffizienzklasse {cls}</p>
         )}
-        {eprelId ? (
-          <a href={eprelSheetUrl(eprelId)} target="_blank" rel="noopener noreferrer">
-            Produktdatenblatt (PDF)
-          </a>
-        ) : null}
       </div>
     </div>,
     document.body,
