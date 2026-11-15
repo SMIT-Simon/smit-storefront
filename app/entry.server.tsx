@@ -21,7 +21,8 @@ export default async function handleRequest(
     scriptSrc: ["'self'", 'https://cdn.shopify.com', 'https://shopify.com', ...ELFSIGHT],
     styleSrc: [...ELFSIGHT, 'https://fonts.googleapis.com'],
     fontSrc: ["'self'", 'https://cdn.shopify.com', 'https://fonts.gstatic.com', 'data:', ...ELFSIGHT],
-    imgSrc: ["'self'", 'https://cdn.shopify.com', 'data:', 'blob:', ...ELFSIGHT],
+    // EPREL: EU-Energielabel (Monitore) direkt aus der EU-Produktdatenbank
+    imgSrc: ["'self'", 'https://cdn.shopify.com', 'data:', 'blob:', 'https://eprel.ec.europa.eu', ...ELFSIGHT],
     connectSrc: [...ELFSIGHT, 'wss://*.elfsight.com'],
     frameSrc: ["'self'", 'https://shopify.com', ...ELFSIGHT],
     shop: {
