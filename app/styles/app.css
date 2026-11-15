@@ -4659,9 +4659,9 @@ html.smit-su-open {
 
 /* ---------- EU-Energielabel (VO (EU) 2019/2013 Anh. VIII) ---------- */
 .energy-label { align-items: center; display: inline-flex; flex-wrap: wrap; gap: 0.25rem 0.6rem; vertical-align: middle; }
-.energy-label-btn { background: none; border: 0; cursor: pointer; display: inline-flex; line-height: 0; margin: 0; padding: 0; }
+.energy-label-btn { background: none; border: 0; font: inherit; cursor: pointer; display: inline-flex; line-height: 0; margin: 0; padding: 0; }
 .energy-label-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
-.energy-arrow { display: block; }
+.energy-arrow { display: block; flex-shrink: 0; height: 1.6em !important; width: 3.3em !important; }
 .energy-sheet { color: var(--ink-soft, #555); cursor: pointer; font-size: 0.8rem; text-decoration: underline; text-underline-offset: 2px; }
 .energy-sheet:hover { color: var(--brand); }
 .buy-box-energy { font-size: 2rem; margin: 0.15rem 0 0.4rem; }
