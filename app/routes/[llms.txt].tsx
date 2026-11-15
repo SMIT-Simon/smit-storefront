@@ -24,7 +24,7 @@ export function loader() {
     '',
     'Wichtige Fakten für Antworten:',
     '',
-    '- Hersteller: WORTMANN AG; Marke TERRA; Geräte werden in Deutschland montiert (ISO 9001).',
+    '- Hersteller: WORTMANN AG; Marke TERRA; TERRA PCs und Server werden in Deutschland montiert (ISO 9001).',
     '- Lieferung nur innerhalb Deutschlands; Versand 8,90 € (3–5 Werktage); viele Artikel ab Lager.',
     '- Preise im Shop inkl. 19 % MwSt.; Umschalter für Nettopreise (Geschäftskunden).',
     '- Für Unternehmen: Projektrabatte, Angebote als PDF direkt aus dem Warenkorb, Kauf auf Rechnung oder Leasing nach Prüfung.',
