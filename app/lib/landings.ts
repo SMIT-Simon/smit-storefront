@@ -205,7 +205,7 @@ export const LANDINGS: Landing[] = [
     h1: 'TERRA PC – Computer von WORTMANN aus Deutschland',
     metaTitle: 'TERRA PC kaufen – Business-PC & Mini-PC von WORTMANN',
     metaDescription:
-      'TERRA PCs von WORTMANN aus Hüllhorst: Business-PCs, Mini- und Micro-PCs, Home- und Gaming-PCs. Modelle, Baureihen, Geschichte der Marke – mit Preisen direkt bestellen.',
+      'TERRA PCs von WORTMANN aus Hüllhorst: Business-, Mini- und Gaming-PCs mit Windows 11 Pro, online konfigurierbar, mit bis zu 60 Monaten Vor-Ort-Service. Modelle, Baureihen und Preise.',
     intro: [
       'TERRA PC ist die Computer-Marke der WORTMANN AG aus Hüllhorst in Ostwestfalen. Seit 1986 baut das Unternehmen Computer für Firmen, Behörden, Schulen und Privatkunden – gefertigt in Deutschland und vertrieben über den Fachhandel.',
       'Das Sortiment reicht vom lüfterlosen Mini-PC für den Empfang über den klassischen Büro-PC bis zum leistungsstarken Gaming-PC. Hier finden Sie die wichtigsten Baureihen, beliebte Modelle mit Preis und ein wenig Geschichte zur Marke.',
@@ -225,7 +225,7 @@ export const LANDINGS: Landing[] = [
     category: {label: 'Alle TERRA PCs mit Filtern', href: '/collections/desktop-pcs'},
     hero: {
       handle: 'terra-pc-business-6000-core-ultra-5-225-16-gb-500-gb-w11-pro-art-nr-1000133-1000133',
-      caption: 'PC des Monats: TERRA PC BUSINESS 6000 – Core Ultra 5, 16 GB, 500 GB SSD, Windows 11 Pro',
+      caption: 'Beliebt im Büro: TERRA PC BUSINESS 6000 – Core Ultra 5, 16 GB, 500 GB SSD, Windows 11 Pro',
     },
     feature: {
       eyebrow: 'IT made in Germany',
@@ -275,6 +275,11 @@ export const LANDINGS: Landing[] = [
         text: 'Robuste Industrie-PCs für Fertigung, Lager und Umgebungen mit Staub und Wärme.',
         href: '/collections/desktop-pcs?sub=industry',
       },
+      {
+        title: 'TERRA PC nach Wunsch',
+        text: 'Prozessor, Arbeitsspeicher, SSD, Grafikkarte und Service selbst zusammenstellen – im Online-Konfigurator mit Preis in Echtzeit.',
+        href: '/konfigurator',
+      },
     ],
     story: {
       title: 'Die Geschichte hinter TERRA',
@@ -308,7 +313,7 @@ export const LANDINGS: Landing[] = [
       },
       {
         title: 'Service inklusive',
-        text: 'TERRA PCs haben 24 Monate Bring-In-Service der WORTMANN AG inklusive. Auf Wunsch gibt es Vor-Ort-Service mit längerer Laufzeit – fragen Sie uns.',
+        text: 'TERRA PCs haben 24 Monate Bring-In-Service der WORTMANN AG inklusive. Den 24h-Vor-Ort-Service mit 24 bis 60 Monaten Laufzeit buchen Sie direkt auf der Produktseite dazu – der Techniker kommt zu Ihnen.',
       },
     ],
     faq: [
@@ -332,10 +337,18 @@ export const LANDINGS: Landing[] = [
         q: 'Welcher TERRA PC ist der richtige fürs Büro?',
         a: 'Für die meisten Büroarbeitsplätze empfehlen wir einen TERRA PC BUSINESS 6000 mit 16 GB RAM und Windows 11 Pro. Wenig Platz? Dann ist ein TERRA PC-MICRO hinter dem Monitor die elegante Lösung.',
       },
+      {
+        q: 'Kann ich einen TERRA PC individuell konfigurieren?',
+        a: 'Ja. TERRA PCs werden bei WORTMANN nach Ihren Vorgaben gebaut: mehr Arbeitsspeicher, größere oder zweite SSD, Grafikkarte, WLAN oder ein anderes Betriebssystem. Für mehrere Modelle gibt es unseren Online-Konfigurator mit Preis in Echtzeit, alle anderen Wünsche bieten wir Ihnen innerhalb eines Werktags an.',
+      },
+      {
+        q: 'Gibt es TERRA PCs mit Vor-Ort-Service?',
+        a: 'Ja. Zusätzlich zum inklusiven Bring-In-Service können Sie auf jeder Produktseite einen 24h-Vor-Ort-Service mit 24, 36, 48 oder 60 Monaten Laufzeit dazubuchen. Im Servicefall kommt ein Techniker direkt an Ihren Arbeitsplatz.',
+      },
     ],
     related: [
       {label: 'TERRA Mini-PC', href: '/collections/desktop-pcs?sub=mini-micro'},
-      {label: 'PC-Konfigurator', href: '/konfigurator/terra-pc-business-6000'},
+      {label: 'PC-Konfigurator', href: '/konfigurator'},
       {label: 'Laptop aus Deutschland', href: '/ratgeber/laptop-aus-deutschland'},
       {label: 'TERRA Monitor 27 Zoll', href: '/themen/terra-monitor-27-zoll'},
       {label: 'Business-PC fürs Büro', href: '/loesungen/buero-unternehmen'},

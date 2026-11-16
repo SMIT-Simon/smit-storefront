@@ -9,6 +9,8 @@ import {findLanding, monitorSpecs} from '~/lib/landings';
 import {isListable} from '~/lib/addons';
 import {siteImg} from '~/lib/site-images';
 import {SITE_URL, pageTitle} from '~/lib/seo';
+import {promoActive} from '~/lib/promo';
+import {PromoStrip} from '~/components/PromoStrip';
 
 export const meta: Route.MetaFunction = ({data}) => {
   const l = data?.landing;
@@ -46,11 +48,11 @@ export async function loader({params, context}: Route.LoaderArgs) {
   const hero = landing.hero
     ? (products.find((p) => p.handle === landing.hero?.handle) ?? null)
     : null;
-  return {landing, products, hero};
+  return {landing, products, hero, promo: landing.slug === 'terra-pc' && promoActive()};
 }
 
 export default function LandingPage() {
-  const {landing: l, products, hero} = useLoaderData<typeof loader>();
+  const {landing: l, products, hero, promo} = useLoaderData<typeof loader>();
   const url = `${SITE_URL}/themen/${l.slug}`;
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -90,6 +92,7 @@ export default function LandingPage() {
 
   return (
     <div className="landing-page">
+      {promo ? <PromoStrip /> : null}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}

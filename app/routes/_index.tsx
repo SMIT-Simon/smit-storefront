@@ -23,6 +23,7 @@ import {SolutionTiles} from '~/components/SolutionTiles';
 import {siteImg} from '~/lib/site-images';
 import {CLOUD_SERVICES} from '~/lib/cloud';
 import {PC_OF_MONTH, promoActive} from '~/lib/promo';
+import {PromoStrip} from '~/components/PromoStrip';
 
 /** Erstes Slider-Bild (LCP) vorladen. */
 export const links: Route.LinksFunction = () => {
@@ -200,22 +201,6 @@ export default function Homepage() {
 }
 
 /** Temporärer Aktionsstreifen „PC des Monats“ (blendet sich nach Aktionsende automatisch aus). */
-function PromoStrip() {
-  return (
-    <Link to={PC_OF_MONTH.path} className="promo-strip" prefetch="intent">
-      <span className="container promo-strip-inner">
-        <span className="promo-strip-badge">PC des Monats · {PC_OF_MONTH.month}</span>
-        <span className="promo-strip-text">
-          <strong>{PC_OF_MONTH.name}</strong> mit Windows 11 Pro – nur bis {PC_OF_MONTH.endLabel} zum Aktionspreis
-        </span>
-        <span className="promo-strip-cta">
-          Zum Angebot <Icon name="arrow-right" size={16} />
-        </span>
-      </span>
-    </Link>
-  );
-}
-
 function CloudTeaser() {
   const tiles = CLOUD_SERVICES.filter((x) =>
     ['virtuelle-server', 'backup', 'jtl-wawi-cloud', 'rechenzentrum'].includes(x.slug),
