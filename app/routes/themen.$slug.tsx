@@ -240,11 +240,16 @@ export default function LandingPage() {
             <h2 className="section-title">{l.seriesTitle ?? 'Baureihen'}</h2>
             <div className="landing-series">
               {l.series.map((s) => (
-                <Link key={s.href} to={s.href} className="landing-series-card" prefetch="intent">
+                <Link
+                  key={s.href}
+                  to={s.href}
+                  className={s.highlight ? 'landing-series-card is-highlight' : 'landing-series-card'}
+                  prefetch="intent"
+                >
                   <strong>{s.title}</strong>
                   <span>{s.text}</span>
                   <span className="link-arrow">
-                    Modelle ansehen <Icon name="chevron-right" size={16} />
+                    {s.cta ?? 'Modelle ansehen'} <Icon name="chevron-right" size={16} />
                   </span>
                 </Link>
               ))}

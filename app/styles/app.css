@@ -4690,3 +4690,6 @@ html.smit-su-open {
   .energy-overlay-box.is-sheet { height: 90vh; padding: 2rem 0.6rem 0.6rem; }
   .energy-sheet-actions .btn { flex: 1 1 100%; justify-content: center; text-align: center; }
 }
+.landing-series-card.is-highlight { background: linear-gradient(120deg, #0b4f9c, #1565c0); border-color: transparent; color: #fff; grid-column: 1 / -1; }
+.landing-series-card.is-highlight strong, .landing-series-card.is-highlight span, .landing-series-card.is-highlight .link-arrow { color: #fff; }
+.landing-series-card.is-highlight .link-arrow { font-weight: 700; }

@@ -24,7 +24,7 @@ export type Landing = {
   /** Überschrift über der Produktliste */
   productsTitle?: string;
   /** Baureihen/Unterkategorien als verlinkte Kacheln */
-  series?: {title: string; text: string; href: string}[];
+  series?: {title: string; text: string; href: string; cta?: string; highlight?: boolean}[];
   seriesTitle?: string;
   /** Geschichte / Hintergrund mit Zeitleiste */
   story?: {title: string; paragraphs: string[]; milestones: {year: string; text: string}[]; source?: string};
@@ -279,6 +279,8 @@ export const LANDINGS: Landing[] = [
         title: 'TERRA PC nach Wunsch',
         text: 'Prozessor, Arbeitsspeicher, SSD, Grafikkarte und Service selbst zusammenstellen – im Online-Konfigurator mit Preis in Echtzeit.',
         href: '/konfigurator',
+        cta: 'Jetzt konfigurieren',
+        highlight: true,
       },
     ],
     story: {
